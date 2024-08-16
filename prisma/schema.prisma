@@ -17,8 +17,8 @@ model user {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String
-  password  String
-  role      Role
+  password  String?
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
