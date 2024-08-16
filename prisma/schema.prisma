@@ -1,0 +1,150 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  registrations registered_team[]
+  competitions  competition[]
+
+  @@map("User")
+}
+
+model registered_team {
+  id                  String             @id @default(uuid())
+  teamName            String
+  paymentProof        String
+  status              RegistrationStatus
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  registrationBatchId String
+  userId              String
+
+  user              user               @relation(fields: [userId], references: [id])
+  registrationBatch registration_batch @relation(fields: [registrationBatchId], references: [id])
+  teamMembers       team_member[]
+  stage             stage[]
+
+  @@map("Registration")
+}
+
+model team_member {
+  id             String  @id @default(uuid())
+  name           String
+  gradeLevel     String
+  registrationId String
+  isLeader       Boolean
+
+  team registered_team @relation(fields: [registrationId], references: [id])
+
+  @@map("TeamMember")
+}
+
+model competition {
+  id           String   @id @default(uuid())
+  name         String
+  description  String
+  logo         String
+  userId       String
+  guidebookUrl String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user                  user                   @relation(fields: [userId], references: [id])
+  competitionCategories competition_category[]
+
+  @@map("Competition")
+}
+
+model competition_category {
+  id                String   @id @default(uuid())
+  competitionId     String
+  name              String
+  description       String
+  paymentCode       String
+  registrationPrice String
+  numberOfStages    Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  competition         competition          @relation(fields: [competitionId], references: [id])
+  stages              stage[]
+  registrationBatches registration_batch[]
+
+  @@map("CompetitionCategory")
+}
+
+model stage {
+  id                    String   @id @default(uuid())
+  competitionCategoryId String
+  stageNumber           Int
+  name                  String
+  description           String
+  startDate             DateTime
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id])
+  teams               registered_team[]
+  announcements       announcement[]
+
+  @@map("Stage")
+}
+
+model announcement {
+  id        String   @id @default(uuid())
+  stageId   String
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stage stage @relation(fields: [stageId], references: [id])
+
+  @@map("Announcement")
+}
+
+model registration_batch {
+  id                    String   @id @default(uuid())
+  competitionCategoryId String
+  batchName             String
+  openedDate            DateTime
+  closedDate            DateTime
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id])
+  registrations       registered_team[]
+
+  @@map("RegistrationBatch")
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+}
+
+enum RegistrationStatus {
+  PENDING
+  REJECTED
+  ACCEPTED
+}
