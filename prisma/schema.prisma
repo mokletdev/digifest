@@ -24,6 +24,7 @@ model user {
 
   registrations registered_team[]
   competitions  competition[]
+  announcements announcement[]
 
   @@map("User")
 }
@@ -38,7 +39,7 @@ model registered_team {
   registrationBatchId String
   userId              String
 
-  user              user               @relation(fields: [userId], references: [id])
+  registeredBy      user               @relation(fields: [userId], references: [id])
   registrationBatch registration_batch @relation(fields: [registrationBatchId], references: [id])
   teamMembers       team_member[]
   stage             stage[]
@@ -68,7 +69,7 @@ model competition {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  user                  user                   @relation(fields: [userId], references: [id])
+  createdBy             user                   @relation(fields: [userId], references: [id])
   competitionCategories competition_category[]
 
   @@map("Competition")
@@ -82,6 +83,8 @@ model competition_category {
   paymentCode       String
   registrationPrice String
   numberOfStages    Int
+  minMemberCount    Int
+  maxMemberCount    Int
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
@@ -99,6 +102,7 @@ model stage {
   name                  String
   description           String
   startDate             DateTime
+  endDate               DateTime
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
@@ -112,12 +116,14 @@ model stage {
 model announcement {
   id        String   @id @default(uuid())
   stageId   String
+  userId    String
   title     String
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  stage stage @relation(fields: [stageId], references: [id])
+  stage     stage @relation(fields: [stageId], references: [id])
+  createdBy user  @relation(fields: [userId], references: [id])
 
   @@map("Announcement")
 }
