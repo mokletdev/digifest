@@ -1,6 +1,6 @@
-import Toaster from "./_components/main/CustomToaster";
-import NextAuthProvider from "./_components/main/NextAuthProvider";
-import ProgressBarProvider from "./_components/main/ProgressBarProvider";
+import Toaster from "./_components/main/custom-toaster";
+import NextAuthProvider from "./_components/main/next-auth-provider";
+import ProgressBarProvider from "./_components/main/progress-bar-provider";
 
 import type { Metadata, Viewport } from "next";
 
