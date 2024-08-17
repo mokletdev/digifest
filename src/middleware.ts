@@ -7,7 +7,7 @@ export default withAuth(function middleware(req) {
   const { token } = req.nextauth;
   const { pathname } = req.nextUrl;
 
-  if (!token) return NextResponse.redirect("/api/auth/signin");
+  if (!token) return NextResponse.redirect("/auth/login");
   if (token.role === "USER") {
     return NextResponse.rewrite(new URL("/unauthorized", req.url), {
       status: 403,
