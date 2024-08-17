@@ -28,16 +28,16 @@ export function Sidebar({ nav, session }: navbarParam) {
       id="sidebar"
       className={`fixed ${
         nav ? "w-80" : "w-0 opacity-0"
-      } left-0 bg-white top-0 z-20 h-full flex-shrink-0 transition-all duration-300 lg:w-80 lg:opacity-100 hidden lg:flex`}
+      } left-0 top-0 z-20 hidden h-full flex-shrink-0 bg-white transition-all duration-300 lg:flex lg:w-80 lg:opacity-100`}
       aria-label="Sidebar"
     >
-      <div className="relative flex min-h-0 flex-1 flex-col border-r px-4 border-gray-200 bg-white pt-0">
+      <div className="relative flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white px-4 pt-0">
         <div className="flex flex-1 flex-col overflow-y-auto pb-4 pt-5">
           <div className="flex-1 space-y-1 bg-white px-3">
             <Link href={"/"} className="block">
               <Image
-                src={"/horizontal.svg"}
-                alt="Logo moklet.org"
+                src={"/logo.png"}
+                alt="Logo Digifest"
                 width={120}
                 height={50}
                 className="pointer-events-none mb-10 h-[50px] w-[130px]"
@@ -47,10 +47,10 @@ export function Sidebar({ nav, session }: navbarParam) {
               <li>
                 <Link
                   href={"/admin"}
-                  className="group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 hover:bg-red-100 transition-all"
+                  className="group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 transition-all hover:bg-red-100"
                 >
                   <DashboardIcon />
-                  <P className="ml-3 whitespace-nowrap text-primary-400 font-semibold">
+                  <P className="ml-3 whitespace-nowrap font-semibold text-primary-400">
                     Dashboard
                   </P>
                 </Link>
@@ -62,11 +62,11 @@ export function Sidebar({ nav, session }: navbarParam) {
                     href={item.path}
                     className={
                       (pathname.includes(item.path) ? "bg-red-100 " : "") +
-                      "group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 hover:bg-red-200 transition-all"
+                      "group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 transition-all hover:bg-red-200"
                     }
                   >
                     <div dangerouslySetInnerHTML={{ __html: item.icon }} />
-                    <P className="ml-3 whitespace-nowrap text-primary-400 font-semibold">
+                    <P className="ml-3 whitespace-nowrap font-semibold text-primary-400">
                       {item.title}
                     </P>
                   </Link>
