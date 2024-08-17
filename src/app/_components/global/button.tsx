@@ -15,9 +15,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-primary-400 px-[22px] py-[14px] hover:py-[15.5px] hover:px-[25px] hover:bg-primary-500 hover:text-sm text-base text-white disabled:text-white disabled:bg-neutral-300",
+          "bg-primary-400 px-[22px] py-[14px] hover:py-[16px] hover:px-[26px] hover:bg-primary-500 hover:text-sm text-base text-white disabled:text-white disabled:bg-neutral-300",
         secondary:
-          "bg-transparent px-[22px] py-[14px] hover:py-[15.5px] hover:px-[25px] hover:bg-primary-50 hover:text-sm text-base text-primary-400 disabled:text-white disabled:bg-neutral-300",
+          "bg-transparent px-[22px] py-[14px] hover:py-[16px] hover:px-[26px] hover:bg-primary-50 hover:text-sm text-base text-primary-400 disabled:text-white disabled:bg-neutral-300",
       },
     },
   },

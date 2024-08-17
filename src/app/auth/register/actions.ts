@@ -2,12 +2,8 @@
 
 import { createUser } from "@/database/user.query";
 import { generateHash } from "@/lib/encryption";
+import { ServerActionResponse } from "@/types/action";
 import { Prisma } from "@prisma/client";
-
-interface ServerActionResponse {
-  success: boolean;
-  message: string;
-}
 
 export async function registerUser(
   data: Prisma.userCreateInput,

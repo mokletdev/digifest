@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import cn from "@/lib/cn";
 import { RefCallBack } from "react-hook-form";
+import Select from "react-select";
 import { P } from "./text";
 
 interface InputProps extends ComponentPropsWithoutRef<"input"> {
@@ -58,39 +59,78 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
 
 TextField.displayName = "TextField";
 
-export function TextArea({
+interface SelectOption {
+  value: string;
+  label: string;
+}
+
+interface SelectFieldProps {
+  label?: string;
+  options: SelectOption[];
+  className?: string;
+  required?: boolean;
+  value?: SelectOption | null;
+  name?: string;
+  handleChange: (selectedOption: SelectOption | null) => void;
+  disabled?: boolean;
+  errorMessage?: string;
+}
+
+export function SelectField({
   label,
-  placeholder,
-  className,
-  required,
-  name,
+  options,
+  className = "",
+  required = false,
   value,
-  disabled,
-}: Readonly<InputProps>) {
+  name,
+  handleChange,
+  errorMessage,
+  disabled = false,
+}: Readonly<SelectFieldProps>) {
   return (
-    <div className={"flex flex-col gap-2 " + className}>
+    <div className={`flex flex-col gap-2 ${className}`}>
       {label && (
         <label
           htmlFor={name}
-          className={cn(
-            `first-letter:capitalize ${required ? "after:text-red-500 after:content-['*']" : ""}`,
-          )}
+          className={`first-letter:capitalize ${
+            required ? "after:text-red-500 after:content-['*']" : ""
+          }`}
         >
           {label}
         </label>
       )}
-      <textarea
+      <Select
         name={name}
-        placeholder={placeholder}
-        required={required}
-        defaultValue={value}
-        id={name}
-        className={cn(
-          "h-[144px] rounded-2xl border border-neutral-400 px-[18px] py-[14px] text-black placeholder-neutral-400 transition-all duration-500 hover:border-black focus:border-black focus:outline-none",
-          disabled ? "cursor-not-allowed" : "",
-        )}
-        disabled={disabled}
+        value={value}
+        options={options}
+        onChange={handleChange}
+        isDisabled={disabled}
+        isClearable={!required}
+        classNamePrefix="react-select"
+        placeholder="Pilih"
+        noOptionsMessage={() => "No options available"}
+        styles={{
+          control: (base) => ({
+            ...base,
+            borderRadius: "0.75rem",
+            borderColor: "#A3A3A3",
+            padding: "0.5rem",
+            boxShadow: "none",
+            "&:hover": {
+              borderColor: "#000",
+            },
+          }),
+          option: (base) => ({
+            ...base,
+            color: "#000",
+          }),
+          placeholder: (base) => ({
+            ...base,
+            color: "#A3A3A3",
+          }),
+        }}
       />
+      {errorMessage && <P className="text-red-400">{errorMessage}</P>}
     </div>
   );
 }
