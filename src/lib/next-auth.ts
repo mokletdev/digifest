@@ -40,7 +40,7 @@ export const authOptions: AuthOptions = {
   theme: {
     colorScheme: "light",
     brandColor: "#E04E4E",
-    logo: "/horizontal.svg",
+    logo: "/logo.png",
   },
   session: {
     strategy: "jwt",
@@ -67,7 +67,7 @@ export const authOptions: AuthOptions = {
 
           const isPasswordCorrect = compareHash(
             credentials?.password as string,
-            user.password
+            user.password,
           );
 
           if (!isPasswordCorrect) return null;
