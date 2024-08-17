@@ -6,21 +6,38 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:migrate": "dotenv -e .env.local prisma migrate dev",
+    "prisma:push": "dotenv -e .env.local prisma db push",
+    "prisma:pull": "dotenv -e .env.local prisma db pull",
+    "prisma:studio": "dotenv -e .env.local prisma studio"
   },
   "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
+    "next": "14.2.5",
+    "next-auth": "^4.24.7",
+    "next-nprogress-bar": "^2.3.13",
+    "prisma": "^5.18.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.5"
+    "react-icons": "^5.3.0",
+    "sonner": "^1.5.0",
+    "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.5"
+    "eslint-config-next": "14.2.5",
+    "postcss": "^8",
+    "prettier-plugin-tailwindcss": "^0.6.6",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
