@@ -1,5 +1,3 @@
-import { Montserrat } from "next/font/google";
-
 import Toaster from "./_components/main/CustomToaster";
 import NextAuthProvider from "./_components/main/NextAuthProvider";
 import ProgressBarProvider from "./_components/main/ProgressBarProvider";
@@ -7,8 +5,8 @@ import ProgressBarProvider from "./_components/main/ProgressBarProvider";
 import type { Metadata, Viewport } from "next";
 
 import "./globals.css";
-
-const montserrat = Montserrat({ subsets: ["latin"] });
+import clashDisplayFont from "./font";
+import cn from "@/lib/cn";
 
 const robots =
   process.env.APP_ENV != "production" ? "noindex, nofollow" : "index, follow";
@@ -40,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={montserrat.className + " overflow-x-hidden"}>
+      <body className={cn(clashDisplayFont.className + " overflow-x-hidden")}>
         <NextAuthProvider>
           <Toaster />
           <ProgressBarProvider>{children}</ProgressBarProvider>
