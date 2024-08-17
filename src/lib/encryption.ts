@@ -1,11 +1,11 @@
-import { hashSync, compareSync } from "bcrypt";
+import { hashSync, compareSync } from "bcryptjs";
 
 type cipherText = string;
 
-const BCRYPT_ROUNDS = process.env.SALT_OR_ROUNDS;
+const BCRYPT_SALT = Number(process.env.SALT_OR_ROUNDS);
 
 export const generateHash = (plainText: string): cipherText => {
-  const hashed = hashSync(plainText, BCRYPT_ROUNDS);
+  const hashed = hashSync(plainText, BCRYPT_SALT);
   return hashed;
 };
 
