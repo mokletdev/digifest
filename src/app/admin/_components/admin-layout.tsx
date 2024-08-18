@@ -2,10 +2,10 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useRef } from "react";
 
-import Navbar from "./Navbar";
-import { Sidebar } from "./Sidebar";
+import Sidebar from "./sidebar";
+import Navbar from "./navbar";
 
 export default function AdminLayout({
   children,
@@ -13,12 +13,12 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const { data: session } = useSession();
-  const navRef = React.useRef(false);
+  const navRef = useRef(false);
   const pathname = usePathname().split("/");
   pathname.shift();
 
   return (
-    <main className="flex w-full h-screen overflow-hidden bg-slate-50">
+    <main className="flex h-screen w-full overflow-hidden bg-slate-50">
       <Sidebar nav={navRef.current} session={session} />
       <Navbar session={session} />
       <div
@@ -29,9 +29,9 @@ export default function AdminLayout({
       />
       <div
         id="main-content"
-        className="relative min-h-full w-full overflow-y-auto ps-2 lg:ps-24 py-4 lg:ml-64 mt-[90px] lg:mt-0"
+        className="relative mt-[90px] min-h-full w-full overflow-y-auto py-4 ps-2 lg:ml-64 lg:mt-0 lg:ps-24"
       >
-        <nav className="w-full overflow-x-clip rounded-lg align-middle p-2 font-sans text-lg lg:text-xl capitalize md:p-3">
+        <nav className="w-full overflow-x-clip rounded-lg p-2 align-middle font-sans text-lg capitalize md:p-3 lg:text-xl">
           <ul className="flex">
             <li>
               <Link href="/" className="font-semibold">
@@ -71,7 +71,7 @@ export default function AdminLayout({
           </ul>
         </nav>
         <main className="pb-16">
-          <div className="px-4 pt-4 min-h-fit overflow-y-auto">{children}</div>
+          <div className="min-h-fit overflow-y-auto px-4 pt-4">{children}</div>
         </main>
       </div>
     </main>

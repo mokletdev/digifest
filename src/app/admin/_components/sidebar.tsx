@@ -10,11 +10,12 @@ import { protectedRoutes } from "@/utils/protectedRoutes";
 
 import { DashboardIcon } from "./icon";
 
-type navbarParam = {
+type SidebarProps = {
   nav: boolean;
   session: Session | null;
 };
-export function Sidebar({ nav, session }: navbarParam) {
+
+export default function Sidebar({ nav, session }: SidebarProps) {
   const pathname = usePathname();
 
   const allowedRoutes = protectedRoutes.filter((item) => {
