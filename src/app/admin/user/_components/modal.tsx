@@ -1,6 +1,5 @@
 "use client";
 import { Role, user } from "@prisma/client";
-import { Session } from "next-auth";
 import { Dispatch, SetStateAction } from "react";
 import { FaX } from "react-icons/fa6";
 
@@ -9,10 +8,10 @@ import { SelectField, TextField } from "@/app/_components/global/input";
 import { H3 } from "@/app/_components/global/text";
 import { useZodForm } from "@/app/hooks/useZodForm";
 import { createUserFormSchema, updateUserFormSchema } from "@/lib/validator";
+import { useRouter } from "next/navigation";
+import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { upsertUser } from "../actions";
-import { Controller } from "react-hook-form";
-import { useRouter } from "next/navigation";
 
 export default function Modal({
   setIsOpenModal,
@@ -28,7 +27,7 @@ export default function Modal({
       password: "",
       role: data?.role,
     },
-    schema: data ? createUserFormSchema : updateUserFormSchema,
+    schema: data === null ? createUserFormSchema : updateUserFormSchema,
   });
   const router = useRouter();
 
@@ -36,11 +35,11 @@ export default function Modal({
     const toastId = toast.loading("Loading...");
     const result = await upsertUser(data?.id, values);
 
-    if (result.success) {
-      toast.success(result.message, { id: toastId });
-      setIsOpenModal(false);
-      router.refresh();
-    } else toast.error(result.message, { id: toastId });
+    if (!result.success) return toast.error(result.message, { id: toastId });
+
+    toast.success(result.message, { id: toastId });
+    setIsOpenModal(false);
+    router.refresh();
   });
 
   return (

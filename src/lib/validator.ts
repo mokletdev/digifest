@@ -47,8 +47,5 @@ export const createUserFormSchema = z.object({
     .min(1, { message: "Nama harus diisi!" })
     .max(70, { message: "Nama maximal 70 karakter!" }),
   role: z.enum(["USER", "ADMIN", "SUPERADMIN"]),
-  password: z
-    .union([z.string().length(0), z.string().min(7)])
-    .optional()
-    .transform((e) => (e === "" ? undefined : e)),
+  password: z.string().min(7, { message: "Password minimal 7 karakter!" }),
 });
