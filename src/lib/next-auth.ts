@@ -63,7 +63,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         try {
           const user = await findUser({ email: credentials?.email });
-          if (!user || !user.password) return null;
+          if (!user?.password) return null;
 
           const isPasswordCorrect = compareHash(
             credentials?.password as string,
@@ -100,12 +100,6 @@ export const authOptions: AuthOptions = {
       return redirectUrl;
     },
     async signIn({ user, profile, account }) {
-      if (
-        account?.provider == "google" &&
-        !profile?.email?.endsWith("smktelkom-mlg.sch.id")
-      )
-        return false;
-
       if (user.email) {
         const userdb = await findUser({ email: user.email });
         if (!userdb) {
