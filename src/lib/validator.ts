@@ -52,3 +52,20 @@ export const createUserFormSchema = z.object({
     .optional()
     .transform((e) => (e === "" ? undefined : e)),
 });
+
+
+export const createCompetitionFormSchema = z.object({
+  name: z
+  .string()
+  .min(1, { message: "Nama harus diisi!" })
+  .max(70, { message: "Nama maximal 70 karakter!" }),
+  description: z
+  .string()
+  .max(180, { message: "Desc maximal 180 karakter!" }),
+  logo: z
+  .string()
+  .max(180, { message: "Desc maximal 180 karakter!" }),
+  guidebookUrl: z
+  .string()
+  .max(180, { message: "Desc maximal 180 karakter!" }),
+});
