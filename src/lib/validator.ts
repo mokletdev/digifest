@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+export const MAX_FILE_SIZE = 5_000_000;
+export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
+
 export const loginFormSchema = z.object({
   email: z
     .string()
@@ -50,19 +53,21 @@ export const createUserFormSchema = z.object({
   password: z.string().min(7, { message: "Password minimal 7 karakter!" }),
 });
 
-
 export const createCompetitionFormSchema = z.object({
   name: z
-  .string()
-  .min(1, { message: "Nama harus diisi!" })
-  .max(70, { message: "Nama maximal 70 karakter!" }),
-  description: z
-  .string()
-  .max(180, { message: "Desc maximal 180 karakter!" }),
+    .string()
+    .min(1, { message: "Nama harus diisi!" })
+    .max(120, { message: "Nama maximal 120 karakter!" }),
+  description: z.string(),
   logo: z
-  .string()
-  .max(180, { message: "Desc maximal 180 karakter!" }),
-  guidebookUrl: z
-  .string()
-  .max(180, { message: "Desc maximal 180 karakter!" }),
+    .any()
+    .refine((files: FileList) => {
+      const file = files[0];
+      return file?.size <= MAX_FILE_SIZE;
+    }, `Ukuran maksimal file adalah 5MB`)
+    .refine((files: FileList) => {
+      const file = files[0];
+      return ACCEPTED_IMAGE_TYPES.includes(file?.type);
+    }, "File harus menggunakan ekstensi .jpg, .jpeg, .png."),
+  guidebookUrl: z.string().url("Guidebook URL harus berupa URL"),
 });

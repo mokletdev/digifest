@@ -6,19 +6,12 @@ import { toast } from "sonner";
 
 import { deleteCompetition } from "../actions";
 
-import { competition } from "@prisma/client";
-import { Session } from "next-auth";
-import Modal from "./modal";
 import { Button } from "@/app/_components/global/button";
+import { competition } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import Modal from "./modal";
 
-export default function CompetitionTable({
-  data,
-  session,
-}: {
-  data: competition[];
-  session: Session | null;
-}) {
+export default function CompetitionTable({ data }: { data: competition[] }) {
   const [loader, setLoader] = useState(true);
   const [editModalData, setEditModalData] = useState<competition | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -43,10 +36,10 @@ export default function CompetitionTable({
       sortable: false,
     },
     {
-        name: "Guide Book",
-        selector: (row) => row.guidebookUrl,
-  
-        sortable: false,
+      name: "Guide Book",
+      selector: (row) => row.guidebookUrl,
+
+      sortable: false,
     },
     {
       name: "Action",
@@ -109,7 +102,7 @@ export default function CompetitionTable({
           createCompetition();
         }}
       >
-        Add Competition
+        Add competition
       </Button>
       <div className="rounded-md bg-white p-2">
         {isEditModalOpen && (

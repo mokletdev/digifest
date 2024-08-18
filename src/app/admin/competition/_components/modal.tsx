@@ -1,18 +1,16 @@
 "use client";
-import { competition, Role} from "@prisma/client";
-import { Session } from "next-auth";
+import { competition } from "@prisma/client";
 import { Dispatch, SetStateAction } from "react";
 import { FaX } from "react-icons/fa6";
 
 import { Button } from "@/app/_components/global/button";
-import { SelectField, TextField } from "@/app/_components/global/input";
+import { TextField } from "@/app/_components/global/input";
 import { H3 } from "@/app/_components/global/text";
 import { useZodForm } from "@/app/hooks/useZodForm";
-import { createCompetitionFormSchema} from "@/lib/validator";
+import { createCompetitionFormSchema } from "@/lib/validator";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { upsertCompetition } from "../actions";
-import { Controller } from "react-hook-form";
-import { useRouter } from "next/navigation";
 
 export default function Modal({
   setIsOpenModal,
@@ -25,10 +23,10 @@ export default function Modal({
     defaultValues: {
       name: data?.name,
       description: data?.description,
-      logo:data?.logo,
-
+      logo: data?.logo,
+      guidebookUrl: data?.logo,
     },
-    schema: createCompetitionFormSchema
+    schema: createCompetitionFormSchema,
   });
   const router = useRouter();
 
@@ -69,7 +67,7 @@ export default function Modal({
                 type="text"
                 label="Description"
                 placeholder="desc"
-                errorMessage={form.formState.errors.description ?.message}
+                errorMessage={form.formState.errors.description?.message}
                 {...form.register("description")}
               />
               <TextField

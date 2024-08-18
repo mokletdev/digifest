@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { upsertUser } from "../actions";
+import { SelectFieldController } from "@/app/_components/global/input-controller";
 
 export default function Modal({
   setIsOpenModal,
@@ -71,31 +72,14 @@ export default function Modal({
                 errorMessage={form.formState.errors.email?.message}
                 {...form.register("email")}
               />
-              <Controller
+              <SelectFieldController
                 name="role"
                 control={form.control}
-                render={({ field, fieldState }) => {
-                  const options = Object.values(Role).map((role) => ({
-                    label: role,
-                    value: role,
-                  }));
-
-                  return (
-                    <SelectField
-                      label="Select role"
-                      name={field.name}
-                      handleChange={(selectedOption) => {
-                        field.onChange(selectedOption?.value);
-                      }}
-                      required
-                      value={options.find(
-                        (option) => option.value === field.value,
-                      )}
-                      options={options}
-                      errorMessage={fieldState.error?.message}
-                    />
-                  );
-                }}
+                label="Select role"
+                options={Object.values(Role).map((role) => ({
+                  label: role,
+                  value: role,
+                }))}
               />
               <TextField
                 type="password"
