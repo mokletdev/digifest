@@ -10,6 +10,7 @@ declare global {
       GOOGLE_CLIENT_SECRET: string;
       GOOGLE_CLIENT_ID: string;
       NEXTAUTH_SECRET: string;
+      APP_URL: string;
     }
   }
 }
