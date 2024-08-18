@@ -11,6 +11,9 @@ export async function registerUser(
 ): Promise<ServerActionResponse> {
   try {
     const { name, email, password } = data;
+
+    // TODO: Send email to user's email
+
     await createUser({
       name,
       email,
