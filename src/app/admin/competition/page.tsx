@@ -1,23 +1,22 @@
 import { H2, P } from "@/app/_components/global/text";
-import { findUsers } from "@/database/user.query";
+import { findCompetitions } from "@/database/competition.query";
 import { getServerSession } from "@/lib/next-auth";
-import UserTable from "./_components/table";
+import CompetitionTable from "./_components/table";
 
 export default async function Users() {
   const session = await getServerSession();
-  const users = await findUsers({
-    NOT: { role: "USER" },
+  const competitions = await findCompetitions({
   });
 
   return (
     <div>
       <div className="mb-5 flex items-center justify-between">
         <div>
-          <H2 className="font-semibold">User Managements</H2>
-          <P>Change users roles and permission</P>
+          <H2 className="font-semibold">Comp list</H2>
+          <P>View competitions</P>
         </div>
       </div>
-      <UserTable data={users} />
+      <CompetitionTable data={competitions} session={session} />
     </div>
   );
 }
