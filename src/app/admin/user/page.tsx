@@ -17,7 +17,7 @@ export default async function Users() {
           <P>Change user's roles and permission</P>
         </div>
       </div>
-      <UserTable data={users} session={session} />
+      <UserTable data={users} />
     </div>
   );
 }

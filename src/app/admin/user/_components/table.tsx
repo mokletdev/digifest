@@ -6,19 +6,12 @@ import { toast } from "sonner";
 
 import { deleteUser } from "../actions";
 
-import { user } from "@prisma/client";
-import { Session } from "next-auth";
-import Modal from "./modal";
 import { Button } from "@/app/_components/global/button";
+import { user } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import Modal from "./modal";
 
-export default function UserTable({
-  data,
-  session,
-}: {
-  data: user[];
-  session: Session | null;
-}) {
+export default function UserTable({ data }: { data: user[] }) {
   const [loader, setLoader] = useState(true);
   const [editModalData, setEditModalData] = useState<user | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -83,10 +76,11 @@ export default function UserTable({
     const toastId = toast.loading("Loading...");
     const deleteResponse = await deleteUser(id);
 
-    if (deleteResponse.success) {
-      toast.success(deleteResponse.message, { id: toastId });
-      router.refresh();
-    } else toast.error(deleteResponse.message, { id: toastId });
+    if (!deleteResponse.success)
+      return toast.error(deleteResponse.message, { id: toastId });
+
+    toast.success(deleteResponse.message, { id: toastId });
+    router.refresh();
   }
 
   useEffect(() => {
