@@ -18,7 +18,7 @@ export default function AdminLayout({
   pathname.shift();
 
   return (
-    <main className="flex h-screen w-full overflow-hidden bg-slate-50">
+    <main className="flex min-h-screen w-full overflow-x-hidden overflow-y-scroll bg-slate-50">
       <Sidebar nav={navRef.current} session={session} />
       <Navbar session={session} />
       <div
@@ -70,9 +70,7 @@ export default function AdminLayout({
             })}
           </ul>
         </nav>
-        <main className="pb-16">
-          <div className="min-h-fit overflow-y-auto px-4 pt-4">{children}</div>
-        </main>
+        <div className="overflow-y-auto px-4 pt-4">{children}</div>
       </div>
     </main>
   );

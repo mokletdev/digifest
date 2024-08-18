@@ -1,10 +1,8 @@
 import { H2, P } from "@/app/_components/global/text";
 import { findCompetitions } from "@/database/competition.query";
-import { getServerSession } from "@/lib/next-auth";
 import CompetitionTable from "./_components/table";
 
 export default async function Users() {
-  const session = await getServerSession();
   const competitions = await findCompetitions();
 
   return (

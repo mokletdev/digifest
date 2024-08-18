@@ -6,3 +6,8 @@ export function stringifyCompleteDate(date: Date) {
     minute = ("0" + date.getMinutes()).slice(-2);
   return `${year}/${month}/${day} at ${hour}:${minute}`;
 }
+
+export async function fileToBuffer(file: File) {
+  const fileBuffer = await file.arrayBuffer();
+  return Buffer.from(fileBuffer);
+}

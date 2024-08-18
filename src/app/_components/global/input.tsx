@@ -3,13 +3,12 @@
 import cn from "@/lib/cn";
 import {
   ChangeEvent,
-  ChangeEventHandler,
   ComponentPropsWithoutRef,
   DragEvent,
   forwardRef,
   useState,
 } from "react";
-import { RefCallBack, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { RefCallBack, UseFormRegister } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
 import Select from "react-select";
@@ -161,18 +160,18 @@ export function FileField({
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    onChange(e);
     if (file) {
       setFileName(file.name);
-      onChange(e);
     }
   };
 
   const handleDrop = (e: DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
+    onChange(e);
     if (file) {
       setFileName(file.name);
-      onChange(e);
     }
   };
 
@@ -181,17 +180,17 @@ export function FileField({
   };
 
   return (
-    <div className="flex w-full flex-col items-center justify-center p-4">
-      <P>{label}</P>
+    <div className="flex w-full flex-col items-center justify-center py-4">
+      <P className="mb-2 self-start text-black">{label}</P>
       <label
         htmlFor={name}
-        className="relative w-full max-w-md cursor-pointer rounded-lg border-2 border-dashed border-primary-200 px-6 py-4 focus:outline-none"
+        className="relative w-full cursor-pointer rounded-lg border-2 border-dashed border-neutral-200 px-6 py-4 transition-all duration-300 hover:border-solid focus:outline-none"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >
         <div className="flex flex-col items-center justify-center space-y-2">
           <FiUpload className="h-12 w-12 text-gray-200" />
-          <span className="font-medium text-primary-400">
+          <span className="font-medium text-neutral-200">
             {fileName ? fileName : "Drag & drop a file di sini atau klik"}
           </span>
         </div>

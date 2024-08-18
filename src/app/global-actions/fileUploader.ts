@@ -21,7 +21,7 @@ export async function uploadImage(file: Buffer | any) {
       },
     );
 
-    if (!upload) return { error: true, message: "Terjadi kesalahan" };
+    if (!upload) return { success: false, message: "Terjadi kesalahan" };
 
     const data = {
       format: upload.format,
