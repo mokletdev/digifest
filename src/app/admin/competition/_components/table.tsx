@@ -6,70 +6,18 @@ import { toast } from "sonner";
 
 import { deleteCompetition } from "../actions";
 
-import { competition } from "@prisma/client";
-import { Session } from "next-auth";
-import Modal from "./modal";
 import { Button } from "@/app/_components/global/button";
+import { competition } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import Modal from "./modal";
+import Image from "next/image";
 
-export default function CompetitionTable({
-  data,
-  session,
-}: {
-  data: competition[];
-  session: Session | null;
-}) {
+export default function CompetitionTable({ data }: { data: competition[] }) {
   const [loader, setLoader] = useState(true);
   const [editModalData, setEditModalData] = useState<competition | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const router = useRouter();
-
-  const columns: TableColumn<competition>[] = [
-    {
-      name: "Name",
-      selector: (row) => row.name,
-      sortable: false,
-    },
-    {
-      name: "Description",
-      selector: (row) => row.description,
-      sortable: false,
-    },
-    {
-      name: "Logo",
-      selector: (row) => row.logo,
-
-      sortable: false,
-    },
-    {
-        name: "Guide Book",
-        selector: (row) => row.guidebookUrl,
-  
-        sortable: false,
-    },
-    {
-      name: "Action",
-      cell: (row) => (
-        <div className="flex gap-2">
-          <button
-            onClick={() => editCompetition(row)}
-            title="Edit Competition"
-            className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
-          >
-            <FaPencilAlt />
-          </button>
-          <button
-            onClick={() => deleteAction(row.id)}
-            title="Delete Competition"
-            className="me-2 rounded bg-red-100 p-2.5 text-xs font-medium text-red-800 transition-all hover:bg-red-700 hover:text-white"
-          >
-            <FaRegTrashAlt />
-          </button>
-        </div>
-      ),
-    },
-  ];
 
   function editCompetition(data: competition) {
     setEditModalData(data);
@@ -95,6 +43,59 @@ export default function CompetitionTable({
     } else toast.error(deleteResponse.message, { id: toastId });
   }
 
+  const columns: TableColumn<competition>[] = [
+    {
+      name: "Name",
+      selector: (row) => row.name,
+      sortable: false,
+    },
+    {
+      name: "Description",
+      selector: (row) => row.description,
+      sortable: false,
+    },
+    {
+      name: "Logo",
+      selector: (row) => row.logo,
+      sortable: false,
+      cell: (row) => (
+        <Image
+          src={row.logo}
+          alt={`Logo ${row.name}`}
+          width={52}
+          height={52}
+          unoptimized
+        />
+      ),
+    },
+    {
+      name: "Guide Book",
+      selector: (row) => row.guidebookUrl,
+      sortable: false,
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+        <div className="flex gap-2">
+          <button
+            onClick={() => editCompetition(row)}
+            title="Edit Competition"
+            className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
+          >
+            <FaPencilAlt />
+          </button>
+          <button
+            onClick={() => deleteAction(row.id)}
+            title="Delete Competition"
+            className="me-2 rounded bg-red-100 p-2.5 text-xs font-medium text-red-800 transition-all hover:bg-red-700 hover:text-white"
+          >
+            <FaRegTrashAlt />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
   useEffect(() => {
     setLoader(false);
   }, []);
@@ -109,7 +110,7 @@ export default function CompetitionTable({
           createCompetition();
         }}
       >
-        Add Competition
+        Add competition
       </Button>
       <div className="rounded-md bg-white p-2">
         {isEditModalOpen && (

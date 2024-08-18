@@ -10,7 +10,6 @@ export default function CustomToaster() {
   return (
     <Toaster
       duration={3000}
-      pauseWhenPageIsHidden
       theme="light"
       toastOptions={{ className: "shadow-sm shadow-white bg-white/70" }}
       icons={{

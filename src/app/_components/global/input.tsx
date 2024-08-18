@@ -1,13 +1,18 @@
 "use client";
 
-import { ComponentPropsWithoutRef, forwardRef, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-
 import cn from "@/lib/cn";
-import { RefCallBack } from "react-hook-form";
+import {
+  ChangeEvent,
+  ComponentPropsWithoutRef,
+  DragEvent,
+  forwardRef,
+  useState,
+} from "react";
+import { RefCallBack, UseFormRegister } from "react-hook-form";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FiUpload } from "react-icons/fi";
 import Select from "react-select";
 import { P } from "./text";
-
 interface InputProps extends ComponentPropsWithoutRef<"input"> {
   label?: string;
   ref?: RefCallBack;
@@ -131,6 +136,84 @@ export function SelectField({
         }}
       />
       {errorMessage && <P className="text-red-400">{errorMessage}</P>}
+    </div>
+  );
+}
+
+interface FileInputProps {
+  label: string;
+  register: UseFormRegister<any>;
+  name: string;
+  accept: string;
+  errorMessage?: string;
+}
+
+export function FileField({
+  label,
+  errorMessage,
+  register,
+  name,
+  accept,
+}: FileInputProps) {
+  const [fileName, setFileName] = useState<string>("");
+  const { onChange } = register(name);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    onChange(e);
+    if (file) {
+      setFileName(file.name);
+    }
+  };
+
+  const handleDrop = (e: DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    onChange(e);
+    if (file) {
+      setFileName(file.name);
+    }
+  };
+
+  const handleDragOver = (e: DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+  };
+
+  return (
+    <div className="flex w-full flex-col items-center justify-center py-4">
+      <P className="mb-2 self-start text-black">{label}</P>
+      <label
+        htmlFor={name}
+        className="relative w-full cursor-pointer rounded-lg border-2 border-dashed border-neutral-200 px-6 py-4 transition-all duration-300 hover:border-solid focus:outline-none"
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+      >
+        <div className="flex flex-col items-center justify-center space-y-2">
+          <FiUpload className="h-12 w-12 text-gray-200" />
+          <span className="font-medium text-neutral-200">
+            {fileName ? fileName : "Drag & drop a file di sini atau klik"}
+          </span>
+        </div>
+        <input
+          id={name}
+          type="file"
+          accept={accept}
+          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+          {...register(name)}
+          onChange={handleFileChange}
+        />
+      </label>
+
+      {fileName && (
+        <div className="mt-4 text-center">
+          <p className="text-sm text-gray-500">{fileName}</p>
+        </div>
+      )}
+      {errorMessage && (
+        <div className="mt-4 text-center">
+          <p className="text-sm text-primary-400">{errorMessage}</p>
+        </div>
+      )}
     </div>
   );
 }

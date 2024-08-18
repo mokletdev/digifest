@@ -1,5 +1,6 @@
 "use server";
 
+import { uploadImage } from "@/app/global-actions/fileUploader";
 import {
   createCompetition,
   findCompetition,
@@ -8,67 +9,85 @@ import {
 } from "@/database/competition.query";
 import { getServerSession } from "@/lib/next-auth";
 import { ServerActionResponse } from "@/types/action";
+import { fileToBuffer } from "@/utils/utils";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function upsertCompetition(
   id: string | undefined | null,
-  data: { name?: string; description?: string; logo?: string; userId?: string; guidebookUrl?: string },
+  actionData: FormData,
 ): Promise<ServerActionResponse> {
+  // Extract the FormData
+  const data = {
+    name: actionData.get("name") as string | undefined,
+    description: actionData.get("description") as string | undefined,
+    guidebookUrl: actionData.get("guidebookUrl") as string | undefined,
+    logo: actionData.get("logo") as File | undefined,
+  };
+
   try {
     const session = await getServerSession();
     const currentUserRole = session?.user?.role;
-    const currentUserId = session?.user?.id
+    const currentUserId = session?.user?.id;
 
     if (currentUserRole !== "SUPERADMIN")
       return { success: false, message: "Forbidden" };
 
-    if (!id) {
-      const { name, description, logo, userId, guidebookUrl } = data;
-      if (!name || !description || !logo || !userId || !guidebookUrl)
-        return { success: false, message: "Bad request" };
+    const payload: Prisma.competitionUpdateInput = {
+      name: data.name,
+      description: data.description,
+      logo: undefined,
+      guidebookUrl: data.guidebookUrl,
+      createdBy: !id ? { connect: { id: currentUserId } } : undefined,
+    };
 
-      await createCompetition({
-        name,
-        description,
-        logo,
-        createdBy: {
-          connect: {
-            id: currentUserId!, 
-          },
-        },
-        guidebookUrl
-      });
+    if (data.logo instanceof File) {
+      const logoBuffer = await fileToBuffer(data.logo);
+      const uploadedLogo = await uploadImage(logoBuffer);
 
-      return { success: true, message: "Sukses membuat Competition!" };
+      payload.logo = uploadedLogo.data?.url;
     }
 
-    const CompetitionToUpdate = await findCompetition({ id });
-    if (!CompetitionToUpdate)
+    if (!id) {
+      const { name, description, logo, guidebookUrl } = payload;
+      if (!name || !description || !logo || !guidebookUrl) {
+        return { success: false, message: "Bad request" };
+      }
+
+      await createCompetition(payload as Prisma.competitionCreateInput);
+
+      return { success: true, message: "Sukses membuat competition!" };
+    }
+
+    const competitionToUpdate = await findCompetition({ id });
+    if (!competitionToUpdate)
       return { success: false, message: "Competition tidak ditemukan!" };
 
-    await updateCompetition({ id }, data);
+    await updateCompetition({ id }, payload);
 
-    revalidatePath("/admin/Competition");
-    return { success: true, message: "Sukses meng-update Competition!" };
+    revalidatePath("/admin/competition");
+    return { success: true, message: "Sukses meng-update competition!" };
   } catch (error) {
     console.log(error);
     return { success: false, message: "Internal server error" };
   }
 }
 
-export async function deleteCompetition(id: string): Promise<ServerActionResponse> {
+export async function deleteCompetition(
+  id: string,
+): Promise<ServerActionResponse> {
   try {
     const session = await getServerSession();
     if (session?.user?.role !== "SUPERADMIN")
       return { success: false, message: "Forbidden" };
 
-    const CompetitionToDelete = await findCompetition({ id });
-    if (!CompetitionToDelete)
+    const competitionToDelete = await findCompetition({ id });
+    if (!competitionToDelete)
       return { success: false, message: "Competition tidak ditemukan!" };
 
     await removeCompetition({ id });
 
-    return { success: true, message: "Berhasil menghapus Competition!" };
+    return { success: true, message: "Berhasil menghapus competition!" };
   } catch (error) {
     console.log(error);
     return { success: false, message: "Terjadi kesalahan!" };
