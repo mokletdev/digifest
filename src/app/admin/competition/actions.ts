@@ -17,6 +17,7 @@ export async function upsertCompetition(
   id: string | undefined | null,
   actionData: FormData,
 ): Promise<ServerActionResponse> {
+  // Extract the FormData
   const data = {
     name: actionData.get("name") as string | undefined,
     description: actionData.get("description") as string | undefined,
@@ -41,7 +42,6 @@ export async function upsertCompetition(
     };
 
     if (data.logo instanceof File) {
-      console.log(data.logo);
       const logoBuffer = await fileToBuffer(data.logo);
       const uploadedLogo = await uploadImage(logoBuffer);
 
