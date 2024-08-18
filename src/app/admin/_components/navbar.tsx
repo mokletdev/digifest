@@ -23,8 +23,8 @@ export default function Navbar({ session }: { session: Session | null }) {
   });
 
   return (
-    <nav className="xl:relative fixed z-[999] mx-auto w-full flex flex-col lg:hidden">
-      <div className="w-full flex xl:max-w-[1192px] z-[999] py-4 xl:py-0 px-5 bg-white xl:bg-transparent justify-between">
+    <nav className="fixed z-[999] mx-auto flex w-full flex-col lg:hidden xl:relative">
+      <div className="z-[999] flex w-full justify-between bg-white px-5 py-4 xl:max-w-[1192px] xl:bg-transparent xl:py-0">
         <Link href={"/"} className="block xl:mt-8">
           <Image
             src={"/horizontal.svg"}
@@ -42,19 +42,19 @@ export default function Navbar({ session }: { session: Session | null }) {
         </button>
       </div>
       <div
-        className={`block xl:hidden py-3 w-full z-[800] bg-white transition-all duration-500 overflow-y-auto ${
-          isExpanded ? "mt-0" : " -mt-[1000px]"
+        className={`z-[800] block w-full overflow-y-auto bg-white py-3 transition-all duration-500 xl:hidden ${
+          isExpanded ? "mt-0" : "-mt-[1000px]"
         }`}
       >
-        <div className="flex flex-col gap-8 text-start justify-start items-start my-[21px] mx-5">
-          <ul className="space-y-4 pb-2 w-full">
+        <div className="mx-5 my-[21px] flex flex-col items-start justify-start gap-8 text-start">
+          <ul className="w-full space-y-4 pb-2">
             <li>
               <Link
                 href={"/admin"}
-                className="group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 hover:bg-red-100 transition-all"
+                className="group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 transition-all hover:bg-red-100"
               >
                 <DashboardIcon />
-                <P className="ml-3 whitespace-nowrap text-primary-400 font-semibold">
+                <P className="ml-3 whitespace-nowrap font-semibold text-primary-400">
                   Dashboard
                 </P>
               </Link>
@@ -67,11 +67,11 @@ export default function Navbar({ session }: { session: Session | null }) {
                   onClick={() => setIsExpanded(false)}
                   className={
                     (pathname.includes(item.path) ? "bg-red-100 " : "") +
-                    "group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 hover:bg-red-200 transition-all"
+                    "group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 transition-all hover:bg-red-200"
                   }
                 >
                   <div dangerouslySetInnerHTML={{ __html: item.icon }} />
-                  <P className="ml-3 whitespace-nowrap text-primary-400 font-semibold">
+                  <P className="ml-3 whitespace-nowrap font-semibold text-primary-400">
                     {item.title}
                   </P>
                 </Link>
@@ -79,7 +79,7 @@ export default function Navbar({ session }: { session: Session | null }) {
             ))}
             <Button
               variant={"primary"}
-              onClick={() => signOut()}
+              onClick={() => signOut({ callbackUrl: "/", redirect: true })}
               className="w-full"
             >
               Log Out

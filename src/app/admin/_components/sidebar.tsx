@@ -75,7 +75,7 @@ export default function Sidebar({ nav, session }: SidebarProps) {
               ))}
               <Button
                 variant={"primary"}
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: "/", redirect: true })}
                 className="w-full"
               >
                 Log Out

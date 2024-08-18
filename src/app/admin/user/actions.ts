@@ -9,6 +9,7 @@ import {
 import { generateHash } from "@/lib/encryption";
 import { getServerSession } from "@/lib/next-auth";
 import { ServerActionResponse } from "@/types/action";
+import { generateRandomString } from "@/utils/utils";
 import { Role } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -36,6 +37,7 @@ export async function upsertUser(
         name,
         role,
         password: generateHash(password),
+        verificationToken: generateRandomString(14),
       });
 
       return { success: true, message: "Sukses membuat user!" };
