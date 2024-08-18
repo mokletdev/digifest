@@ -3,6 +3,7 @@
 import { createUser } from "@/database/user.query";
 import { generateHash } from "@/lib/encryption";
 import { ServerActionResponse } from "@/types/action";
+import { generateRandomString } from "@/utils/utils";
 import { Prisma } from "@prisma/client";
 
 export async function registerUser(
@@ -14,6 +15,7 @@ export async function registerUser(
       name,
       email,
       password: generateHash(password as string),
+      verificationToken: generateRandomString(14),
     });
 
     return {
