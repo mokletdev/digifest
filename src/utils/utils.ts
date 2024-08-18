@@ -1,3 +1,5 @@
+import { randomFillSync } from "crypto";
+
 export function stringifyCompleteDate(date: Date) {
   const year = date.getFullYear(),
     month = ("0" + (date.getMonth() + 1)).slice(-2),
@@ -10,4 +12,11 @@ export function stringifyCompleteDate(date: Date) {
 export async function fileToBuffer(file: File) {
   const fileBuffer = await file.arrayBuffer();
   return Buffer.from(fileBuffer);
+}
+
+export function generateRandomString(length: number): string {
+  const buffer = Buffer.alloc(length);
+  randomFillSync(buffer);
+
+  return buffer.toString("base64").slice(0, length);
 }
