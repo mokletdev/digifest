@@ -10,9 +10,9 @@ const config: Config = {
     extend: {
       screens: {
         "2xl": "1440px",
-        xl: "1332px",
-        lg: "821px",
-        sm: "480px",
+        xl: "1200px",
+        lg: "810px",
+        sm: "360px",
       },
       colors: {
         black: "#121212",
