@@ -46,7 +46,6 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
             </button>
           )}
           <input
-            type={showPassword ? "text" : props.type}
             className={cn(
               "w-full rounded-lg border border-neutral-400 px-[18px] py-[14px] text-black placeholder-neutral-500 transition-all duration-500 hover:border-black focus:outline-none active:border-black",
               props.disabled ? "cursor-not-allowed" : "",
@@ -54,6 +53,7 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
             )}
             ref={ref}
             {...props}
+            type={showPassword ? "text" : props.type}
           />
           {errorMessage && <P className="text-red-400">{errorMessage}</P>}
         </div>

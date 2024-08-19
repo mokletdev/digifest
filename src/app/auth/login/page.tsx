@@ -1,5 +1,3 @@
-"use client";
-
 import { Display } from "@/app/_components/global/text";
 import { getServerSession } from "@/lib/next-auth";
 import { redirect } from "next/navigation";

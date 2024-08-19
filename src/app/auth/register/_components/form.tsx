@@ -3,7 +3,7 @@ import { Button } from "@/app/_components/global/button";
 import { TextField } from "@/app/_components/global/input";
 import { useZodForm } from "@/app/hooks/useZodForm";
 import { registerFormSchema } from "@/lib/validator";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { registerUser } from "../actions";
@@ -12,6 +12,7 @@ export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
 
   const form = useZodForm({ schema: registerFormSchema });
+  const router = useRouter();
 
   const onSubmit = form.handleSubmit(async (values) => {
     setLoading(true);
@@ -20,12 +21,12 @@ export default function RegisterForm() {
 
     if (!registerUserAction.success) {
       setLoading(false);
-      toast.error(registerUserAction.message, { id: toastId });
+      return toast.error(registerUserAction.message, { id: toastId });
     }
 
     toast.success(registerUserAction.message, { id: toastId });
     setLoading(false);
-    redirect("/");
+    return router.push("/auth/login");
   });
 
   return (
