@@ -30,6 +30,13 @@ export async function upsertCategory(
     if (currentUserRole !== "SUPERADMIN")
       return { success: false, message: "Forbidden" };
 
+    if (data.minMemberCount > data.maxMemberCount)
+      return {
+        success: false,
+        message:
+          "Jumlah minimum member harus lebih kecil dari jumlah maksimum member",
+      };
+
     // Extract competitionId
     const { competitionId, ...payloadData } = data;
     const payload: Prisma.competition_categoryCreateInput = {
