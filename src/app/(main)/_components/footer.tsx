@@ -9,7 +9,7 @@ const socialMedias = [
 
 export default function Footer() {
   return (
-    <footer className="ites-start flex w-full flex-col justify-between lg:flex-row lg:items-center">
+    <footer className="ites-start flex w-full flex-col justify-between pb-[42px] pt-[82px] lg:flex-row lg:items-center">
       <P className="lg:max-w-1/2 mb-[32px] max-w-full sm:mb-[52px] sm:max-w-[575px] lg:mb-0">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ligula
         ipsum, pellentesque ut felis in, porta ultricies massa.

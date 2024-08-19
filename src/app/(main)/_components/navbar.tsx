@@ -63,7 +63,15 @@ export default function Navbar() {
           >
             {session?.user ? (
               <>
-                <Link href={"/dashboard"} variant="primary">
+                <Link
+                  href={
+                    session.user.role == "ADMIN" ||
+                    session.user.role === "SUPERADMIN"
+                      ? "/admin"
+                      : "/dashboard"
+                  }
+                  variant="primary"
+                >
                   Dashboard
                 </Link>
               </>
@@ -116,7 +124,12 @@ export default function Navbar() {
             {session?.user ? (
               <>
                 <Link
-                  href={"/dashboard"}
+                  href={
+                    session.user.role == "ADMIN" ||
+                    session.user.role === "SUPERADMIN"
+                      ? "/admin"
+                      : "/dashboard"
+                  }
                   className="w-full text-center"
                   variant="primary"
                 >
