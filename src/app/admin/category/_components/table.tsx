@@ -69,12 +69,6 @@ export default function CategoriesTable({
       sortable: false,
     },
     {
-      name: "Price",
-      selector: (row) =>
-        formatPrice(Number(row.registrationPrice), "IDR", "id-ID"),
-      sortable: false,
-    },
-    {
       name: "Stages Count",
       selector: (row) => row.numberOfStages,
       sortable: false,

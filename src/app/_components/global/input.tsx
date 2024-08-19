@@ -48,7 +48,7 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             className={cn(
-              "w-full rounded-full border border-neutral-400 px-[18px] py-[14px] text-black placeholder-neutral-500 transition-all duration-500 hover:border-black focus:outline-none active:border-black",
+              "w-full rounded-full border border-neutral-400 px-[18px] py-[14px] text-black placeholder-neutral-500 outline-none transition-all duration-300 hover:border-black focus:border-none focus:outline-none focus:outline-primary-200",
               props.disabled ? "cursor-not-allowed" : "",
               errorMessage ? "border-primary-400" : "",
             )}
@@ -118,7 +118,7 @@ export function SelectField({
         styles={{
           control: (base) => ({
             ...base,
-            borderRadius: "0.75rem",
+            borderRadius: "999rem",
             borderColor: "#A3A3A3",
             padding: "0.5rem",
             boxShadow: "none",

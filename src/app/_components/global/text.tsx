@@ -83,3 +83,11 @@ export function H4({ children, className }: Readonly<TextProps>) {
     </h4>
   );
 }
+
+export function SectionTitle({ children }: TextProps) {
+  return (
+    <h4 className="inline-flex rounded-full border border-primary-400 bg-primary-50 px-[14px] py-[6px] text-primary-400">
+      {children}
+    </h4>
+  );
+}

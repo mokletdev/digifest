@@ -98,9 +98,6 @@ export const createCategoryFormSchema = z.object({
     .max(120, { message: "Nama maximal 120 karakter!" }),
   description: z.string().min(1, { message: "Deskripsi harus diisi!" }),
   paymentCode: z.string().min(1, { message: "Kode pembayaran harus diisi!" }),
-  registrationPrice: z
-    .string()
-    .min(1, { message: "Registration Price harus diisi!" }),
   numberOfStages: z
     .string()
     .min(1, { message: "Jumlah tahap harus diisi!" })
