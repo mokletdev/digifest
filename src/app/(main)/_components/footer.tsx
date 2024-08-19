@@ -28,7 +28,7 @@ export default function Footer() {
           ))}
         </div>
         <Link
-          href="#"
+          href="#beranda"
           variant={"primary"}
           className="w-full justify-center sm:w-fit"
         >

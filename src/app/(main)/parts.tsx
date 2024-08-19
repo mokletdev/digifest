@@ -1,6 +1,16 @@
+"use client";
 import cn from "@/lib/cn";
+import { competitionWithCategoriesAndBatches } from "@/types/relation";
+import { formatPrice } from "@/utils/utils";
 import Image from "next/image";
-import { FaArrowDown } from "react-icons/fa6";
+import { useState } from "react";
+import { FaMoneyBillWave } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaArrowRight,
+  FaBook,
+  FaPeopleGroup,
+} from "react-icons/fa6";
 import Link from "../_components/global/button";
 import {
   Display,
@@ -105,7 +115,7 @@ function SubDescription({
 
 function About({ competitionsCount }: { competitionsCount: number }) {
   return (
-    <section className="w-full py-[82px]">
+    <section className="w-full py-[82px]" id="tentang">
       <div className="mb-[64px] flex w-full flex-col items-start justify-between gap-[72px] lg:flex-row lg:items-center lg:gap-2">
         <Image
           src={"/about.svg"}
@@ -156,4 +166,145 @@ function About({ competitionsCount }: { competitionsCount: number }) {
   );
 }
 
-export { Hero, About };
+function CategoryCard({
+  title,
+  description,
+  registrationPrice,
+  minMemberCount,
+  maxMemberCount,
+}: {
+  title: string;
+  description: string;
+  registrationPrice: string;
+  minMemberCount: number;
+  maxMemberCount: number;
+}) {
+  return (
+    <figure className="flex w-full flex-col items-start justify-between gap-[54px] rounded-[14px] border border-neutral-100 bg-neutral-50 p-[22px] lg:flex-row lg:gap-0">
+      <div className="w-full lg:max-w-[854px]">
+        <H3 className="mb-[10px]">{title}</H3>
+        <P className="mb-8">{description}</P>
+        <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-[62px]">
+          <div className="flex items-center gap-[14px]">
+            <div className="rounded-full bg-primary-50 p-4">
+              <FaMoneyBillWave
+                className="text-primary-400"
+                width={32}
+                height={32}
+              />
+            </div>
+            <div className="block">
+              <P className="text-base text-black">Biaya Pendaftaran</P>
+              <P className="text-base">{registrationPrice}</P>
+            </div>
+          </div>
+          <div className="flex items-center gap-[14px]">
+            <div className="rounded-full bg-primary-50 p-4">
+              <FaPeopleGroup
+                className="text-primary-400"
+                width={32}
+                height={32}
+              />
+            </div>
+            <div className="block">
+              <P className="text-base text-black">Jumlah Peserta</P>
+              <P className="text-base">
+                {maxMemberCount} - {minMemberCount} orang
+              </P>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Link href="/register" variant={"tertiary"}>
+        Daftar sekarang{" "}
+        <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+      </Link>
+    </figure>
+  );
+}
+
+function Competition({
+  competitions,
+}: {
+  competitions: competitionWithCategoriesAndBatches[];
+}) {
+  const [selectedCompetition, setSelectedCompetition] = useState<string>(
+    competitions[0].name,
+  );
+
+  return (
+    <section className="w-full py-[82px]" id="kompetisi">
+      <div className="mb-[92px] block">
+        <div className="w-full lg:max-w-[800px]">
+          <SectionTitle>KOMPETISI</SectionTitle>
+          <H1 className="mb-[18px] mt-[22px]">
+            Mau tau Lebih Lanjut Soal{" "}
+            <span className="text-primary-400">
+              Kompetisi yang ada di Digifest?
+            </span>
+          </H1>
+          <P className="mb-[54px]">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
+            dolores repudiandae laudantium at fuga eius, voluptatem sequi
+            fugiat? Unde, fugiat.
+          </P>
+        </div>
+        <div className="flex w-full flex-col items-start justify-between gap-[72px] lg:flex-row lg:items-center lg:gap-0">
+          <Link
+            href="https://drive.google.com/guidebookbos"
+            variant={"primary"}
+            className="w-full justify-center sm:w-fit"
+          >
+            <FaBook />
+            Lihat guidebook
+          </Link>
+          <div className="ites-center flex gap-[14px] rounded-full border border-neutral-100 p-3">
+            {competitions.map((competition) => (
+              <button
+                key={competition.id}
+                className={cn(
+                  "rounded-full px-[22px] py-[14px] transition-all duration-300 hover:bg-primary-50",
+                  competition.name === selectedCompetition
+                    ? "bg-primary-400 text-white hover:bg-primary-400"
+                    : "",
+                )}
+                onClick={() => {
+                  setSelectedCompetition(competition.name);
+                }}
+              >
+                {competition.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-6">
+        {competitions
+          .find((competition) => competition.name === selectedCompetition)
+          ?.competitionCategories.map((category) => (
+            <CategoryCard
+              title={category.name}
+              description={category.description}
+              minMemberCount={category.minMemberCount}
+              maxMemberCount={category.maxMemberCount}
+              registrationPrice={
+                category.registrationBatches.length > 0
+                  ? formatPrice(
+                      Number(
+                        category.registrationBatches[
+                          category.registrationBatches.length - 1
+                        ].registrationPrice,
+                      ),
+                      "IDR",
+                      "id-ID",
+                    )
+                  : "Belum ada ketentuan"
+              }
+            />
+          ))}
+      </div>
+    </section>
+  );
+}
+
+export { About, Competition, Hero };

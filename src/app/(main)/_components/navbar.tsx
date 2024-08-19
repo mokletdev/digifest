@@ -19,7 +19,7 @@ const links = [
   },
   {
     title: "Kompetisi",
-    href: "#kopetisi",
+    href: "#kompetisi",
   },
   {
     title: "Timeline",
