@@ -1,18 +1,23 @@
 "use server";
 
-import { createUser } from "@/database/user.query";
+import { createUser, findUser } from "@/database/user.query";
 import { EmailService } from "@/lib/emailService";
 import { generateHash } from "@/lib/encryption";
 import { ServerActionResponse } from "@/types/action";
 import { verifyTemplate } from "@/utils/emailTemplate";
 import { generateRandomString } from "@/utils/utils";
-import { Prisma } from "@prisma/client";
 
-export async function registerUser(
-  data: Prisma.userCreateInput,
-): Promise<ServerActionResponse> {
+export async function registerUser(data: {
+  name: string;
+  email: string;
+  password: string;
+}): Promise<ServerActionResponse> {
   try {
     const { name, email, password } = data;
+
+    const checkEmailExistence = await findUser({ email });
+    if (checkEmailExistence)
+      return { success: false, message: "Email telah digunakan!" };
 
     const createdUser = await createUser({
       name,

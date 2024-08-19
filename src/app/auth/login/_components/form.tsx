@@ -4,7 +4,7 @@ import { TextField } from "@/app/_components/global/input";
 import { useZodForm } from "@/app/hooks/useZodForm";
 import { loginFormSchema } from "@/lib/validator";
 import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -12,6 +12,7 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
 
   const form = useZodForm({ schema: loginFormSchema });
+  const router = useRouter();
 
   const onSubmit = form.handleSubmit(async (values) => {
     const toastId = toast.loading("Loading...");
@@ -27,16 +28,15 @@ export default function LoginForm() {
 
       if (res?.error) {
         setLoading(false);
-        toast.error(
+        return toast.error(
           res.error === "CredentialsSignin"
             ? "Email atau password salah!"
             : "Terjadi kesalahan",
           { id: toastId },
         );
-      } else {
-        toast.success("Berhasil login!", { id: toastId });
-        redirect("/");
       }
+      toast.success("Berhasil login!", { id: toastId });
+      router.push("/auth/verify-warning");
     } catch (error) {
       toast.error("Terjadi kesalahan", { id: toastId });
     }
