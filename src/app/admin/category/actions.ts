@@ -8,18 +8,20 @@ import {
 } from "@/database/category.query";
 import { getServerSession } from "@/lib/next-auth";
 import { ServerActionResponse } from "@/types/action";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function upsertCategory(
   id: string | undefined | null,
   data: {
-    name?: string;
-    description?: string;
-    paymentCode?: string;
-    registrationPrice?: string;
-    numberOfStages?: number;
-    minMemberCount?: number;
-    maxMemberCount?: number;
+    name: string;
+    description: string;
+    paymentCode: string;
+    registrationPrice: string;
+    numberOfStages: number;
+    minMemberCount: number;
+    maxMemberCount: number;
+    competitionId: string;
   },
 ): Promise<ServerActionResponse> {
   try {
@@ -28,6 +30,13 @@ export async function upsertCategory(
 
     if (currentUserRole !== "SUPERADMIN")
       return { success: false, message: "Forbidden" };
+
+    // Extract competitionId
+    const { competitionId, ...payloadData } = data;
+    const payload: Prisma.competition_categoryCreateInput = {
+      ...payloadData,
+      competition: { connect: { id: competitionId } },
+    };
 
     if (!id) {
       const {
@@ -38,6 +47,7 @@ export async function upsertCategory(
         numberOfStages,
         minMemberCount,
         maxMemberCount,
+        competitionId,
       } = data;
       if (
         !name ||
@@ -46,7 +56,8 @@ export async function upsertCategory(
         !registrationPrice ||
         !numberOfStages ||
         !minMemberCount ||
-        !maxMemberCount
+        !maxMemberCount ||
+        !competitionId
       )
         return { success: false, message: "Bad request" };
 
@@ -59,18 +70,18 @@ export async function upsertCategory(
         minMemberCount,
         maxMemberCount,
         competition: {
-          connect: undefined
-        }
+          connect: { id: competitionId },
+        },
       });
 
       return { success: true, message: "Sukses membuat Category!" };
     }
 
-    const CategoryToUpdate = await findCategory({ id });
-    if (!CategoryToUpdate)
+    const categoryToUpdate = await findCategory({ id });
+    if (!categoryToUpdate)
       return { success: false, message: "Category tidak ditemukan!" };
 
-    await updateCategory({ id }, data);
+    await updateCategory({ id }, payload);
 
     revalidatePath("/admin/category");
     return { success: true, message: "Sukses meng-update Category!" };
@@ -88,8 +99,8 @@ export async function deleteCategory(
     if (session?.user?.role !== "SUPERADMIN")
       return { success: false, message: "Forbidden" };
 
-    const CategoryToDelete = await findCategory({ id });
-    if (!CategoryToDelete)
+    const categoryToDelete = await findCategory({ id });
+    if (!categoryToDelete)
       return { success: false, message: "Category tidak ditemukan!" };
 
     await removeCategory({ id });
