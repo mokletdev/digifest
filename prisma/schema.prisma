@@ -35,7 +35,7 @@ model registered_team {
   id                  String             @id @default(uuid())
   teamName            String
   paymentProof        String
-  status              RegistrationStatus
+  status              RegistrationStatus @default(PENDING)
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
   registrationBatchId String
