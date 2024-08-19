@@ -90,3 +90,45 @@ export const updateCompetitionFormSchema = z.object({
     }, "File harus menggunakan ekstensi .jpg, .jpeg, .png."),
   guidebookUrl: z.string().url("Guidebook URL harus berupa URL"),
 });
+
+export const createCategoryFormSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Nama harus diisi!" })
+    .max(120, { message: "Nama maximal 120 karakter!" }),
+  description: z.string(),
+  paymentCode: z.string().min(1, { message: "Payment Code harus diisi!" }),
+  registrationPrice: z
+    .string()
+    .min(1, { message: "Registration Price harus diisi!" }),
+    numberOfStages: z
+    .number()
+    .min(1, { message: "Number Of Stages Count harus diisi!" }),
+  minMemberCount: z
+    .number()
+    .min(1, { message: "Min Member Count harus diisi!" }),
+  maxMemberCount: z
+    .number()
+    .min(1, { message: "Max Member Count harus diisi!" }),
+});
+
+export const updateCategoryFormSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Nama harus diisi!" })
+    .max(120, { message: "Nama maximal 120 karakter!" }),
+  description: z.string().min(1, { message: "Deskripsi harus diisi!" }),
+  paymentCode: z.string().min(1, { message: "Payment Code harus diisi!" }),
+  registrationPrice: z
+    .string()
+    .min(1, { message: "Registration Price harus diisi!" }),
+  numberOfStages: z
+    .number()
+    .min(1, { message: "Number Of Stages Count harus diisi!" }),
+  minMemberCount: z
+    .number()
+    .min(1, { message: "Min Member Count harus diisi!" }),
+  maxMemberCount: z
+    .number()
+    .min(1, { message: "Max Member Count harus diisi!" }),
+});
