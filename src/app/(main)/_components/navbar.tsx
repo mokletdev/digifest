@@ -33,12 +33,12 @@ const links = [
 
 export default function Navbar() {
   const { data: session } = useSession();
-  const [sideActive, setSideActive] = useState(true);
+  const [sideActive, setSideActive] = useState(false);
 
   return (
     <>
       <nav className="nav-shadow fixed z-[999] w-full bg-white">
-        <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-5 py-4">
+        <div className="mx-auto flex w-full max-w-[1169px] items-center justify-between px-5 py-4">
           <NextLink href={"/"} className="w-[204px]">
             <Image
               src={"/logo.png"}
