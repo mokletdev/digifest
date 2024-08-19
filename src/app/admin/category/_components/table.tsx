@@ -79,7 +79,7 @@ export default function CategoriesTable({
     },
     {
       name: "Members Count",
-      selector: (row) => `${row.minMemberCount} - ${row.maxMemberCount}`,
+      selector: (row) => `${row.minMemberCount} - ${row.maxMemberCount} orang`,
       sortable: false,
     },
     {
