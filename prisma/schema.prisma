@@ -78,17 +78,16 @@ model competition {
 }
 
 model competition_category {
-  id                String   @id @default(uuid())
-  competitionId     String
-  name              String
-  description       String
-  paymentCode       String
-  registrationPrice String
-  numberOfStages    Int
-  minMemberCount    Int
-  maxMemberCount    Int
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id             String   @id @default(uuid())
+  competitionId  String
+  name           String
+  description    String
+  paymentCode    String
+  numberOfStages Int
+  minMemberCount Int
+  maxMemberCount Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   competition         competition          @relation(fields: [competitionId], references: [id])
   stages              stage[]
@@ -138,6 +137,7 @@ model registration_batch {
   closedDate            DateTime
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
+  registrationPrice     BigInt
 
   competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id])
   registrations       registered_team[]
