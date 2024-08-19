@@ -1,27 +1,27 @@
 "use client";
-import { competition_category } from "@prisma/client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { FaX } from "react-icons/fa6";
 
 import { Button } from "@/app/_components/global/button";
 import { TextField } from "@/app/_components/global/input";
+import { SelectFieldController } from "@/app/_components/global/input-controller";
+import ModalWrapper from "@/app/_components/global/modal-wrapper";
 import { H3 } from "@/app/_components/global/text";
 import { useZodForm } from "@/app/hooks/useZodForm";
-import {
-  createCategoryFormSchema,
-  updateCategoryFormSchema,
-} from "@/lib/validator";
+import { createCategoryFormSchema } from "@/lib/validator";
+import { competitionCategoryWithCompetition } from "@/types/relation";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { upsertCategory } from "../actions";
-import ModalWrapper from "@/app/_components/global/modal-wrapper";
 
 export default function Modal({
   setIsOpenModal,
   data,
+  competitions,
 }: {
   setIsOpenModal: Dispatch<SetStateAction<boolean>>; // Needed for closing the modal
-  data?: competition_category | null;
+  data?: competitionCategoryWithCompetition | null;
+  competitions: { id: string; name: string }[];
 }) {
   const [loading, setLoading] = useState(false);
   const form = useZodForm({
@@ -30,18 +30,25 @@ export default function Modal({
       description: data?.description,
       paymentCode: data?.paymentCode,
       registrationPrice: data?.registrationPrice,
-      numberOfStages: data?.numberOfStages,
-      minMemberCount: data?.minMemberCount,
-      maxMemberCount: data?.maxMemberCount,
+      numberOfStages: data?.numberOfStages.toString(),
+      minMemberCount: data?.minMemberCount.toString(),
+      maxMemberCount: data?.maxMemberCount.toString(),
+      competitionId: data?.competitionId,
     },
-    schema: data === null ? createCategoryFormSchema : updateCategoryFormSchema,
+    schema: createCategoryFormSchema,
   });
   const router = useRouter();
 
   const onSubmit = form.handleSubmit(async (values) => {
     setLoading(true);
     const toastId = toast.loading("Loading...");
-    const result = await upsertCategory(data?.id, values);
+    const result = await upsertCategory(data?.id, {
+      ...values,
+      maxMemberCount: Number(values.maxMemberCount),
+      minMemberCount: Number(values.minMemberCount),
+      paymentCode: values.paymentCode,
+      numberOfStages: Number(values.numberOfStages),
+    });
 
     if (!result.success) {
       setLoading(false);
@@ -70,49 +77,58 @@ export default function Modal({
           <TextField
             type="text"
             label="Name"
-            placeholder="Jane Doe"
+            placeholder="Robotic"
             errorMessage={form.formState.errors.name?.message}
             {...form.register("name")}
           />
+          <SelectFieldController
+            control={form.control}
+            label="Kompetisi"
+            name="competitionId"
+            options={competitions.map((competition) => ({
+              label: competition.name,
+              value: competition.id,
+            }))}
+          />
           <TextField
             type="text"
-            label="description"
-            placeholder="Description here"
+            label="Description"
+            placeholder="Bidang robotic pada kompetisi olimawisa..."
             errorMessage={form.formState.errors.description?.message}
             {...form.register("description")}
           />
           <TextField
             type="text"
-            label="paymentCode"
-            placeholder="Code here"
+            label="Kode pembayaran"
+            placeholder="1"
             errorMessage={form.formState.errors.paymentCode?.message}
             {...form.register("paymentCode")}
           />
           <TextField
-            type="text"
-            label="registrationPrice"
-            placeholder="Pricehere"
+            type="number"
+            label="Harga"
+            placeholder="120000"
             errorMessage={form.formState.errors.registrationPrice?.message}
             {...form.register("registrationPrice")}
           />
           <TextField
             type="number"
-            label="numberOfStages"
-            placeholder="Stages here"
+            label="Jumlah tahapan"
+            placeholder="4"
             errorMessage={form.formState.errors.numberOfStages?.message}
             {...form.register("numberOfStages")}
           />
           <TextField
             type="number"
-            label="minMemberCount"
-            placeholder="Min Member here"
+            label="Jumlah minimal member"
+            placeholder="1"
             errorMessage={form.formState.errors.minMemberCount?.message}
             {...form.register("minMemberCount")}
           />
           <TextField
             type="number"
-            label="maxMemberCount"
-            placeholder="Max Member here"
+            label="Jumlah maksimal member"
+            placeholder="4"
             errorMessage={form.formState.errors.maxMemberCount?.message}
             {...form.register("maxMemberCount")}
           />

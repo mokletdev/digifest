@@ -30,6 +30,7 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
             htmlFor={props.name}
             className={cn(
               `first-letter:capitalize ${props.required ? "after:text-primary-500 after:content-['*']" : ""}`,
+              errorMessage ? "text-primary-400" : "",
             )}
           >
             {label}
@@ -47,7 +48,7 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             className={cn(
-              "w-full rounded-lg border border-neutral-400 px-[18px] py-[14px] text-black placeholder-neutral-500 transition-all duration-500 hover:border-black focus:outline-none active:border-black",
+              "w-full rounded-full border border-neutral-400 px-[18px] py-[14px] text-black placeholder-neutral-500 transition-all duration-500 hover:border-black focus:outline-none active:border-black",
               props.disabled ? "cursor-not-allowed" : "",
               errorMessage ? "border-primary-400" : "",
             )}

@@ -96,39 +96,30 @@ export const createCategoryFormSchema = z.object({
     .string()
     .min(1, { message: "Nama harus diisi!" })
     .max(120, { message: "Nama maximal 120 karakter!" }),
-  description: z.string(),
-  paymentCode: z.string().min(1, { message: "Payment Code harus diisi!" }),
-  registrationPrice: z
-    .string()
-    .min(1, { message: "Registration Price harus diisi!" }),
-    numberOfStages: z
-    .number()
-    .min(1, { message: "Number Of Stages Count harus diisi!" }),
-  minMemberCount: z
-    .number()
-    .min(1, { message: "Min Member Count harus diisi!" }),
-  maxMemberCount: z
-    .number()
-    .min(1, { message: "Max Member Count harus diisi!" }),
-});
-
-export const updateCategoryFormSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: "Nama harus diisi!" })
-    .max(120, { message: "Nama maximal 120 karakter!" }),
   description: z.string().min(1, { message: "Deskripsi harus diisi!" }),
-  paymentCode: z.string().min(1, { message: "Payment Code harus diisi!" }),
+  paymentCode: z.string().min(1, { message: "Kode pembayaran harus diisi!" }),
   registrationPrice: z
     .string()
     .min(1, { message: "Registration Price harus diisi!" }),
   numberOfStages: z
-    .number()
-    .min(1, { message: "Number Of Stages Count harus diisi!" }),
+    .string()
+    .min(1, { message: "Jumlah tahap harus diisi!" })
+    .refine((val) => Number.isInteger(Number(val)), {
+      message: "Jumlah tahap harus berupa bilangan bulat!",
+    }),
   minMemberCount: z
-    .number()
-    .min(1, { message: "Min Member Count harus diisi!" }),
+    .string()
+    .min(1, { message: "Jumlah tahap harus diisi!" })
+    .refine((val) => Number.isInteger(Number(val)), {
+      message: "Jumlah tahap harus berupa bilangan bulat!",
+    }),
   maxMemberCount: z
-    .number()
-    .min(1, { message: "Max Member Count harus diisi!" }),
+    .string()
+    .min(1, { message: "Jumlah tahap harus diisi!" })
+    .refine((val) => Number.isInteger(Number(val)), {
+      message: "Jumlah tahap harus berupa bilangan bulat!",
+    }),
+  competitionId: z
+    .string({ message: "Kompetisi harus diisi!" })
+    .uuid("Competition ID harus berupa UUID"),
 });
