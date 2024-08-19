@@ -1,12 +1,12 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export async function findCategories(filter?: Prisma.stageWhereInput) {
-  const Stages = await prisma.stage.findMany({
+export async function findStages(filter?: Prisma.stageWhereInput) {
+  const stages = await prisma.stage.findMany({
     where: filter,
     include: { competitionCategory: true },
   });
-  return Stages;
+  return stages;
 }
 
 export async function findStage(filter: Prisma.stageWhereUniqueInput) {
