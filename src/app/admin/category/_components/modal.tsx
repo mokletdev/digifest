@@ -29,7 +29,6 @@ export default function Modal({
       name: data?.name,
       description: data?.description,
       paymentCode: data?.paymentCode,
-      registrationPrice: data?.registrationPrice,
       numberOfStages: data?.numberOfStages.toString(),
       minMemberCount: data?.minMemberCount.toString(),
       maxMemberCount: data?.maxMemberCount.toString(),
@@ -103,13 +102,6 @@ export default function Modal({
             placeholder="1"
             errorMessage={form.formState.errors.paymentCode?.message}
             {...form.register("paymentCode")}
-          />
-          <TextField
-            type="number"
-            label="Harga"
-            placeholder="120000"
-            errorMessage={form.formState.errors.registrationPrice?.message}
-            {...form.register("registrationPrice")}
           />
           <TextField
             type="number"
