@@ -20,3 +20,14 @@ export function generateRandomString(length: number): string {
 
   return buffer.toString("base64").slice(0, length);
 }
+
+export function formatPrice(
+  amount: number,
+  currency: string,
+  locales: string = "en-US",
+): string {
+  return new Intl.NumberFormat(locales, {
+    style: "currency",
+    currency,
+  }).format(amount);
+}

@@ -10,6 +10,7 @@ import { Button } from "@/app/_components/global/button";
 import { competitionCategoryWithCompetition } from "@/types/relation";
 import { useRouter } from "next/navigation";
 import Modal from "./modal";
+import { formatPrice } from "@/utils/utils";
 
 export default function CategoriesTable({
   data,
@@ -69,7 +70,8 @@ export default function CategoriesTable({
     },
     {
       name: "Price",
-      selector: (row) => row.registrationPrice,
+      selector: (row) =>
+        formatPrice(Number(row.registrationPrice), "IDR", "id-ID"),
       sortable: false,
     },
     {
@@ -79,7 +81,7 @@ export default function CategoriesTable({
     },
     {
       name: "Members Count",
-      selector: (row) => `${row.minMemberCount} - ${row.maxMemberCount}`,
+      selector: (row) => `${row.minMemberCount} - ${row.maxMemberCount} orang`,
       sortable: false,
     },
     {
