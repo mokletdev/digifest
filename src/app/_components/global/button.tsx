@@ -10,14 +10,14 @@ import {
 import cn from "@/lib/cn";
 
 const buttonVariants = cva(
-  "inline-block rounded-full transition-all duration-300",
+  "inline-flex items-center gap-2 rounded-full transition-all duration-300 group",
   {
     variants: {
       variant: {
         primary:
-          "bg-primary-400 px-[22px] py-[14px] hover:py-[16px] hover:px-[25px] hover:bg-primary-500 hover:text-sm text-base text-white disabled:text-white disabled:bg-neutral-300",
+          "bg-primary-400 px-[22px] py-[14px] hover:bg-primary-500 text-base text-white disabled:text-white disabled:bg-neutral-300",
         secondary:
-          "bg-transparent px-[22px] py-[14px] hover:py-[16px] hover:px-[25px] hover:bg-primary-50 hover:text-sm text-base text-primary-400 disabled:text-white disabled:bg-neutral-300",
+          "bg-transparent px-[22px] py-[14px] hover:bg-primary-50 text-base text-primary-400 disabled:text-white disabled:bg-neutral-300",
         tertiary:
           "bg-transparent hover:text-primary-400 text-base text-black disabled:text-white disabled:text-neutral-500",
       },
