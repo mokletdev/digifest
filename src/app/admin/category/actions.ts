@@ -101,6 +101,7 @@ export async function deleteCategory(
 
     await removeCategory({ id });
 
+    revalidatePath("/admin/category");
     return { success: true, message: "Berhasil menghapus Category!" };
   } catch (error) {
     console.log(error);

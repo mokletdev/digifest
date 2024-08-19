@@ -8,3 +8,6 @@ export type competitionWithCategoriesAndBatches = Prisma.competitionGetPayload<{
     competitionCategories: { include: { registrationBatches: true } };
   };
 }>;
+
+export type stageWithCompetitionCategory = Prisma.stageGetPayload<{
+  include: { competitionCategory: true };

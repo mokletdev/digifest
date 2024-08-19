@@ -120,3 +120,116 @@ export const createCategoryFormSchema = z.object({
     .string({ message: "Kompetisi harus diisi!" })
     .uuid("Competition ID harus berupa UUID"),
 });
+
+export const createStageFormSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Nama harus diisi!" })
+    .max(120, { message: "Nama maximal 120 karakter!" }),
+  description: z.string().min(1, { message: "Deskripsi harus diisi!" }),
+  stageNumber: z
+    .string()
+    .min(1, { message: "Urutan tahap harus diisi!" })
+    .refine((val) => Number.isInteger(Number(val)), {
+      message: "Jumlah tahap harus berupa bilangan bulat!",
+    }),
+  startDate: z
+    .string()
+    .min(1, { message: "Tanggal mulai harus diisi" })
+    .refine(
+      (val) => {
+        const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+        return regex.test(val) && !isNaN(new Date(val).getTime());
+      },
+      {
+        message: "Tanggal mulai tidak sesuai format",
+      },
+    ),
+  endDate: z
+    .string()
+    .min(1, { message: "Tanggal mulai harus diisi" })
+    .refine(
+      (val) => {
+        const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+        return regex.test(val) && !isNaN(new Date(val).getTime());
+      },
+      {
+        message: "Tanggal selesai tidak sesuai format",
+      },
+    ),
+  competitionCategoryId: z
+    .string({ message: "Kategori Kompetisi harus diisi!" })
+    .uuid("Competition ID harus berupa UUID"),
+});
+
+export const createRegistrationBatchFormSchema = z.object({
+  batchName: z
+    .string()
+    .min(1, { message: "Nama Gelombang harus diisi!" })
+    .max(120, { message: "Nama Gelombang maximal 120 karakter!" }),
+  paymentCode: z
+    .string()
+    .min(1, { message: "Kode Unik Pembayaran harus diisi" })
+    .refine((val) => Number.isInteger(Number(val)), {
+      message: "Jumlah tahap harus berupa bilangan bulat!",
+    }),
+  registrationPrice: z
+    .string()
+    .min(1, { message: "Harga Pendaftaran harus diisi" }),
+  openedDate: z
+    .string()
+    .min(1, { message: "Tanggal dibuka harus diisi" })
+    .refine(
+      (val) => {
+        const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+        return regex.test(val) && !isNaN(new Date(val).getTime());
+      },
+      {
+        message: "Tanggal dibuka tidak sesuai format",
+      },
+    ),
+  closedDate: z
+    .string({ message: "Tanggal ditutup harus diisi!" })
+    .min(1, { message: "Tanggal ditutup harus diisi" })
+    .refine(
+      (val) => {
+        const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+        return regex.test(val) && !isNaN(new Date(val).getTime());
+      },
+      {
+        message: "Tanggal ditutup tidak sesuai format",
+      },
+    ),
+  competitionCategoryId: z
+    .string({ message: "Kategori Kompetisi harus diisi!" })
+    .uuid("Competition ID harus berupa UUID"),
+});
+
+export const createRegistrationFormSchema = z.object({
+  teamName: z
+    .string()
+    .min(1, { message: "Nama Tim harus diisi!" })
+    .max(120, { message: "Nama Tim maximal 120 karakter!" }),
+  paymentProof: z
+    .any()
+    .refine((files: FileList) => {
+      const file = files[0];
+      return file?.size <= MAX_FILE_SIZE;
+    }, `Ukuran maksimal file adalah 5MB`)
+    .refine((files: FileList) => {
+      const file = files[0];
+      return ACCEPTED_IMAGE_TYPES.includes(file?.type);
+    }, "File harus menggunakan ekstensi .jpg, .jpeg, .png."),
+});
+
+export const createTeamMemberFormSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Nama harus diisi!" })
+    .max(120, { message: "Nama maximal 120 karakter!" }),
+  gradeLevel: z
+    .string()
+    .min(1, { message: "Tingkat Kelas harus diisi!" })
+    .max(20, { message: "Tingkat Kelas maximal 20 karakter!" }),
+  isLeader: z.string().transform((value) => value === "on"),
+});
