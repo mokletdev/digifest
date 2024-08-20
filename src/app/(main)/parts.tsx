@@ -4,15 +4,16 @@ import { competitionWithCategoriesAndBatchesAndStages } from "@/types/relation";
 import { formatDateDMY, formatPrice, verbalizeDate } from "@/utils/utils";
 import Image from "next/image";
 import { default as NextLink } from "next/link";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FaMoneyBillWave } from "react-icons/fa";
 import {
   FaArrowDown,
   FaArrowRight,
   FaBook,
+  FaGreaterThan,
   FaPeopleGroup,
 } from "react-icons/fa6";
-import Link from "../_components/global/button";
+import Link, { Button } from "../_components/global/button";
 import {
   Display,
   H1,
@@ -461,4 +462,118 @@ function Timeline({
   );
 }
 
-export { About, Competition, Hero, Timeline };
+const faqs = [
+  {
+    question:
+      "Apakah bisa membayar juri untuk mengapresiasi (dan memenagkan lomba)?",
+    answer:
+      "Tentu boleh, kami sangat mendukung sistem penilaian ekonomis yang menilai peserta dari kemampuan ekonominya.",
+  },
+  {
+    question:
+      "Apakah bisa membayar juri untuk mengapresiasi (dan memenagkan lomba)?",
+    answer:
+      "Tentu boleh, kami sangat mendukung sistem penilaian ekonomis yang menilai peserta dari kemampuan ekonominya.",
+  },
+  {
+    question:
+      "Apakah bisa membayar juri untuk mengapresiasi (dan memenagkan lomba)?",
+    answer:
+      "Tentu boleh, kami sangat mendukung sistem penilaian ekonomis yang menilai peserta dari kemampuan ekonominya.",
+  },
+  {
+    question:
+      "Apakah bisa membayar juri untuk mengapresiasi (dan memenagkan lomba)?",
+    answer:
+      "Tentu boleh, kami sangat mendukung sistem penilaian ekonomis yang menilai peserta dari kemampuan ekonominya.",
+  },
+];
+
+function SubQuestion({
+  i,
+  question,
+  answer,
+  setActiveIndex,
+  isActive,
+}: {
+  i: number;
+  question: string;
+  answer: string;
+  setActiveIndex: Dispatch<SetStateAction<number | null>>;
+  isActive?: boolean;
+}) {
+  return (
+    <div className="flex items-start justify-between rounded-[14px] border border-neutral-100 bg-neutral-50 p-[22px]">
+      <div className="w-full lg:max-w-[614px]">
+        <H3 className={`font-normal ${isActive ? "mb-[18px]" : ""}`}>
+          {question}
+        </H3>
+        <P className={isActive ? "block" : "hidden"}>{answer}</P>
+      </div>
+      <Button
+        onClick={() => {
+          setActiveIndex(isActive ? null : i);
+        }}
+        variant={"primary"}
+      >
+        <FaGreaterThan
+          className={cn(
+            "h-[150%] transition-all duration-300",
+            isActive ? "rotate-90" : "",
+          )}
+        />
+      </Button>
+    </div>
+  );
+}
+
+function FAQ() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  return (
+    <section
+      className="flex w-full flex-col items-start justify-between py-[82px] lg:flex-row"
+      id="faq"
+    >
+      <div className="mb-[72px] block w-full sm:mb-[92px] lg:mb-0 lg:max-w-[320px]">
+        <SectionTitle>FAQ</SectionTitle>
+        <H1 className="mb-[18px] mt-[22px]">
+          <span className="text-primary-400">Mau Bertanya?</span> Pastiin Belum
+          ada Disini, ya!
+        </H1>
+        <P className="mb-[54px]">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum, amet.
+        </P>
+        <div className="flex flex-col gap-4">
+          <Link
+            href="https://wa.me/6282142070672"
+            variant={"primary"}
+            className="justify-center"
+          >
+            Hubungi CP 1
+          </Link>
+          <Link
+            href="https://wa.me/6285103655672"
+            variant={"primary"}
+            className="justify-center"
+          >
+            Hubungi CP 2
+          </Link>
+        </div>
+      </div>
+      <div className="flex w-full flex-col gap-[18px] lg:max-w-[734px]">
+        {faqs.map((q, i) => (
+          <SubQuestion
+            key={i}
+            i={i}
+            isActive={i === activeIndex}
+            setActiveIndex={setActiveIndex}
+            {...q}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export { About, Competition, Hero, Timeline, FAQ };

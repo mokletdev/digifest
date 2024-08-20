@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { About, Competition, Hero, Timeline } from "./parts";
+import { About, Competition, FAQ, Hero, Timeline } from "./parts";
 
 export default async function Home() {
   const [competitions] = await prisma.$transaction([
@@ -24,6 +24,7 @@ export default async function Home() {
       <About competitionsCount={competitions.length} />
       <Competition competitions={competitions} />
       <Timeline competitions={competitions} />
+      <FAQ />
     </>
   );
 }
