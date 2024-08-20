@@ -5,7 +5,9 @@ import CategoriesTable from "./_components/table";
 export default async function Category() {
   const [competitionCategoriesWithCompetition, competitions] =
     await prisma.$transaction([
-      prisma.competition_category.findMany({ include: { competition: true } }),
+      prisma.competition_category.findMany({
+        include: { competition: true, _count: { select: { stages: true } } },
+      }),
       prisma.competition.findMany({ select: { name: true, id: true } }),
     ]);
 

@@ -11,6 +11,7 @@ import { stageWithCompetitionCategory } from "@/types/relation";
 import { useRouter } from "next/navigation";
 import Modal from "./modal";
 import { stringifyCompleteDate } from "@/utils/utils";
+import { HiOutlineSpeakerphone } from "react-icons/hi";
 
 export default function StagesTable({
   data,
@@ -39,7 +40,7 @@ export default function StagesTable({
   }
 
   async function deleteAction(id: string) {
-    if (!confirm("Anda yakin ingin menghapus Kategori ini?")) return;
+    if (!confirm("Anda yakin ingin menghapus Tahap ini?")) return;
 
     const toastId = toast.loading("Loading...");
     const deleteResponse = await deleteStage(id);
@@ -85,6 +86,13 @@ export default function StagesTable({
       cell: (row) => (
         <div className="flex gap-2">
           <button
+            onClick={() => router.push(`/admin/announcement?stageId=${row.id}`)}
+            title="Edit Pengumuman"
+            className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
+          >
+            <HiOutlineSpeakerphone />
+          </button>
+          <button
             onClick={() => editCompetition(row)}
             title="Edit Competition"
             className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
@@ -117,7 +125,7 @@ export default function StagesTable({
           createCompetition();
         }}
       >
-        Add category
+        Add stage
       </Button>
       <div className="rounded-md bg-white p-2">
         {isEditModalOpen && (

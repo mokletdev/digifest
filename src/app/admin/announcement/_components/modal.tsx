@@ -1,6 +1,6 @@
 "use client";
 import { Dispatch, SetStateAction, useState } from "react";
-import { AiOutlineNotification } from "react-icons/ai";
+import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/app/_components/global/button";
 import { TextField } from "@/app/_components/global/input";
@@ -13,6 +13,7 @@ import { announcementWithStage } from "@/types/relation";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { upsertAnnouncement } from "../actions";
+import { FaX } from "react-icons/fa6";
 
 export default function Modal({
   setIsOpenModal,
@@ -24,11 +25,12 @@ export default function Modal({
   stages: { id: string; name: string }[];
 }) {
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
   const form = useZodForm({
     defaultValues: {
       title: data?.title,
       content: data?.content,
-      stageId: data?.stageId,
+      stageId: data?.stageId || searchParams.get("stageId") || "",
     },
     schema: createAnnouncementFormSchema,
   });
@@ -58,8 +60,9 @@ export default function Modal({
           <button
             className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-all hover:bg-gray-200 hover:text-gray-900"
             onClick={() => setIsOpenModal(false)}
+            type="button"
           >
-            <AiOutlineNotification size={16} />
+            <FaX size={16} />
           </button>
         </div>
         <div className="space-y-4 p-4 md:p-5">

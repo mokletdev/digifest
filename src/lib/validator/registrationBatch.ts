@@ -5,12 +5,6 @@ export const createRegistrationBatchFormSchema = z.object({
     .string()
     .min(1, { message: "Nama Gelombang harus diisi!" })
     .max(120, { message: "Nama Gelombang maximal 120 karakter!" }),
-  paymentCode: z
-    .string()
-    .min(1, { message: "Kode Unik Pembayaran harus diisi" })
-    .refine((val) => Number.isInteger(Number(val)), {
-      message: "Jumlah tahap harus berupa bilangan bulat!",
-    }),
   registrationPrice: z
     .string()
     .min(1, { message: "Harga Pendaftaran harus diisi" }),
