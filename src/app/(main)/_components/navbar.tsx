@@ -4,7 +4,7 @@ import { P } from "@/app/_components/global/text";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { default as NextLink } from "next/link";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const links = [
   {
