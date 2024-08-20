@@ -382,12 +382,12 @@ function Timeline({
   return (
     <section className="w-full py-[82px]" id="timeline">
       <div className="mb-[92px] block">
-        <div className="w-full lg:max-w-[800px]">
+        <div className="w-full">
           <SectionTitle>TIMELINE</SectionTitle>
           <H1 className="mb-[18px] mt-[22px]">
-            Penasaran Kapan, sih?{" "}
+            Penasaran Kapan{" "}
             <span className="text-primary-400">Waktu Pelaksanaan</span> Acara
-            Digifest
+            Digifest?
           </H1>
           <P className="mb-[54px]">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum

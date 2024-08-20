@@ -137,7 +137,7 @@ export default function RegisterForm() {
         className="w-full justify-center"
         disabled={loading}
       >
-        Masuk
+        Daftar
       </Button>
     </form>
   );
