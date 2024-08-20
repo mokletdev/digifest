@@ -33,8 +33,9 @@ export default async function VerifyEmail({
         <P className="mb-[34px]">
           Akun dengan email {session?.user?.email} berhasil diverifikasi!
         </P>
-        <Link href="/" variant={"tertiary"}>
-          <FaArrowLeft /> Kembali ke halaman masuk
+        <Link href="/" variant={"primary"}>
+          <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1" />{" "}
+          Kembali ke halaman utama
         </Link>
       </div>
     </main>
