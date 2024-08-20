@@ -1,14 +1,14 @@
 "use client";
 import cn from "@/lib/cn";
 import { competitionWithCategoriesAndBatchesAndStages } from "@/types/relation";
-import { formatPrice } from "@/utils/utils";
+import { formatPrice, urlefy } from "@/utils/utils";
 import { signOut } from "next-auth/react";
 import { default as NextLink } from "next/link";
 import { useEffect, useState } from "react";
 import { FaBook } from "react-icons/fa";
 import { FaArrowRight, FaMoneyBillWave, FaPeopleGroup } from "react-icons/fa6";
-import Link, { Button } from "../_components/global/button";
-import { H1, H3, P } from "../_components/global/text";
+import Link, { Button } from "../../_components/global/button";
+import { H1, H3, P } from "../../_components/global/text";
 
 function GreetingBoard({ name }: { name: string }) {
   return (
@@ -25,14 +25,8 @@ function GreetingBoard({ name }: { name: string }) {
           >
             Daftar sekarang!
           </NextLink>{" "}
-          Sudah mendaftar? Cek data tim anda disini{" "}
-          <NextLink
-            href={"/dashboard#tim"}
-            className="transtiion-all text-primary-400 duration-300 hover:text-primary-200"
-          >
-            disini
-          </NextLink>
-          .
+          Atau cek data tim anda pada halaman detail kompetisi jika sudah
+          mendaftar.
         </P>
       </div>
       <Button onClick={() => signOut({ callbackUrl: "/" })} variant={"primary"}>
@@ -43,12 +37,16 @@ function GreetingBoard({ name }: { name: string }) {
 }
 
 function CategoryCard({
+  registrationBatchId,
+  competition,
   title,
   description,
   registrationPrice,
   minMemberCount,
   maxMemberCount,
 }: {
+  registrationBatchId: string;
+  competition: string;
   title: string;
   description: string;
   registrationPrice: string;
@@ -57,10 +55,7 @@ function CategoryCard({
 }) {
   return (
     <NextLink
-      href={`/dashboard/register?competition=${title
-        .toLowerCase()
-        .split(" ")
-        .reduce((prev, curr) => prev + "_" + curr)}`}
+      href={`/dashboard/${competition}/register?category=${urlefy(title)}&registrationBatchId=${registrationBatchId}`}
       className="group"
     >
       <figure className="flex w-full flex-col items-start justify-between gap-[54px] rounded-[14px] border border-neutral-100 p-[22px] transition-all duration-300 group-hover:bg-neutral-50 lg:flex-row lg:gap-0">
@@ -165,6 +160,14 @@ function Competition({
         {competitionObject.competitionCategories.map((category) => (
           <CategoryCard
             key={category.id}
+            registrationBatchId={
+              category.registrationBatches.find(
+                (batch) =>
+                  new Date() >= batch.openedDate &&
+                  new Date() <= batch.closedDate,
+              )?.id || ""
+            }
+            competition={competitionObject.name}
             title={category.name}
             description={category.description}
             minMemberCount={category.minMemberCount}

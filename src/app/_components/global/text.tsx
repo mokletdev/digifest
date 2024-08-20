@@ -52,7 +52,7 @@ export function H2({ children, className }: Readonly<TextProps>) {
   return (
     <h2
       className={cn(
-        "text-[32px] font-bold leading-[39px] text-black",
+        "text-[24px] font-bold leading-[39px] text-black 2xl:text-[32px]",
         className,
       )}
     >

@@ -75,3 +75,10 @@ export function convertToDateTimeLocalString(date: Date) {
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
+
+export function urlefy(text: string) {
+  return `${text
+    .toLowerCase()
+    .split(" ")
+    .reduce((prev, curr) => prev + "_" + curr)}`;
+}

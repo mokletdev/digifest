@@ -106,6 +106,8 @@ export const authOptions: AuthOptions = {
           await createUser({
             email: user.email,
             name: user.name || "",
+            verificationToken: "",
+            verified: true,
           });
         }
       }

@@ -180,13 +180,7 @@ function CategoryCard({
   maxMemberCount: number;
 }) {
   return (
-    <NextLink
-      href={`/dashboard/register?competition=${title
-        .toLowerCase()
-        .split(" ")
-        .reduce((prev, curr) => prev + "_" + curr)}`}
-      className="group"
-    >
+    <NextLink href={`/dashboard}`} className="group">
       <figure className="flex w-full flex-col items-start justify-between gap-[54px] rounded-[14px] border border-neutral-100 p-[22px] transition-all duration-300 group-hover:bg-neutral-50 lg:flex-row lg:gap-0">
         <div className="w-full lg:max-w-[854px]">
           <H3 className="mb-[10px]">{title}</H3>

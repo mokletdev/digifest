@@ -27,8 +27,8 @@ export default function Navbar({ session }: { session: Session | null }) {
       <div className="z-[999] flex w-full justify-between bg-white px-5 py-4 xl:max-w-[1192px] xl:bg-transparent xl:py-0">
         <Link href={"/"} className="block xl:mt-8">
           <Image
-            src={"/horizontal.svg"}
-            alt="Logo moklet.org"
+            src={"/logo.png"}
+            alt="Logo"
             width={120}
             height={50}
             className="pointer-events-none h-[50px] w-[130px]"

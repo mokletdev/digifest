@@ -109,21 +109,18 @@ export default function RegisterForm() {
       </div>
       <div className="mb-[54px] flex flex-col gap-[22px]">
         <TextField
-          className="mb-2"
           label="Email"
           placeholder="Masukkan alamat email"
           errorMessage={form.formState.errors.email?.message}
           {...form.register("email")}
         />
         <TextField
-          className="mb-2"
           label="Nama"
           placeholder="Masukkan nama"
           errorMessage={form.formState.errors.name?.message}
           {...form.register("name")}
         />
         <TextField
-          className="mb-2"
           label="Password"
           type="password"
           placeholder="Masukkan kata sandi"
