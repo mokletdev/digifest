@@ -12,13 +12,12 @@ import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function upsertAnnouncement(
-  id: string | undefined | null,
   data: {
     title: string;
     content: string;
     stageId: string;
-    createdBy: string;
   },
+  id?: string | null,
 ): Promise<ServerActionResponse> {
   try {
     const session = await getServerSession();
@@ -29,11 +28,11 @@ export async function upsertAnnouncement(
       return { success: false, message: "Forbidden" };
 
     // Extract competitionId
-    const { stageId, createdBy, ...payloadData } = data;
-    const payload: Prisma.announcementCreateInput = {
+    const { stageId, ...payloadData } = data;
+    const payload: Prisma.announcementUpdateInput = {
       ...payloadData,
       stage: { connect: { id: stageId } },
-      createdBy: { connect: { id: currentUserId } },
+      createdBy: undefined,
     };
 
     if (!id) {
@@ -51,8 +50,8 @@ export async function upsertAnnouncement(
       return { success: true, message: "Sukses membuat Announcement!" };
     }
 
-    const AnnouncementToUpdate = await findAnnouncement({ id });
-    if (!AnnouncementToUpdate)
+    const announcementToUpdate = await findAnnouncement({ id });
+    if (!announcementToUpdate)
       return { success: false, message: "Announcement tidak ditemukan!" };
 
     await updateAnnouncement({ id }, payload);
@@ -73,8 +72,8 @@ export async function deleteAnnouncement(
     if (session?.user?.role !== "ADMIN" && session?.user?.role !== "SUPERADMIN")
       return { success: false, message: "Forbidden" };
 
-    const AnnouncementToDelete = await findAnnouncement({ id });
-    if (!AnnouncementToDelete)
+    const announcementToDelete = await findAnnouncement({ id });
+    if (!announcementToDelete)
       return { success: false, message: "Announcement tidak ditemukan!" };
 
     await removeAnnouncement({ id });

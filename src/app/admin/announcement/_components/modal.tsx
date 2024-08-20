@@ -14,14 +14,13 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { upsertAnnouncement } from "../actions";
 
-
 export default function Modal({
   setIsOpenModal,
   data,
   stages,
 }: {
   setIsOpenModal: Dispatch<SetStateAction<boolean>>; // Needed for closing the modal
-  data?: announcementWithStage | null;
+  data: announcementWithStage | null;
   stages: { id: string; name: string }[];
 }) {
   const [loading, setLoading] = useState(false);
@@ -38,9 +37,7 @@ export default function Modal({
   const onSubmit = form.handleSubmit(async (values) => {
     setLoading(true);
     const toastId = toast.loading("Loading...");
-    const result = await upsertAnnouncement(data?.id, {
-      ...values,
-    });
+    const result = await upsertAnnouncement(values, data?.id);
 
     if (!result.success) {
       setLoading(false);
