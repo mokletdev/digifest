@@ -1,12 +1,10 @@
 "use client";
 import Link from "@/app/_components/global/button";
 import { P } from "@/app/_components/global/text";
-import { HamburgerIcon } from "@/app/admin/_components/icon";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { default as NextLink } from "next/link";
-import { useState } from "react";
-import { FaX } from "react-icons/fa6";
+import { useRef } from "react";
 
 const links = [
   {
@@ -33,7 +31,7 @@ const links = [
 
 export default function Navbar() {
   const { data: session } = useSession();
-  const [sideActive, setSideActive] = useState(false);
+  const navbarToggle = useRef<HTMLInputElement>(null);
 
   return (
     <>
@@ -62,19 +60,17 @@ export default function Navbar() {
             style={{ justifyContent: session?.user ? "end" : "space-between" }}
           >
             {session?.user ? (
-              <>
-                <Link
-                  href={
-                    session.user.role == "ADMIN" ||
-                    session.user.role === "SUPERADMIN"
-                      ? "/admin"
-                      : "/dashboard"
-                  }
-                  variant="primary"
-                >
-                  Dashboard
-                </Link>
-              </>
+              <Link
+                href={
+                  session.user.role == "ADMIN" ||
+                  session.user.role === "SUPERADMIN"
+                    ? "/admin"
+                    : "/dashboard"
+                }
+                variant="primary"
+              >
+                Dashboard
+              </Link>
             ) : (
               <>
                 <Link href={"/auth/login"} variant="primary">
@@ -88,36 +84,35 @@ export default function Navbar() {
           </div>
           <div className="flex items-center gap-2 lg:hidden">
             <P>Menu</P>
-            <button
-              className="block h-6 w-6"
-              onClick={() => setSideActive(true)}
+
+            <input
+              type="checkbox"
+              id="sidebar-btn"
+              className="checkbox-sidebar hidden"
+              ref={navbarToggle}
+            />
+
+            <label
+              htmlFor="sidebar-btn"
+              className="sidebar-btn flex items-center"
             >
-              <HamburgerIcon />
-            </button>
+              <span className="icon-hamburger"></span>
+            </label>
           </div>
         </div>
       </nav>
       {/* Mobile Sidebar */}
-      <aside
-        className="nav-shadow fixed right-0 top-0 z-[1000] h-screen w-[264px] overflow-y-scroll bg-white transition-all duration-300 lg:hidden"
-        style={{ right: sideActive ? 0 : "-100%" }}
-      >
+      <aside className="mobile-sidebar nav-shadow fixed right-0 top-0 h-screen w-[264px] overflow-y-scroll bg-white transition-all duration-300 lg:hidden">
         <div className="flex h-full flex-col justify-between px-5 py-[42px]">
           <div className="block">
-            <button
-              className="mb-[72px] block h-6 w-6"
-              onClick={() => setSideActive(false)}
-            >
-              <FaX />
-            </button>
-            <ul className="mb-8 flex flex-col gap-7">
+            <ul className="mb-8 mt-14 flex flex-col gap-7">
               {links.map((link, i) => (
                 <li key={i} className="ml-3">
                   <Link
                     href={link.href}
                     variant={"tertiary"}
                     onClick={() => {
-                      setSideActive(false);
+                      navbarToggle.current!.checked = false;
                     }}
                   >
                     {link.title}
@@ -128,20 +123,18 @@ export default function Navbar() {
           </div>
           <div className="flex w-full flex-col items-center justify-between gap-4 lg:hidden">
             {session?.user ? (
-              <>
-                <Link
-                  href={
-                    session.user.role == "ADMIN" ||
-                    session.user.role === "SUPERADMIN"
-                      ? "/admin"
-                      : "/dashboard"
-                  }
-                  className="w-full text-center"
-                  variant="primary"
-                >
-                  Dashboard
-                </Link>
-              </>
+              <Link
+                href={
+                  session.user.role == "ADMIN" ||
+                  session.user.role === "SUPERADMIN"
+                    ? "/admin"
+                    : "/dashboard"
+                }
+                className="w-full text-center"
+                variant="primary"
+              >
+                Dashboard
+              </Link>
             ) : (
               <>
                 <Link

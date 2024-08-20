@@ -33,7 +33,7 @@ function Hero({
   return (
     <header
       id="beranda"
-      className="flex w-full flex-col-reverse items-start justify-between gap-[72px] py-[82px] sm:gap-[92px] lg:flex-row lg:items-center lg:gap-[110px]"
+      className="flex w-full flex-col items-start justify-between gap-[72px] pb-[82px] pt-[41px] sm:gap-[92px] lg:flex-row lg:items-center lg:gap-[110px]"
     >
       <div className="block w-full lg:w-[661px]">
         <Display className="mb-[18px]">
