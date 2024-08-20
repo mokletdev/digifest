@@ -12,7 +12,7 @@ import {
   FaBook,
   FaGreaterThan,
   FaLocationDot,
-  FaPeopleGroup
+  FaPeopleGroup,
 } from "react-icons/fa6";
 import Link, { Button } from "../_components/global/button";
 import {
@@ -420,7 +420,7 @@ function Timeline({
         {competitionObject.competitionCategories.map((category) => (
           <div key={category.id} className="block">
             <H2 className="mb-7">Bidang {category.name}</H2>
-            <div className="grid w-full grid-cols-1 gap-[18px] gap-y-[52px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid w-full grid-cols-1 gap-[18px] gap-y-[52px] md:grid-cols-2 lg:grid-cols-3">
               {category.registrationBatches.length === 0 &&
                 category.stages.length === 0 && (
                   <P>Belum ada informasi, nih...</P>
@@ -576,4 +576,3 @@ function FAQ() {
 }
 
 export { About, Competition, FAQ, Hero, Timeline };
-
