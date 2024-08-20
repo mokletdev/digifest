@@ -32,6 +32,40 @@ export function formatPrice(
   }).format(amount);
 }
 
+export function formatDateDMY(date: Date) {
+  const yyyy = date.getFullYear();
+  const mm = date.getMonth() + 1;
+  const dd = date.getDate();
+
+  const formatedMm = mm < 10 ? `0${mm}` : mm.toString();
+  const formatedDd = dd < 10 ? `0${dd}` : dd.toString();
+
+  const formatedDate = `${formatedDd}-${formatedMm}-${yyyy}`;
+  return formatedDate;
+}
+
+export function verbalizeDate(date: Date) {
+  const months = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+  const year = date.getFullYear();
+  const month = months[date.getMonth()];
+  const day = date.getDate();
+
+  return `${day} ${month} ${year}`;
+}
+
 export function convertToDateTimeLocalString(date: Date) {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");

@@ -1,11 +1,13 @@
 import prisma from "@/lib/prisma";
-import { About, Competition, Hero } from "./parts";
+import { About, Competition, Hero, Timeline } from "./parts";
 
 export default async function Home() {
   const [competitions] = await prisma.$transaction([
     prisma.competition.findMany({
       include: {
-        competitionCategories: { include: { registrationBatches: true } },
+        competitionCategories: {
+          include: { registrationBatches: true, stages: true },
+        },
       },
     }),
   ]);
@@ -21,6 +23,7 @@ export default async function Home() {
       />
       <About competitionsCount={competitions.length} />
       <Competition competitions={competitions} />
+      <Timeline competitions={competitions} />
     </>
   );
 }
