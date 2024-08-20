@@ -233,3 +233,11 @@ export const createTeamMemberFormSchema = z.object({
     .max(20, { message: "Tingkat Kelas maximal 20 karakter!" }),
   isLeader: z.string().transform((value) => value === "on"),
 });
+
+export const createAnnouncementFormSchema = z.object({
+  title: z.string().min(1, { message: "Judul harus diisi!" }),
+  content: z.string().min(1, { message: "Konten harus diisi!" }),
+  stageId: z
+    .string({ message: "Stage harus diisi!" })
+    .uuid("Stage ID harus berupa UUID"),
+});

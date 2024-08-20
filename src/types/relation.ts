@@ -15,3 +15,7 @@ export type competitionWithCategoriesAndBatchesAndStages =
 export type stageWithCompetitionCategory = Prisma.stageGetPayload<{
   include: { competitionCategory: true };
 }>;
+
+export type announcementWithStage = Prisma.announcementGetPayload<{
+  include: { stage: true };
+}>;
