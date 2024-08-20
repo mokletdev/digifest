@@ -113,7 +113,13 @@ export default function Navbar() {
             <ul className="mb-8 flex flex-col gap-7">
               {links.map((link, i) => (
                 <li key={i} className="ml-3">
-                  <Link href={link.href} variant={"tertiary"}>
+                  <Link
+                    href={link.href}
+                    variant={"tertiary"}
+                    onClick={() => {
+                      setSideActive(false);
+                    }}
+                  >
                     {link.title}
                   </Link>
                 </li>
