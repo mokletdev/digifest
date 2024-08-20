@@ -11,3 +11,7 @@ export type competitionWithCategoriesAndBatchesAndStages =
       };
     };
   }>;
+
+export type stageWithCompetitionCategory = Prisma.stageGetPayload<{
+  include: { competitionCategory: true };
+}>;
