@@ -20,6 +20,8 @@ const buttonVariants = cva(
           "bg-transparent px-[22px] py-[14px] hover:bg-primary-50 text-base text-primary-400 disabled:text-white disabled:bg-neutral-300",
         tertiary:
           "bg-transparent hover:text-primary-400 text-base text-black disabled:text-white disabled:text-neutral-500",
+        quartiary:
+          "bg-white px-[22px] py-[14px] border border-neutral-100 text-black hover:border-primary-400 hover:bg-primary-50 hover:text-primary-400 rounded-full disabled:text-white disabled:bg-neutral-300",
       },
     },
   },

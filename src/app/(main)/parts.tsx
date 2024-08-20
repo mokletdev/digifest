@@ -11,6 +11,7 @@ import {
   FaArrowRight,
   FaBook,
   FaGreaterThan,
+  FaLocationDot,
   FaPeopleGroup,
 } from "react-icons/fa6";
 import Link, { Button } from "../_components/global/button";
@@ -69,10 +70,7 @@ function Hero({
                   <P className="line-clamp-1">{competition.description}</P>
                 </div>
               </div>
-              <Link
-                href={`#${competition.name.toLowerCase()}`}
-                variant={"tertiary"}
-              >
+              <Link href={`#kompetisi`} variant={"tertiary"}>
                 Lihat{" "}
                 <FaArrowDown className="transition-transform duration-300 group-hover:translate-y-1" />
               </Link>
@@ -183,7 +181,7 @@ function CategoryCard({
 }) {
   return (
     <NextLink
-      href={`/register?competition=${title
+      href={`/dashboard/register?competition=${title
         .toLowerCase()
         .split(" ")
         .reduce((prev, curr) => prev + "_" + curr)}`}
@@ -278,7 +276,7 @@ function Competition({
             className="w-full justify-center sm:w-fit"
           >
             <FaBook />
-            Lihat guidebook
+            Lihat guidebook {competitionObject.name}
           </Link>
           <div className="ites-center flex gap-[14px] rounded-full border border-neutral-100 p-3">
             {competitions.map((competition) => (
@@ -303,6 +301,7 @@ function Competition({
       <div className="flex flex-col gap-6">
         {competitionObject.competitionCategories.map((category) => (
           <CategoryCard
+            key={category.id}
             title={category.name}
             description={category.description}
             minMemberCount={category.minMemberCount}
@@ -341,7 +340,7 @@ function SubTimeline({
   location: string;
 }) {
   return (
-    <figure className="flex w-full flex-col">
+    <figure className="flex w-full flex-col rounded-[14px] border border-neutral-100 p-4">
       <P className="mb-3 text-black">
         <time dateTime={formatDateDMY(startDate)}>
           {verbalizeDate(startDate)}
@@ -351,8 +350,8 @@ function SubTimeline({
       </P>
       <H3 className="mb-[10px]">{title}</H3>
       <P className="mb-6">{description}</P>
-      <P className="w-fit rounded-full bg-primary-50 px-4 py-2 text-base text-primary-400">
-        {location}
+      <P className="inline-flex w-fit items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-base text-primary-400">
+        <FaLocationDot /> {location}
       </P>
     </figure>
   );
@@ -383,12 +382,12 @@ function Timeline({
   return (
     <section className="w-full py-[82px]" id="timeline">
       <div className="mb-[92px] block">
-        <div className="w-full lg:max-w-[800px]">
+        <div className="w-full">
           <SectionTitle>TIMELINE</SectionTitle>
           <H1 className="mb-[18px] mt-[22px]">
-            Penasaran Kapan, sih?{" "}
+            Penasaran Kapan{" "}
             <span className="text-primary-400">Waktu Pelaksanaan</span> Acara
-            Digifest
+            Digifest?
           </H1>
           <P className="mb-[54px]">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
@@ -419,42 +418,42 @@ function Timeline({
       </div>
       <div className="flex flex-col gap-10">
         {competitionObject.competitionCategories.map((category) => (
-          <div
-            key={category.id}
-            className="grid w-full grid-cols-1 gap-[18px] gap-y-[52px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-          >
-            {category.registrationBatches.length === 0 &&
-              category.stages.length === 0 && (
-                <P>Belum ada informasi, nih...</P>
-              )}
-            {category.registrationBatches.map((batch, i) => (
-              <SubTimeline
-                key={batch.id}
-                startDate={batch.openedDate}
-                endDate={batch.closedDate}
-                title={`Pendaftaran Batch ${i}`}
-                description={`Pembukaan pendaftaran batch ${i > 1 ? "pertama" : `ke-${i}`}`}
-                location={
-                  i === category.registrationBatches.length - 1
-                    ? "online"
-                    : "SMK Telkom Malang"
-                }
-              />
-            ))}
-            {category.stages.map((stage, i) => (
-              <SubTimeline
-                key={stage.id}
-                startDate={stage.startDate}
-                endDate={stage.endDate}
-                title={`Tahap ${i}`}
-                description={stage.description}
-                location={
-                  i === category.registrationBatches.length - 1
-                    ? "online"
-                    : "SMK Telkom Malang"
-                }
-              />
-            ))}
+          <div key={category.id} className="block">
+            <H2 className="mb-7">Bidang {category.name}</H2>
+            <div className="grid w-full grid-cols-1 gap-[18px] gap-y-[52px] md:grid-cols-2 lg:grid-cols-3">
+              {category.registrationBatches.length === 0 &&
+                category.stages.length === 0 && (
+                  <P>Belum ada informasi, nih...</P>
+                )}
+              {category.registrationBatches.map((batch, i) => (
+                <SubTimeline
+                  key={batch.id}
+                  startDate={batch.openedDate}
+                  endDate={batch.closedDate}
+                  title={`Pendaftaran Batch ${i}`}
+                  description={`Pembukaan pendaftaran batch ${i > 1 ? "pertama" : `ke-${i}`}`}
+                  location={
+                    i === category.registrationBatches.length - 1
+                      ? "online"
+                      : "SMK Telkom Malang"
+                  }
+                />
+              ))}
+              {category.stages.map((stage, i) => (
+                <SubTimeline
+                  key={stage.id}
+                  startDate={stage.startDate}
+                  endDate={stage.endDate}
+                  title={stage.name}
+                  description={stage.description}
+                  location={
+                    i === category.registrationBatches.length - 1
+                      ? "online"
+                      : "SMK Telkom Malang"
+                  }
+                />
+              ))}
+            </div>
           </div>
         ))}
       </div>
@@ -576,4 +575,4 @@ function FAQ() {
   );
 }
 
-export { About, Competition, Hero, Timeline, FAQ };
+export { About, Competition, FAQ, Hero, Timeline };

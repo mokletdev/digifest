@@ -56,7 +56,9 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
             {...props}
             type={showPassword ? "text" : props.type}
           />
-          {errorMessage && <P className="text-red-400">{errorMessage}</P>}
+          {errorMessage && (
+            <P className="mt-[6px] text-red-400">{errorMessage}</P>
+          )}
         </div>
       </div>
     );
@@ -136,7 +138,7 @@ export function SelectField({
           }),
         }}
       />
-      {errorMessage && <P className="text-red-400">{errorMessage}</P>}
+      {errorMessage && <P className="mt-[6px] text-red-400">{errorMessage}</P>}
     </div>
   );
 }
@@ -212,7 +214,7 @@ export function FileField({
       )}
       {errorMessage && (
         <div className="mt-4 text-center">
-          <p className="text-sm text-primary-400">{errorMessage}</p>
+          <p className="mt-[6px] text-sm text-primary-400">{errorMessage}</p>
         </div>
       )}
     </div>
