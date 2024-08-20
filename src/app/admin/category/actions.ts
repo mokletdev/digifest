@@ -17,7 +17,6 @@ export async function upsertCategory(
     name: string;
     description: string;
     paymentCode: string;
-    numberOfStages: number;
     minMemberCount: number;
     maxMemberCount: number;
     competitionId: string;
@@ -49,7 +48,6 @@ export async function upsertCategory(
         name,
         description,
         paymentCode,
-        numberOfStages,
         minMemberCount,
         maxMemberCount,
         competitionId,
@@ -58,7 +56,6 @@ export async function upsertCategory(
         !name ||
         !description ||
         !paymentCode ||
-        !numberOfStages ||
         !minMemberCount ||
         !maxMemberCount ||
         !competitionId
@@ -69,7 +66,6 @@ export async function upsertCategory(
         name,
         description,
         paymentCode,
-        numberOfStages,
         minMemberCount,
         maxMemberCount,
         competition: {

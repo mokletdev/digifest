@@ -63,11 +63,6 @@ export default function AnnouncementsTable({
       sortable: false,
     },
     {
-      name: "Content",
-      selector: (row) => row.content,
-      sortable: false,
-    },
-    {
       name: "Action",
       cell: (row) => (
         <div className="flex gap-2">

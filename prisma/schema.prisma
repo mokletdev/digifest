@@ -37,6 +37,8 @@ model registered_team {
   paymentProof        String
   status              RegistrationStatus @default(PENDING)
   schoolName          String
+  supervisingTeacher  String
+  phoneNumber         String
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
   registrationBatchId String
@@ -84,7 +86,6 @@ model competition_category {
   name           String
   description    String
   paymentCode    String
-  numberOfStages Int
   minMemberCount Int
   maxMemberCount Int
   createdAt      DateTime @default(now())

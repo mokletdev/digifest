@@ -4,12 +4,11 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { FaX } from "react-icons/fa6";
 
 import { Button } from "@/app/_components/global/button";
-import { SelectField, TextField } from "@/app/_components/global/input";
+import { TextField } from "@/app/_components/global/input";
 import { H3 } from "@/app/_components/global/text";
 import { useZodForm } from "@/app/hooks/useZodForm";
 import { createUserFormSchema, updateUserFormSchema } from "@/lib/validator";
 import { useRouter } from "next/navigation";
-import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { upsertUser } from "../actions";
 import { SelectFieldController } from "@/app/_components/global/input-controller";
@@ -58,6 +57,7 @@ export default function Modal({
           <button
             className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-all hover:bg-gray-200 hover:text-gray-900"
             onClick={() => setIsOpenModal(false)}
+            type="button"
           >
             <FaX size={16} />
           </button>
