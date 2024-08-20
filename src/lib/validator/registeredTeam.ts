@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from ".";
 
-export const createRegistrationFormSchema = z.object({
+export const createRegisteredTeamFormSchema = z.object({
   teamName: z
     .string()
     .min(1, { message: "Nama Tim harus diisi!" })
@@ -16,4 +16,8 @@ export const createRegistrationFormSchema = z.object({
       const file = files[0];
       return ACCEPTED_IMAGE_TYPES.includes(file?.type);
     }, "File harus menggunakan ekstensi .jpg, .jpeg, .png."),
+  schoolName: z
+    .string()
+    .min(1, { message: "Nama sekolah harus diisi!" })
+    .max(300, { message: "Nama sekolah maximal 300 karakter!" }),
 });

@@ -5,7 +5,7 @@ export * from "./announcement";
 export * from "./auth";
 export * from "./competition";
 export * from "./competitionCategory";
-export * from "./registration";
+export * from "./registeredTeam";
 export * from "./registrationBatch";
 export * from "./stage";
 export * from "./teamMember";
