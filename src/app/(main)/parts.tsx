@@ -181,7 +181,7 @@ function CategoryCard({
 }) {
   return (
     <NextLink
-      href={`/register?competition=${title
+      href={`/dashboard/register?competition=${title
         .toLowerCase()
         .split(" ")
         .reduce((prev, curr) => prev + "_" + curr)}`}
@@ -276,7 +276,7 @@ function Competition({
             className="w-full justify-center sm:w-fit"
           >
             <FaBook />
-            Lihat guidebook
+            Lihat guidebook {competitionObject.name}
           </Link>
           <div className="ites-center flex gap-[14px] rounded-full border border-neutral-100 p-3">
             {competitions.map((competition) => (
