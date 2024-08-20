@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
+import { FaPencilAlt, FaRegTrashAlt, FaTable, FaWpforms } from "react-icons/fa";
 import { toast } from "sonner";
 
 import { deleteCategory } from "../actions";
@@ -10,7 +10,7 @@ import { Button } from "@/app/_components/global/button";
 import { competitionCategoryWithCompetition } from "@/types/relation";
 import { useRouter } from "next/navigation";
 import Modal from "./modal";
-import { formatPrice } from "@/utils/utils";
+import { MdLeaderboard } from "react-icons/md";
 
 export default function CategoriesTable({
   data,
@@ -59,18 +59,13 @@ export default function CategoriesTable({
       sortable: false,
     },
     {
-      name: "Description",
-      selector: (row) => row.description,
-      sortable: false,
-    },
-    {
       name: "Payment Code",
       selector: (row) => row.paymentCode,
       sortable: false,
     },
     {
       name: "Stages Count",
-      selector: (row) => row.numberOfStages,
+      selector: (row) => row._count.stages,
       sortable: false,
     },
     {
@@ -85,8 +80,33 @@ export default function CategoriesTable({
     },
     {
       name: "Action",
+      center: true,
+      width: "300px",
       cell: (row) => (
         <div className="flex gap-2">
+          <button
+            onClick={() => router.push(`/admin/registration?batchId=${row.id}`)}
+            title="Registrants Data"
+            className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
+          >
+            <FaTable />
+          </button>
+          <button
+            onClick={() =>
+              router.push(`/admin/registration-batch?categoryId=${row.id}`)
+            }
+            title="Gelombang Pendaftaran"
+            className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
+          >
+            <FaWpforms />
+          </button>
+          <button
+            onClick={() => router.push(`/admin/stage?categoryId=${row.id}`)}
+            title="Tahap Kompetisi"
+            className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
+          >
+            <MdLeaderboard />
+          </button>
           <button
             onClick={() => editCompetition(row)}
             title="Edit Competition"

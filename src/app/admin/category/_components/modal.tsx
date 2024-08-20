@@ -29,7 +29,6 @@ export default function Modal({
       name: data?.name,
       description: data?.description,
       paymentCode: data?.paymentCode,
-      numberOfStages: data?.numberOfStages.toString(),
       minMemberCount: data?.minMemberCount.toString(),
       maxMemberCount: data?.maxMemberCount.toString(),
       competitionId: data?.competitionId,
@@ -46,7 +45,6 @@ export default function Modal({
       maxMemberCount: Number(values.maxMemberCount),
       minMemberCount: Number(values.minMemberCount),
       paymentCode: values.paymentCode,
-      numberOfStages: Number(values.numberOfStages),
     });
 
     if (!result.success) {
@@ -68,6 +66,7 @@ export default function Modal({
           <button
             className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-all hover:bg-gray-200 hover:text-gray-900"
             onClick={() => setIsOpenModal(false)}
+            type="button"
           >
             <FaX size={16} />
           </button>
@@ -102,13 +101,6 @@ export default function Modal({
             placeholder="1"
             errorMessage={form.formState.errors.paymentCode?.message}
             {...form.register("paymentCode")}
-          />
-          <TextField
-            type="number"
-            label="Jumlah tahapan"
-            placeholder="4"
-            errorMessage={form.formState.errors.numberOfStages?.message}
-            {...form.register("numberOfStages")}
           />
           <TextField
             type="number"

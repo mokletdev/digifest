@@ -1,7 +1,6 @@
 "use client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { FaX } from "react-icons/fa6";
-import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/app/_components/global/button";
 import { TextField } from "@/app/_components/global/input";
@@ -9,12 +8,13 @@ import { SelectFieldController } from "@/app/_components/global/input-controller
 import ModalWrapper from "@/app/_components/global/modal-wrapper";
 import { H3 } from "@/app/_components/global/text";
 import { useZodForm } from "@/app/hooks/useZodForm";
-import { createStageFormSchema } from "@/lib/validator";
-import { stageWithCompetitionCategory } from "@/types/relation";
+import { createRegistrationBatchFormSchema } from "@/lib/validator";
+import { registrationBatchWithCompetitionCategoryAndRegistrants } from "@/types/relation";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { upsertStage } from "../actions";
 import { convertToDateTimeLocalString } from "@/utils/utils";
+import { upsertRegistrationBatch } from "../actions";
+import { useSearchParams } from "next/navigation";
 
 export default function Modal({
   setIsOpenModal,
@@ -22,34 +22,34 @@ export default function Modal({
   competitionCategories,
 }: {
   setIsOpenModal: Dispatch<SetStateAction<boolean>>; // Needed for closing the modal
-  data?: stageWithCompetitionCategory | null;
+  data?: registrationBatchWithCompetitionCategoryAndRegistrants | null;
   competitionCategories: { id: string; name: string }[];
 }) {
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const form = useZodForm({
     defaultValues: {
-      name: data?.name,
-      description: data?.description,
-      startDate:
-        data?.startDate && convertToDateTimeLocalString(data?.startDate),
-      endDate: data?.endDate && convertToDateTimeLocalString(data?.endDate),
-      stageNumber: data?.stageNumber.toString(),
+      batchName: data?.batchName,
+      closedDate:
+        data?.closedDate && convertToDateTimeLocalString(data?.closedDate),
+      openedDate:
+        data?.openedDate && convertToDateTimeLocalString(data?.openedDate),
+      registrationPrice: data?.registrationPrice.toString(),
       competitionCategoryId:
         data?.competitionCategoryId || searchParams.get("categoryId") || "",
     },
-    schema: createStageFormSchema,
+    schema: createRegistrationBatchFormSchema,
   });
   const router = useRouter();
 
   const onSubmit = form.handleSubmit(async (values) => {
     setLoading(true);
     const toastId = toast.loading("Loading...");
-    const result = await upsertStage(data?.id, {
+    const result = await upsertRegistrationBatch(data?.id, {
       ...values,
-      startDate: new Date(values.startDate),
-      endDate: new Date(values.endDate),
-      stageNumber: Number(values.stageNumber),
+      openedDate: new Date(values.openedDate),
+      closedDate: new Date(values.closedDate),
+      registrationPrice: Number(values.registrationPrice),
     });
 
     if (!result.success) {
@@ -67,7 +67,7 @@ export default function Modal({
     <ModalWrapper>
       <form onSubmit={onSubmit}>
         <div className="flex items-center justify-between border-b p-4 md:p-5">
-          <H3>Stage Data</H3>
+          <H3>Registration Batch Data</H3>
           <button
             className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-all hover:bg-gray-200 hover:text-gray-900"
             onClick={() => setIsOpenModal(false)}
@@ -79,10 +79,10 @@ export default function Modal({
         <div className="space-y-4 p-4 md:p-5">
           <TextField
             type="text"
-            label="Name"
-            placeholder="Tahap Penyisihan"
-            errorMessage={form.formState.errors.name?.message}
-            {...form.register("name")}
+            label="Name Gelombang"
+            placeholder="Gelombang I"
+            errorMessage={form.formState.errors.batchName?.message}
+            {...form.register("batchName")}
           />
           <SelectFieldController
             control={form.control}
@@ -94,30 +94,23 @@ export default function Modal({
             }))}
           />
           <TextField
-            type="text"
-            label="Description"
-            placeholder="Turnamen online bidang lomba robotik"
-            errorMessage={form.formState.errors.description?.message}
-            {...form.register("description")}
-          />
-          <TextField
             type="number"
-            label="Nomor urut tahap"
-            placeholder="1"
-            errorMessage={form.formState.errors.stageNumber?.message}
-            {...form.register("stageNumber")}
+            label="Harga Pendaftaran"
+            placeholder="100000"
+            errorMessage={form.formState.errors.registrationPrice?.message}
+            {...form.register("registrationPrice")}
           />
           <TextField
             type="datetime-local"
-            label="Tanggal mulai"
-            errorMessage={form.formState.errors.startDate?.message}
-            {...form.register("startDate")}
+            label="Tanggal buka"
+            errorMessage={form.formState.errors.openedDate?.message}
+            {...form.register("openedDate")}
           />
           <TextField
             type="datetime-local"
-            label="Tanggal selesai"
-            errorMessage={form.formState.errors.endDate?.message}
-            {...form.register("endDate")}
+            label="Tanggal tutup"
+            errorMessage={form.formState.errors.closedDate?.message}
+            {...form.register("closedDate")}
           />
         </div>
         <div className="flex items-center justify-end rounded-b border-t border-gray-200 p-4 md:p-5">
