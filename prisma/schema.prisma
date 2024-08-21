@@ -57,6 +57,7 @@ model team_member {
   name           String
   gradeLevel     String
   registrationId String
+  photo          String
   isLeader       Boolean
 
   team registered_team @relation(fields: [registrationId], references: [id])

@@ -131,8 +131,9 @@ export function TeamMemberForm({
         variant={"primary"}
         type="submit"
         className="w-full justify-center"
+        disabled={members.length < category.minMemberCount}
       >
-        {}Lanjutkan
+        Lanjutkan
       </Button>
     </form>
   );

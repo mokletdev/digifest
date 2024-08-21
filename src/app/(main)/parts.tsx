@@ -140,8 +140,8 @@ function About({ competitionsCount }: { competitionsCount: number }) {
           </P>
           <div className="flex w-full flex-col items-center justify-between gap-4 md:flex-row md:gap-0">
             <Card record={`${competitionsCount}`} text="Total kompetisi" />
-            <Card record={"300+"} text="Pendaftar" />
-            <Card record={"10 Juta"} text="Total hadiah" />
+            <Card record={"100+"} text="Pendaftar" />
+            <Card record={"40 Juta+"} text="Total hadiah" />
           </div>
         </div>
       </div>
@@ -231,12 +231,14 @@ function Competition({
   competitions: competitionWithCategoriesAndBatchesAndStages[];
 }) {
   const [selectedCompetition, setSelectedCompetition] = useState<string>(
-    competitions[0].name,
+    competitions.length > 0 ? competitions[0].name : "",
   );
   const [competitionObject, setCompetitionObject] = useState(
-    competitions.find(
-      (competition) => competition.name === selectedCompetition,
-    )!,
+    selectedCompetition !== ""
+      ? competitions.find(
+          (competition) => competition.name === selectedCompetition,
+        )!
+      : null,
   );
 
   useEffect(() => {
@@ -246,6 +248,8 @@ function Competition({
       )!,
     );
   }, [selectedCompetition]);
+
+  if (!competitionObject) return null;
 
   return (
     <section className="w-full py-[82px]" id="kompetisi">
@@ -357,12 +361,14 @@ function Timeline({
   competitions: competitionWithCategoriesAndBatchesAndStages[];
 }) {
   const [selectedCompetition, setSelectedCompetition] = useState<string>(
-    competitions[0].name,
+    competitions.length > 0 ? competitions[0].name : "",
   );
   const [competitionObject, setCompetitionObject] = useState(
-    competitions.find(
-      (competition) => competition.name === selectedCompetition,
-    )!,
+    selectedCompetition !== ""
+      ? competitions.find(
+          (competition) => competition.name === selectedCompetition,
+        )!
+      : null,
   );
 
   useEffect(() => {
@@ -372,6 +378,8 @@ function Timeline({
       )!,
     );
   }, [selectedCompetition]);
+
+  if (!competitionObject) return null;
 
   return (
     <section className="w-full py-[82px]" id="timeline">
