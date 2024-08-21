@@ -11,7 +11,7 @@ import { stageWithCompetitionCategory } from "@/types/relation";
 import { useRouter } from "next/navigation";
 import Modal from "./modal";
 import { stringifyCompleteDate } from "@/utils/utils";
-import { HiOutlineSpeakerphone } from "react-icons/hi";
+import { HiOutlineSpeakerphone, HiUserGroup } from "react-icons/hi";
 
 export default function StagesTable({
   data,
@@ -83,8 +83,17 @@ export default function StagesTable({
     },
     {
       name: "Action",
+      center: true,
+      width: "200px",
       cell: (row) => (
         <div className="flex gap-2">
+          <button
+            onClick={() => router.push(`/admin/stage/${row.id}`)}
+            title="Team on Stage"
+            className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
+          >
+            <HiUserGroup />
+          </button>
           <button
             onClick={() => router.push(`/admin/announcement?stageId=${row.id}`)}
             title="Edit Pengumuman"
