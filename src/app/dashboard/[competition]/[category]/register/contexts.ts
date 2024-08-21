@@ -5,7 +5,6 @@ import { createContext } from "react";
 export interface RegistrationFormContextValues {
   competition: competition;
   category: competition_category;
-  registrationBatchId: string;
 }
 
 export const RegistrationFormContext = createContext<

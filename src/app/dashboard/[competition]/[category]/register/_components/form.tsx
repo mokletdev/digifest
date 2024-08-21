@@ -1,36 +1,72 @@
 "use client";
+
 import Link, { Button } from "@/app/_components/global/button";
 import { FileField, TextField } from "@/app/_components/global/input";
-import { H1, H2, H3, P } from "@/app/_components/global/text";
-import { ACCEPTED_IMAGE_TYPES } from "@/lib/validator";
-import { BaseSyntheticEvent, useContext, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { FaArrowLeft } from "react-icons/fa";
+import { H1, H3, P } from "@/app/_components/global/text";
+import { useZodForm } from "@/app/hooks/useZodForm";
+import {
+  ACCEPTED_IMAGE_TYPES,
+  createRegisteredTeamFormSchema,
+} from "@/lib/validator";
+import { urlefy } from "@/utils/utils";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa6";
+import { toast } from "sonner";
+import { registerTeam } from "../actions";
 import {
   RegistrationFormContext,
   RegistrationFormContextValues,
 } from "../contexts";
-import { Prisma, team_member } from "@prisma/client";
 
-export function TeamDataForm({
-  onSubmit,
-  teamRegistrationForm,
-}: {
-  onSubmit: (e?: BaseSyntheticEvent) => Promise<void>;
-  teamRegistrationForm: UseFormReturn<{
-    teamName: string;
-    phoneNumber: string;
-    supervisingTeacher: string;
-    schoolName: string;
-    paymentProof?: any;
-  }>;
-}) {
+export default function TeamRegistrationForm() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const registrationContext = useContext(RegistrationFormContext);
-  const { competition, category } =
+  const { category, competition } =
     registrationContext as RegistrationFormContextValues;
 
+  const teamRegistrationForm = useZodForm({
+    schema: createRegisteredTeamFormSchema,
+  });
+
+  const onSubmit = teamRegistrationForm.handleSubmit(
+    async ({
+      teamName,
+      schoolName,
+      phoneNumber,
+      supervisingTeacher,
+      paymentProof,
+    }) => {
+      setLoading(true);
+      const toastId = toast.loading("Loading...");
+      const paymentProofFile = (paymentProof as FileList)[0];
+
+      const actionData = new FormData();
+      actionData.append("teamName", teamName);
+      actionData.append("schoolName", schoolName);
+      actionData.append("phoneNumber", phoneNumber);
+      actionData.append("supervisingTeacher", supervisingTeacher);
+      actionData.append("paymentProof", paymentProofFile);
+
+      const result = await registerTeam(category.id, actionData);
+
+      if (!result.success) {
+        setLoading(false);
+        return toast.error(result.message, { id: toastId });
+      }
+
+      toast.success(result.message, { id: toastId });
+      setLoading(false);
+      router.push(
+        `/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}`,
+      );
+    },
+  );
+
   return (
-    <form className="w-full max-w-full lg:max-w-[460px]" onSubmit={onSubmit}>
+    <form className="w-full max-w-full lg:max-w-[560px]" onSubmit={onSubmit}>
       <Link href="/dashboard" variant={"tertiary"} className="mb-3">
         <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1" />{" "}
         Kembali ke dashboard
@@ -43,7 +79,7 @@ export function TeamDataForm({
         .
       </P>
       <H3 className="mb-3">
-        Sekilas tentang bidang {category.name} di {competition.name}
+        Sekilas tentang bidang {category.name} pada kompetisi {competition.name}
       </H3>
       <P className="mb-[54px]">{category.description}</P>
       <div className="mb-[54px] flex w-full flex-col gap-[22px]">
@@ -91,49 +127,9 @@ export function TeamDataForm({
         variant={"primary"}
         type="submit"
         className="w-full justify-center"
+        disabled={loading}
       >
-        Lanjutkan
-      </Button>
-    </form>
-  );
-}
-
-export function TeamMemberForm({
-  onSubmit,
-  memberForms,
-}: {
-  onSubmit: (e?: BaseSyntheticEvent) => Promise<void>;
-  memberForms: UseFormReturn<{
-    name: string;
-    gradeLevel: string;
-  }>[];
-}) {
-  const registrationContext = useContext(RegistrationFormContext);
-  const { category } = registrationContext as RegistrationFormContextValues;
-  const [formStep, setFormStep] = useState(0);
-  const [members, setMembers] = useState<
-    { name: string; gradeLevel: string; photo: File }[]
-  >([]);
-
-  return (
-    <form className="w-full max-w-full lg:max-w-[460px]" onSubmit={onSubmit}>
-      <Link href="/dashboard" variant={"tertiary"} className="mb-3">
-        <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1" />{" "}
-        Kembali ke dashboard
-      </Link>
-      <H1 className="mb-3">Data Anggota Tim</H1>
-      <P className="mb-[54px]">
-        Minimal mengisikan {category.minMemberCount} data anggota. Maksimal
-        mengisikan {category.maxMemberCount} data anggota. Tekan tombol skip
-        jika telah mengisikan semua anggota tim.
-      </P>
-      <Button
-        variant={"primary"}
-        type="submit"
-        className="w-full justify-center"
-        disabled={members.length < category.minMemberCount}
-      >
-        Lanjutkan
+        Kirim
       </Button>
     </form>
   );

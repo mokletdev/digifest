@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { getCurrentDateByTimeZone } from "@/utils/utils";
 import { competition, competition_category } from "@prisma/client";
 
 export async function findCompetitionByDynamicParam(param: string) {
@@ -26,4 +27,22 @@ export async function findCategoryByDynamicParam(
   const category = categories[0] as competition_category | undefined;
 
   return category;
+}
+
+export async function findActiveRegistrationBatch(categoryId: string) {
+  const category = await prisma.competition_category.findUnique({
+    where: { id: categoryId },
+    include: {
+      registrationBatches: {
+        where: {
+          openedDate: { lte: getCurrentDateByTimeZone() },
+          closedDate: { gte: getCurrentDateByTimeZone() },
+        },
+      },
+    },
+  });
+
+  const batch = category?.registrationBatches[0];
+
+  return batch;
 }

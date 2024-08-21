@@ -82,3 +82,7 @@ export function urlefy(text: string) {
     .split(" ")
     .reduce((prev, curr) => prev + "_" + curr)}`;
 }
+
+export function getCurrentDateByTimeZone(timeZone: string = "Asia/Jakarta") {
+  return new Date(new Date().toLocaleString("en-US", { timeZone: timeZone }));
+}

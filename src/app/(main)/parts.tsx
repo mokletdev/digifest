@@ -1,7 +1,12 @@
 "use client";
 import cn from "@/lib/cn";
 import { competitionWithCategoriesAndBatchesAndStages } from "@/types/relation";
-import { formatDateDMY, formatPrice, verbalizeDate } from "@/utils/utils";
+import {
+  formatDateDMY,
+  formatPrice,
+  getCurrentDateByTimeZone,
+  verbalizeDate,
+} from "@/utils/utils";
 import Image from "next/image";
 import { default as NextLink } from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -140,7 +145,7 @@ function About({ competitionsCount }: { competitionsCount: number }) {
           </P>
           <div className="flex w-full flex-col items-center justify-between gap-4 md:flex-row md:gap-0">
             <Card record={`${competitionsCount}`} text="Total kompetisi" />
-            <Card record={"100+"} text="Pendaftar" />
+            <Card record={"150+"} text="Pendaftar" />
             <Card record={"40 Juta+"} text="Total hadiah" />
           </div>
         </div>
@@ -170,13 +175,11 @@ function CategoryCard({
   title,
   description,
   registrationPrice,
-  minMemberCount,
   maxMemberCount,
 }: {
   title: string;
   description: string;
   registrationPrice: string;
-  minMemberCount: number;
   maxMemberCount: number;
 }) {
   return (
@@ -209,9 +212,7 @@ function CategoryCard({
               </div>
               <div className="block">
                 <P className="text-base text-black">Jumlah Peserta</P>
-                <P className="text-base">
-                  {maxMemberCount} - {minMemberCount} orang
-                </P>
+                <P className="text-base">{maxMemberCount} orang</P>
               </div>
             </div>
           </div>
@@ -234,11 +235,18 @@ function Competition({
     competitions.length > 0 ? competitions[0].name : "",
   );
   const [competitionObject, setCompetitionObject] = useState(
-    selectedCompetition !== ""
-      ? competitions.find(
-          (competition) => competition.name === selectedCompetition,
-        )!
-      : null,
+    competitions.find(
+      (competition) => competition.name === selectedCompetition,
+    )!,
+  );
+  const [openCategories, setOpenCategories] = useState(
+    competitionObject.competitionCategories.filter((category) => {
+      const currentDate = getCurrentDateByTimeZone();
+      return category.registrationBatches.find(
+        ({ openedDate, closedDate }) =>
+          currentDate >= openedDate && currentDate <= closedDate,
+      );
+    }),
   );
 
   useEffect(() => {
@@ -247,9 +255,16 @@ function Competition({
         (competition) => competition.name === selectedCompetition,
       )!,
     );
-  }, [selectedCompetition]);
-
-  if (!competitionObject) return null;
+    setOpenCategories(
+      competitionObject.competitionCategories.filter((category) => {
+        const currentDate = getCurrentDateByTimeZone();
+        return category.registrationBatches.find(
+          ({ openedDate, closedDate }) =>
+            currentDate >= openedDate && currentDate <= closedDate,
+        );
+      }),
+    );
+  }, [selectedCompetition, competitions, competitionObject]);
 
   return (
     <section className="w-full py-[82px]" id="kompetisi">
@@ -297,28 +312,31 @@ function Competition({
         </div>
       </div>
       <div className="flex flex-col gap-6">
-        {competitionObject.competitionCategories.map((category) => (
-          <CategoryCard
-            key={category.id}
-            title={category.name}
-            description={category.description}
-            minMemberCount={category.minMemberCount}
-            maxMemberCount={category.maxMemberCount}
-            registrationPrice={
-              category.registrationBatches.length > 0
-                ? formatPrice(
-                    Number(
-                      category.registrationBatches[
-                        category.registrationBatches.length - 1
-                      ].registrationPrice,
-                    ),
-                    "IDR",
-                    "id-ID",
-                  )
-                : "Belum ada ketentuan"
-            }
-          />
-        ))}
+        {openCategories.length > 0 ? (
+          openCategories.map((category) => (
+            <CategoryCard
+              key={category.id}
+              title={category.name}
+              description={category.description}
+              maxMemberCount={category.maxMemberCount}
+              registrationPrice={
+                category.registrationBatches.length > 0
+                  ? formatPrice(
+                      Number(
+                        category.registrationBatches[
+                          category.registrationBatches.length - 1
+                        ].registrationPrice,
+                      ),
+                      "IDR",
+                      "id-ID",
+                    )
+                  : "Belum ada ketentuan"
+              }
+            />
+          ))
+        ) : (
+          <P>Belum ada informasi apa-apa, nih...</P>
+        )}
       </div>
     </section>
   );
@@ -364,11 +382,9 @@ function Timeline({
     competitions.length > 0 ? competitions[0].name : "",
   );
   const [competitionObject, setCompetitionObject] = useState(
-    selectedCompetition !== ""
-      ? competitions.find(
-          (competition) => competition.name === selectedCompetition,
-        )!
-      : null,
+    competitions.find(
+      (competition) => competition.name === selectedCompetition,
+    )!,
   );
 
   useEffect(() => {
@@ -377,9 +393,7 @@ function Timeline({
         (competition) => competition.name === selectedCompetition,
       )!,
     );
-  }, [selectedCompetition]);
-
-  if (!competitionObject) return null;
+  }, [competitions, selectedCompetition]);
 
   return (
     <section className="w-full py-[82px]" id="timeline">
@@ -432,11 +446,11 @@ function Timeline({
                   key={batch.id}
                   startDate={batch.openedDate}
                   endDate={batch.closedDate}
-                  title={`Pendaftaran Batch ${i}`}
-                  description={`Pembukaan pendaftaran batch ${i > 1 ? "pertama" : `ke-${i}`}`}
+                  title={`Pendaftaran Batch ${i + 1}`}
+                  description={`Pembukaan pendaftaran batch ${i === 0 ? "pertama" : `ke-${i}`}`}
                   location={
                     i === category.registrationBatches.length - 1
-                      ? "online"
+                      ? "Online"
                       : "SMK Telkom Malang"
                   }
                 />
