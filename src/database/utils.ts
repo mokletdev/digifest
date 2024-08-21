@@ -1,5 +1,5 @@
-import { competition } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import { competition, competition_category } from "@prisma/client";
 
 export async function findCompetitionByDynamicParam(param: string) {
   const extractedCompetitionName = param.replaceAll("_", " ");
@@ -21,9 +21,9 @@ export async function findCategoryByDynamicParam(
   // Try finding the competitions
   const categories = (await prisma.$queryRaw`
     SELECT * FROM competitioncategory WHERE LOWER(name) LIKE LOWER(${extractedCategoryName}) AND competitionId=${competitionId};
-    `) as competition[];
+    `) as competition_category[];
   // We only want the first index
-  const category = categories[0] as competition | undefined;
+  const category = categories[0] as competition_category | undefined;
 
   return category;
 }

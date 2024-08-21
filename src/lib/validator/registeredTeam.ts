@@ -5,9 +5,12 @@ import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from ".";
 export const createRegisteredTeamFormSchema = z.object({
   teamName: z
     .string()
-    .min(1, { message: "Nama Tim harus diisi!" })
-    .max(120, { message: "Nama Tim maximal 120 karakter!" }),
-  phoneNumber: z.string().refine(validator.isMobilePhone),
+    .min(1, { message: "Nama tim harus diisi!" })
+    .max(120, { message: "Nama tim maximal 120 karakter!" }),
+  phoneNumber: z
+    .string()
+    .min(1, { message: "Nomor telepon harus diisi!" })
+    .refine(validator.isMobilePhone, "Nomor telepon tidak valid!"),
   supervisingTeacher: z
     .string()
     .min(1, { message: "Guru pembimbing harus diisi!" }),

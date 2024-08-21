@@ -187,7 +187,10 @@ export function FileField({
       <P className="mb-2 self-start text-black">{label}</P>
       <label
         htmlFor={name}
-        className="relative w-full cursor-pointer rounded-lg border-2 border-dashed border-neutral-200 px-6 py-4 transition-all duration-300 hover:border-solid focus:outline-none"
+        className={cn(
+          "relative w-full cursor-pointer rounded-lg border-2 border-dashed px-6 py-4 transition-all duration-300 hover:border-solid focus:outline-none",
+          errorMessage ? "border-primary-400" : "border-neutral-200",
+        )}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >

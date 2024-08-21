@@ -2,8 +2,14 @@ import {
   findCategoryByDynamicParam,
   findCompetitionByDynamicParam,
 } from "@/database/utils";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TeamRegistrationForm from "./_components/form";
+import Wrapper from "./_components/wrapper";
+
+export const metadata: Metadata = {
+  title: "Pendaftaran Tim",
+};
 
 export default async function RegisterTeam({
   params,
@@ -25,11 +31,10 @@ export default async function RegisterTeam({
   if (!category) return notFound();
 
   return (
-    <main className="flex w-screen items-center justify-center px-5 py-12">
-      <TeamRegistrationForm
-        competitionName={competition.name}
-        categoryName={category.name}
-      />
-    </main>
+    <Wrapper value={{ competition, category, registrationBatchId }}>
+      <main className="flex w-screen flex-col items-center justify-center px-5 py-12">
+        <TeamRegistrationForm />
+      </main>
+    </Wrapper>
   );
 }

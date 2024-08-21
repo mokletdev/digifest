@@ -9,5 +9,4 @@ export const createTeamMemberFormSchema = z.object({
     .string()
     .min(1, { message: "Tingkat Kelas harus diisi!" })
     .max(20, { message: "Tingkat Kelas maximal 20 karakter!" }),
-  isLeader: z.string().transform((value) => value === "on"),
 });

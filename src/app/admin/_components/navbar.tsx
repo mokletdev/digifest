@@ -80,7 +80,7 @@ export default function Navbar({ session }: { session: Session | null }) {
             <Button
               variant={"primary"}
               onClick={() => signOut({ callbackUrl: "/", redirect: true })}
-              className="w-full"
+              className="w-full justify-center"
             >
               Log Out
             </Button>
