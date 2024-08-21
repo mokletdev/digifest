@@ -38,13 +38,9 @@ export default function Navbar() {
       <nav className="nav-shadow fixed z-[999] w-full bg-white">
         <div className="mx-auto flex w-full max-w-[1169px] items-center justify-between px-5 py-4">
           <NextLink href={"/"} className="w-[204px]">
-            <Image
-              src={"/logo.png"}
-              alt="Logo"
-              width={224}
-              height={50}
-              className="h-[48px] w-[125px]"
-            />
+            <span className="block h-[48px] w-[125px] bg-[url(/logo.png)] bg-contain text-transparent">
+              Digifest - SMK Telkom Malang
+            </span>
           </NextLink>
           <ul className="hidden items-center gap-[32px] lg:flex">
             {links.map((link, i) => (
