@@ -20,7 +20,7 @@ export default async function Category() {
         </div>
       </div>
       <CategoriesTable
-        competitions={competitions.map(({ id, name }) => ({ name, id }))}
+        competitions={competitions}
         data={competitionCategoriesWithCompetition}
       />
     </div>
