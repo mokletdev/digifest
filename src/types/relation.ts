@@ -18,6 +18,10 @@ export type stageWithCompetitionCategory = Prisma.stageGetPayload<{
   include: { competitionCategory: true };
 }>;
 
+export type stageWithTeam = Prisma.stageGetPayload<{
+  include: { teams: true; competitionCategory: { select: { name: true } } };
+}>;
+
 export type registrationBatchWithCompetitionCategory =
   Prisma.registration_batchGetPayload<{
     include: { competitionCategory: true };

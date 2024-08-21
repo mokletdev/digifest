@@ -49,8 +49,9 @@ export default function RegisterForm() {
       </div>
       <div className="block w-full">
         <Button
-          onClick={() => signIn("google", { callbackUrl: "/auth/login" })}
+          onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
           variant={"quartiary"}
+          type="button"
           className="mb-[28px] w-full justify-center"
         >
           <FaGoogle /> Masuk dengan Google

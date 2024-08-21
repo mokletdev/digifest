@@ -35,7 +35,7 @@ export default async function Stage({
         </div>
       </div>
       <CategoriesTable
-        competitionCategories={categories.map(({ id, name }) => ({ name, id }))}
+        competitionCategories={categories}
         data={stageWithCompetitionCategory}
       />
     </div>
