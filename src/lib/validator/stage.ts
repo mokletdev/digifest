@@ -6,12 +6,6 @@ export const createStageFormSchema = z.object({
     .min(1, { message: "Nama harus diisi!" })
     .max(120, { message: "Nama maximal 120 karakter!" }),
   description: z.string().min(1, { message: "Deskripsi harus diisi!" }),
-  stageNumber: z
-    .string()
-    .min(1, { message: "Urutan tahap harus diisi!" })
-    .refine((val) => Number.isInteger(Number(val)), {
-      message: "Jumlah tahap harus berupa bilangan bulat!",
-    }),
   startDate: z
     .string()
     .min(1, { message: "Tanggal mulai harus diisi" })

@@ -101,7 +101,6 @@ model competition_category {
 model stage {
   id                    String   @id @default(uuid())
   competitionCategoryId String
-  stageNumber           Int
   name                  String
   description           String
   startDate             DateTime
