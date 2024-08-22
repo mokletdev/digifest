@@ -56,7 +56,7 @@ export async function upsertAnnouncement(
 
     await updateAnnouncement({ id }, payload);
 
-    revalidatePath("/admin/Announcement");
+    revalidatePath("/admin/announcement");
     return { success: true, message: "Sukses meng-update Announcement!" };
   } catch (error) {
     console.log(error);

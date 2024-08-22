@@ -65,7 +65,8 @@ export async function upsertCompetition(
 
     await updateCompetition({ id }, payload);
 
-    revalidatePath("/admin/competition");
+    revalidatePath("/admin", "layout");
+    revalidatePath("/");
     return { success: true, message: "Sukses meng-update competition!" };
   } catch (error) {
     console.log(error);
@@ -87,6 +88,8 @@ export async function deleteCompetition(
 
     await removeCompetition({ id });
 
+    revalidatePath("/admin", "layout");
+    revalidatePath("/");
     return { success: true, message: "Berhasil menghapus competition!" };
   } catch (error) {
     console.log(error);
