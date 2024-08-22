@@ -46,3 +46,22 @@ export async function findActiveRegistrationBatch(categoryId: string) {
 
   return batch;
 }
+
+export async function findActiveStage(categoryId: string) {
+  const category = await prisma.competition_category.findUnique({
+    where: { id: categoryId },
+    include: {
+      stages: {
+        where: {
+          startDate: { lte: getCurrentDateByTimeZone() },
+          endDate: { gte: getCurrentDateByTimeZone() },
+        },
+        include: { teams: true },
+      },
+    },
+  });
+
+  const stage = category?.stages[0];
+
+  return stage;
+}

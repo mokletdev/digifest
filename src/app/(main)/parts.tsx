@@ -183,7 +183,7 @@ function CategoryCard({
   maxMemberCount: number;
 }) {
   return (
-    <NextLink href={`/dashboard}`} className="group">
+    <NextLink href={`/dashboard`} className="group">
       <figure className="flex w-full flex-col items-start justify-between gap-[54px] rounded-[14px] border border-neutral-100 p-[22px] transition-all duration-300 group-hover:bg-neutral-50 lg:flex-row lg:gap-0">
         <div className="w-full lg:max-w-[854px]">
           <H3 className="mb-[10px]">{title}</H3>
@@ -438,37 +438,42 @@ function Timeline({
             <H2 className="mb-7">Bidang {category.name}</H2>
             <div className="grid w-full grid-cols-1 gap-[18px] gap-y-[52px] md:grid-cols-2 lg:grid-cols-3">
               {category.registrationBatches.length === 0 &&
+                category.stages.length === 0 &&
                 category.stages.length === 0 && (
                   <P>Belum ada informasi, nih...</P>
                 )}
-              {category.registrationBatches.map((batch, i) => (
-                <SubTimeline
-                  key={batch.id}
-                  startDate={batch.openedDate}
-                  endDate={batch.closedDate}
-                  title={`Pendaftaran Batch ${i + 1}`}
-                  description={`Pembukaan pendaftaran batch ${i === 0 ? "pertama" : `ke-${i}`}`}
-                  location={
-                    i === category.registrationBatches.length - 1
-                      ? "Online"
-                      : "SMK Telkom Malang"
-                  }
-                />
-              ))}
-              {category.stages.map((stage, i) => (
-                <SubTimeline
-                  key={stage.id}
-                  startDate={stage.startDate}
-                  endDate={stage.endDate}
-                  title={stage.name}
-                  description={stage.description}
-                  location={
-                    i === category.registrationBatches.length - 1
-                      ? "online"
-                      : "SMK Telkom Malang"
-                  }
-                />
-              ))}
+              {category.registrationBatches
+                .sort((a, b) => a.openedDate.getTime() - b.openedDate.getTime())
+                .map((batch, i) => (
+                  <SubTimeline
+                    key={batch.id}
+                    startDate={batch.openedDate}
+                    endDate={batch.closedDate}
+                    title={`Pendaftaran Batch ${i + 1}`}
+                    description={`Pembukaan pendaftaran batch ${i === 0 ? "pertama" : `ke-${i}`}`}
+                    location={
+                      i === category.registrationBatches.length - 1
+                        ? "Online"
+                        : "SMK Telkom Malang"
+                    }
+                  />
+                ))}
+              {category.stages
+                .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
+                .map((stage, i) => (
+                  <SubTimeline
+                    key={stage.id}
+                    startDate={stage.startDate}
+                    endDate={stage.endDate}
+                    title={stage.name}
+                    description={stage.description}
+                    location={
+                      i === category.registrationBatches.length - 1
+                        ? "Online"
+                        : "SMK Telkom Malang"
+                    }
+                  />
+                ))}
             </div>
           </div>
         ))}

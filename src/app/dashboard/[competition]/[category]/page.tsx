@@ -1,4 +1,11 @@
-// TODO: implmenet this
+"use client";
+
+import { useContext } from "react";
+import { CompetitionCategoryDetail as CompetitionCategoryDetailCtx } from "./contexts";
+import CompetitionCategoryDetailComponent from "./_components/competition-category-detail-component";
+
 export default function CompetitionCategoryDetail() {
-  return <></>;
+  const context = useContext(CompetitionCategoryDetailCtx);
+
+  return <CompetitionCategoryDetailComponent {...context!} />;
 }

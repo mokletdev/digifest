@@ -21,8 +21,10 @@ function RegistrationCard({
   const categoryName = batch.competitionCategory.name;
 
   return (
-    <NextLink
-      href={`/dashboard/${urlefy(competitionName)}/${urlefy(categoryName)}`}
+    <button
+      onClick={() => {
+        window.location.href = `/dashboard/${urlefy(competitionName)}/${urlefy(categoryName)}`;
+      }}
       className="group"
     >
       <figure className="flex w-full items-center gap-5 rounded-[14px] border border-neutral-100 p-5 transition-all duration-300 group-hover:border-primary-400">
@@ -40,17 +42,14 @@ function RegistrationCard({
           </P>
         </div>
       </figure>
-    </NextLink>
+    </button>
   );
 }
 
-function GreetingBoard({
-  user,
-}: {
-  user: { name: string; verified: boolean };
-}) {
+function GreetingBoard() {
   const context = useContext(DashboardContext);
   const registrations = context?.registrations!;
+  const user = context?.user!;
 
   return (
     <section className="rounded-xl border border-neutral-100 bg-neutral-50 p-4">
@@ -107,13 +106,13 @@ function CategoryCard({
   alreadyRegistered: boolean;
 }) {
   return (
-    <NextLink
-      href={
-        alreadyRegistered
+    <button
+      onClick={() => {
+        window.location.href = alreadyRegistered
           ? `/dashboard/${urlefy(competition)}/${urlefy(title)}`
-          : `/dashboard/${urlefy(competition)}/${urlefy(title)}/register`
-      }
-      className="group"
+          : `/dashboard/${urlefy(competition)}/${urlefy(title)}/register`;
+      }}
+      className="group block text-left"
     >
       <figure className="flex w-full flex-col items-start justify-between gap-[54px] rounded-[14px] border border-neutral-100 p-[22px] transition-all duration-300 group-hover:bg-neutral-50 lg:flex-row lg:gap-0">
         <div className="w-full lg:max-w-[854px]">
@@ -154,7 +153,7 @@ function CategoryCard({
           <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
         </span>
       </figure>
-    </NextLink>
+    </button>
   );
 }
 

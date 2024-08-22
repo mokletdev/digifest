@@ -14,12 +14,21 @@ export type competitionWithCategoriesAndBatchesAndStages =
     };
   }>;
 
+export type categoryWithStagesAndBatches =
+  Prisma.competition_categoryGetPayload<{
+    include: { registrationBatches: true; stages: true };
+  }>;
+
 export type stageWithCompetitionCategory = Prisma.stageGetPayload<{
   include: { competitionCategory: true };
 }>;
 
-export type stageWithTeam = Prisma.stageGetPayload<{
+export type stageWithTeamAndCategory = Prisma.stageGetPayload<{
   include: { teams: true; competitionCategory: { select: { name: true } } };
+}>;
+
+export type stageWithTeam = Prisma.stageGetPayload<{
+  include: { teams: true };
 }>;
 
 export type registrationBatchWithCompetitionCategory =

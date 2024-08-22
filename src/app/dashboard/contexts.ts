@@ -6,6 +6,7 @@ import {
 import { createContext } from "react";
 
 export interface DashboardContextValues {
+  user: { name: string; verified: boolean };
   registrations: registrationWithBatch[];
   competitions: competitionWithCategoriesAndBatchesAndStages[];
 }

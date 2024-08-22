@@ -62,8 +62,10 @@ export function verbalizeDate(date: Date) {
   const year = date.getFullYear();
   const month = months[date.getMonth()];
   const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
 
-  return `${day} ${month} ${year}`;
+  return `${day} ${month} ${year} ${hours > 10 ? hours : `0${hours}`}:${minutes > 10 ? minutes : `0${minutes}`}`;
 }
 
 export function convertToDateTimeLocalString(date: Date) {
@@ -85,4 +87,9 @@ export function urlefy(text: string) {
 
 export function getCurrentDateByTimeZone(timeZone: string = "Asia/Jakarta") {
   return new Date(new Date().toLocaleString("en-US", { timeZone: timeZone }));
+}
+
+export function parseLinks(text: string): string {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, (link) => `<a href="${link}">${link}</a>`);
 }
