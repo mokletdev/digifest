@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/app/_components/global/button";
-import { TextField } from "@/app/_components/global/input";
+import { TextAreaField, TextField } from "@/app/_components/global/input";
 import { SelectFieldController } from "@/app/_components/global/input-controller";
 import ModalWrapper from "@/app/_components/global/modal-wrapper";
 import { H3 } from "@/app/_components/global/text";
@@ -73,8 +73,7 @@ export default function Modal({
             errorMessage={form.formState.errors.title?.message}
             {...form.register("title")}
           />
-          <TextField
-            type="text"
+          <TextAreaField
             label="Konten"
             placeholder="Halo sobat Mokleters"
             errorMessage={form.formState.errors.content?.message}

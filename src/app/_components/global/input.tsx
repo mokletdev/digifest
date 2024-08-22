@@ -19,6 +19,12 @@ interface InputProps extends ComponentPropsWithoutRef<"input"> {
   errorMessage?: string;
 }
 
+interface TextAreaProps extends ComponentPropsWithoutRef<"textarea"> {
+  label?: string;
+  ref?: RefCallBack;
+  errorMessage?: string;
+}
+
 export const TextField = forwardRef<HTMLInputElement, InputProps>(
   ({ label, className, errorMessage, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -66,6 +72,41 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
 );
 
 TextField.displayName = "TextField";
+
+export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  ({ label, className, errorMessage, ...props }, ref) => {
+    return (
+      <div className={cn("flex flex-col gap-2", className)}>
+        {label && (
+          <label
+            htmlFor={props.name}
+            className={cn(
+              `first-letter:capitalize ${props.required ? "after:text-primary-500 after:content-['*']" : ""}`,
+              errorMessage ? "text-primary-400" : "",
+            )}
+          >
+            {label}
+          </label>
+        )}
+        <div className="relative">
+          <textarea
+            className={cn(
+              "w-full rounded-[2rem] border border-neutral-400 px-[18px] py-[14px] text-black placeholder-neutral-500 outline-none transition-[border] transition-[outline] duration-300 hover:border-black focus:border-none focus:outline-none focus:outline-primary-200",
+              props.disabled ? "cursor-not-allowed" : "",
+              errorMessage ? "border-primary-400" : "",
+            )}
+            ref={ref}
+            name={props.name}
+            {...props}
+          />
+          {errorMessage && (
+            <P className="mt-[6px] text-red-400">{errorMessage}</P>
+          )}
+        </div>
+      </div>
+    );
+  },
+);
 
 interface SelectOption {
   value: string;
