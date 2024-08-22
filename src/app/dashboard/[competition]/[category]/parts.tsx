@@ -229,15 +229,17 @@ function TeamMembers({ teamMembers }: { teamMembers: team_member[] }) {
     <section id="team" className="w-full">
       <div className="mb-[54px] flex w-full flex-col justify-between gap-4 md:flex-row md:items-center md:gap-0">
         <H1>Data Tim</H1>
-        <Button
-          onClick={() => {
-            window.location.href = `/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member`;
-          }}
-          variant={"primary"}
-          className="w-fit"
-        >
-          Tambah Anggota
-        </Button>
+        {teamMembers.length !== category.maxMemberCount && (
+          <Button
+            onClick={() => {
+              window.location.href = `/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member`;
+            }}
+            variant={"primary"}
+            className="w-fit"
+          >
+            Tambah Anggota
+          </Button>
+        )}
       </div>
       {teamMembers.length === 0 && (
         <P className="w-full text-center">Belum ada data anggota...</P>
