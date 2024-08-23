@@ -4,20 +4,19 @@ import { UploadApiResponse } from "cloudinary";
 
 import cloudinary from "@/lib/cloudinary";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function uploadImage(file: Buffer | any) {
+export async function uploadImage(file: Buffer) {
   try {
     const upload: UploadApiResponse | undefined = await new Promise(
       (resolve, reject) => {
         cloudinary.uploader
           .upload_stream(
-            { upload_preset: "blog_content" },
+            { upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET },
             (error, uploadResult) => {
               if (error) reject(error);
               return resolve(uploadResult);
             },
           )
-          .end(file?.data ? file.data : file);
+          .end(file);
       },
     );
 
