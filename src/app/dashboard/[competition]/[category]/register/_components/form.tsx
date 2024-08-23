@@ -13,19 +13,15 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "sonner";
+import { CompetitionCategoryDetail } from "../../contexts";
 import { registerTeam } from "../actions";
-import {
-  RegistrationFormContext,
-  RegistrationFormContextValues,
-} from "../contexts";
 
 export default function TeamRegistrationForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const registrationContext = useContext(RegistrationFormContext);
-  const { category, competition } =
-    registrationContext as RegistrationFormContextValues;
+  const registrationContext = useContext(CompetitionCategoryDetail);
+  const { category, competition } = registrationContext!;
 
   const teamRegistrationForm = useZodForm({
     schema: createRegisteredTeamFormSchema,

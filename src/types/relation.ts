@@ -67,3 +67,7 @@ export type registrationCompleteData = Prisma.registered_teamGetPayload<{
     teamMembers: true;
   };
 }>;
+
+export type registrationWithMembers = Prisma.registered_teamGetPayload<{
+  include: { teamMembers: true };
+}>;

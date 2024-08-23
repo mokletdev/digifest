@@ -1,17 +1,27 @@
 "use client";
 
-import Link, { Button } from "@/app/_components/global/button";
+import Link from "@/app/_components/global/button";
 import { H1, H2, H3, P, SectionTitle } from "@/app/_components/global/text";
 import cn from "@/lib/cn";
-import { announcementWithStage, stageWithTeam } from "@/types/relation";
+import {
+  announcementWithStage,
+  registrationWithMembers,
+  stageWithTeam,
+} from "@/types/relation";
 import {
   formatDateDMY,
   parseLinks,
   urlefy,
   verbalizeDate,
 } from "@/utils/utils";
-import { registered_team, stage, team_member } from "@prisma/client";
+import {
+  registered_team,
+  registration_batch,
+  stage,
+  team_member,
+} from "@prisma/client";
 import Image from "next/image";
+import { default as NextLink } from "next/link";
 import { useContext } from "react";
 import { FaBook, FaLocationDot } from "react-icons/fa6";
 import { CompetitionCategoryDetail } from "./contexts";
@@ -162,9 +172,11 @@ function SubTimeline({
 function Timeline({
   categoryName,
   stages,
+  batches,
 }: {
   categoryName: string;
   stages: stage[];
+  batches: registration_batch[];
 }) {
   return (
     <section className="w-full py-[82px]" id="timeline">
@@ -178,6 +190,18 @@ function Timeline({
       </div>
       <div className="flex flex-col gap-10">
         <div className="grid w-full grid-cols-1 gap-[18px] gap-y-[52px] md:grid-cols-2 lg:grid-cols-3">
+          {batches
+            .sort((a, b) => a.openedDate.getTime() - b.openedDate.getTime())
+            .map((batch, i) => (
+              <SubTimeline
+                key={batch.id}
+                startDate={batch.openedDate}
+                endDate={batch.closedDate}
+                title={batch.batchName}
+                description={`Pembukaan pendaftaran batch ${i + 1}`}
+                location={"Online"}
+              />
+            ))}
           {stages
             .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
             .map((stage, i) => (
@@ -203,49 +227,53 @@ function TeamMemberCard({ member }: { member: team_member }) {
   const { competition, category } = context!;
 
   return (
-    <button
-      onClick={() => {
-        window.location.href = `/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member?id=${member.id}`;
-      }}
+    <NextLink
+      href={`/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member?id=${member.id}`}
       className="flex flex-col rounded-[14px] border border-neutral-100 p-4"
     >
+      <div>{member.isLeader && <SectionTitle>Ketua Tim</SectionTitle>}</div>
       <Image
         src={member.photo}
         width={420}
         height={315}
         alt={member.name}
-        className="w-full max-w-[420px] rounded-lg"
+        className="mb-5 mt-2 w-full max-w-[420px] rounded-lg"
         unoptimized
       />
-    </button>
+      <P className="mb-2 text-black">{member.gradeLevel}</P>
+      <H2>{member.name}</H2>
+    </NextLink>
   );
 }
 
-function TeamMembers({ teamMembers }: { teamMembers: team_member[] }) {
+function TeamMembers({ team }: { team: registrationWithMembers }) {
   const context = useContext(CompetitionCategoryDetail);
   const { category, competition } = context!;
 
   return (
     <section id="team" className="w-full">
       <div className="mb-[54px] flex w-full flex-col justify-between gap-4 md:flex-row md:items-center md:gap-0">
-        <H1>Data Tim</H1>
-        {teamMembers.length !== category.maxMemberCount && (
-          <Button
-            onClick={() => {
-              window.location.href = `/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member`;
-            }}
+        <div className="block">
+          <H1 className="mb-4">
+            Data Tim ({team.teamMembers.length} / {category.maxMemberCount})
+          </H1>
+          <P>Hanya bisa mengubah data tim saat pendaftaran masih dibuka</P>
+        </div>
+        {team.teamMembers.length !== category.maxMemberCount && (
+          <Link
+            href={`/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member?registrationId=${team.id}`}
             variant={"primary"}
             className="w-fit"
           >
-            Tambah Anggota
-          </Button>
+            Tambah anggota
+          </Link>
         )}
       </div>
-      {teamMembers.length === 0 && (
+      {team.teamMembers.length === 0 && (
         <P className="w-full text-center">Belum ada data anggota...</P>
       )}
       <div className={cn(`grid w-full grid-cols-3`)}>
-        {teamMembers.map((member) => (
+        {team.teamMembers.map((member) => (
           <TeamMemberCard key={member.id} member={member} />
         ))}
       </div>

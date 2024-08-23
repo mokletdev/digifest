@@ -21,10 +21,8 @@ function RegistrationCard({
   const categoryName = batch.competitionCategory.name;
 
   return (
-    <button
-      onClick={() => {
-        window.location.href = `/dashboard/${urlefy(competitionName)}/${urlefy(categoryName)}`;
-      }}
+    <NextLink
+      href={`/dashboard/${urlefy(competitionName)}/${urlefy(categoryName)}`}
       className="group"
     >
       <figure className="flex w-full items-center gap-5 rounded-[14px] border border-neutral-100 p-5 transition-all duration-300 group-hover:border-primary-400">
@@ -42,7 +40,7 @@ function RegistrationCard({
           </P>
         </div>
       </figure>
-    </button>
+    </NextLink>
   );
 }
 
@@ -106,12 +104,12 @@ function CategoryCard({
   alreadyRegistered: boolean;
 }) {
   return (
-    <button
-      onClick={() => {
-        window.location.href = alreadyRegistered
+    <NextLink
+      href={
+        alreadyRegistered
           ? `/dashboard/${urlefy(competition)}/${urlefy(title)}`
-          : `/dashboard/${urlefy(competition)}/${urlefy(title)}/register`;
-      }}
+          : `/dashboard/${urlefy(competition)}/${urlefy(title)}/register`
+      }
       className="group block text-left"
     >
       <figure className="flex w-full flex-col items-start justify-between gap-[54px] rounded-[14px] border border-neutral-100 p-[22px] transition-all duration-300 group-hover:bg-neutral-50 lg:flex-row lg:gap-0">
@@ -153,7 +151,7 @@ function CategoryCard({
           <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
         </span>
       </figure>
-    </button>
+    </NextLink>
   );
 }
 

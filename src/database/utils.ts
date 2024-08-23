@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { getCurrentDateByTimeZone } from "@/utils/utils";
 import { competition, competition_category } from "@prisma/client";
+import { notFound } from "next/navigation";
 
 export async function findCompetitionByDynamicParam(param: string) {
   const extractedCompetitionName = param.replaceAll("_", " ");
@@ -64,4 +65,20 @@ export async function findActiveStage(categoryId: string) {
   const stage = category?.stages[0];
 
   return stage;
+}
+
+export async function provideCompetitionAndCategory(
+  competitionName: string,
+  categoryName: string,
+) {
+  const competition = await findCompetitionByDynamicParam(competitionName);
+  if (!competition) return notFound();
+
+  const category = await findCategoryByDynamicParam(
+    competition.id,
+    categoryName,
+  );
+  if (!category) return notFound();
+
+  return { competition, category };
 }
