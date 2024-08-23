@@ -1,11 +1,11 @@
-import { ReactNode } from "react";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import cn from "@/lib/cn";
+import { parseLinks } from "@/utils/utils";
 
-interface TextProps {
+interface TextProps extends ComponentPropsWithoutRef<"p"> {
   children?: ReactNode;
   className?: string;
-  textClassName?: string;
   underlineClassName?: string;
 }
 
@@ -35,13 +35,19 @@ export function H1({ children, className }: Readonly<TextProps>) {
   );
 }
 
-export function P({ children, className }: Readonly<TextProps>) {
+export function P({
+  children,
+  className,
+  underlineClassName,
+  ...props
+}: Readonly<TextProps>) {
   return (
     <p
       className={cn(
         "text-sm leading-[160%] text-neutral-500 sm:text-base",
         className,
       )}
+      {...props}
     >
       {children}
     </p>
@@ -52,7 +58,7 @@ export function H2({ children, className }: Readonly<TextProps>) {
   return (
     <h2
       className={cn(
-        "text-[32px] font-bold leading-[39px] text-black",
+        "text-[24px] font-bold leading-[39px] text-black 2xl:text-[32px]",
         className,
       )}
     >

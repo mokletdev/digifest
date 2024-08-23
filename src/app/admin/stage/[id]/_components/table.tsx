@@ -5,7 +5,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "sonner";
 
 import { Button } from "@/app/_components/global/button";
-import { stageWithTeam } from "@/types/relation";
+import { stageWithTeamAndCategory } from "@/types/relation";
 import { useRouter } from "next/navigation";
 import Modal from "./modal";
 import { deleteTeamFromStage } from "../actions";
@@ -14,7 +14,7 @@ export default function StagesTable({
   data,
   teams,
 }: {
-  data: stageWithTeam;
+  data: stageWithTeamAndCategory;
   teams: { teamName: string; id: string }[];
 }) {
   const [loader, setLoader] = useState(true);
@@ -39,7 +39,7 @@ export default function StagesTable({
     router.refresh();
   }
 
-  const columns: TableColumn<stageWithTeam["teams"][0]>[] = [
+  const columns: TableColumn<stageWithTeamAndCategory["teams"][0]>[] = [
     {
       name: "Competition Category",
       selector: () => data.name,

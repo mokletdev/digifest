@@ -1,4 +1,5 @@
-import { FaArrowLeft, FaEnvelope } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
+import { FaX } from "react-icons/fa6";
 import Link from "./_components/global/button";
 import { H2, P } from "./_components/global/text";
 
@@ -7,7 +8,7 @@ export default function NotFound() {
     <main className="flex h-screen w-screen items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="mb-8 inline-block rounded-full bg-primary-50 p-[18px] text-primary-400">
-          <FaEnvelope />
+          <FaX />
         </div>
         <H2 className="mb-3">404</H2>
         <P className="mb-[34px]">Halaman ini tidak ditemukan</P>
