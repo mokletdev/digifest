@@ -1,7 +1,5 @@
 import {
   findActiveRegistrationBatch,
-  findCategoryByDynamicParam,
-  findCompetitionByDynamicParam,
   provideCompetitionAndCategory,
 } from "@/database/utils";
 import { getServerSession } from "@/lib/next-auth";
@@ -52,7 +50,7 @@ export default async function RegisterTeam({
   return (
     <Wrapper value={{ competition, category }}>
       <main className="flex w-screen flex-col items-center justify-center px-5 py-12">
-        <TeamRegistrationForm />
+        <TeamRegistrationForm registrationBatch={activeBatch} />
       </main>
     </Wrapper>
   );

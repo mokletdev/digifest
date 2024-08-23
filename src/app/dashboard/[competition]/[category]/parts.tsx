@@ -241,13 +241,19 @@ function Timeline({
   );
 }
 
-function TeamMemberCard({ member }: { member: team_member }) {
+function TeamMemberCard({
+  member,
+  teamId,
+}: {
+  member: team_member;
+  teamId: string;
+}) {
   const context = useContext(CompetitionCategoryDetail);
   const { competition, category } = context!;
 
   return (
     <NextLink
-      href={`/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member?id=${member.id}`}
+      href={`/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member?id=${member.id}&registrationId=${teamId}`}
       className="flex flex-col rounded-[14px] border border-neutral-100 p-4"
     >
       <div>{member.isLeader && <SectionTitle>Ketua Tim</SectionTitle>}</div>
@@ -293,7 +299,7 @@ function TeamMembers({ team }: { team: registrationWithMembers }) {
       )}
       <div className={cn(`grid w-full grid-cols-3`)}>
         {team.teamMembers.map((member) => (
-          <TeamMemberCard key={member.id} member={member} />
+          <TeamMemberCard key={member.id} teamId={team.id} member={member} />
         ))}
       </div>
     </section>
