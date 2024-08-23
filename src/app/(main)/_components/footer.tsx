@@ -4,7 +4,7 @@ import { FaArrowUp, FaInstagram } from "react-icons/fa6";
 
 const socialMedias = [
   { name: "Olimawisa", url: "https://instagram.com/olimawisa" },
-  { name: "MIFest", url: "https://instagram.com/mifest" },
+  { name: "MIFest", url: "https://www.instagram.com/mifest._/" },
 ];
 
 export default function Footer() {

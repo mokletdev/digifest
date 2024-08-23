@@ -11,6 +11,7 @@ import { getServerSession } from "@/lib/next-auth";
 import { ServerActionResponse } from "@/types/action";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import prisma from "@/lib/prisma";
 
 export async function upsertRegistrationBatch(
   id: string | undefined | null,
@@ -31,6 +32,32 @@ export async function upsertRegistrationBatch(
 
     // Extract competitionId
     const { competitionCategoryId, ...payloadData } = data;
+
+    const stageOnDate = await prisma.registration_batch.findFirst({
+      where: {
+        AND: [
+          {
+            openedDate: {
+              lte: data.openedDate,
+            },
+          },
+          {
+            closedDate: {
+              gte: data.closedDate,
+            },
+          },
+          { competitionCategoryId },
+          id ? { NOT: { id } } : {},
+        ],
+      },
+    });
+
+    if (stageOnDate)
+      return {
+        success: false,
+        message: "Sudah ada pendaftaran yang aktif pada tgl tersebut!",
+      };
+
     const payload: Prisma.registration_batchCreateInput = {
       ...payloadData,
       competitionCategory: { connect: { id: competitionCategoryId } },
@@ -67,7 +94,9 @@ export async function upsertRegistrationBatch(
 
     await updateRegistrationBatch({ id }, payload);
 
-    revalidatePath("/admin/registration-batch");
+    revalidatePath("/admin", "layout");
+    revalidatePath("/dashboard", "layout");
+    revalidatePath("/");
     return {
       success: true,
       message: "Sukses meng-update Gelombang Registrasi!",
@@ -92,7 +121,9 @@ export async function deleteRegistrationBatch(
 
     await removeRegistrationBatch({ id });
 
-    revalidatePath("/admin/stage");
+    revalidatePath("/admin", "layout");
+    revalidatePath("/dashboard", "layout");
+    revalidatePath("/");
     return { success: true, message: "Berhasil menghapus Stage!" };
   } catch (error) {
     console.log(error);

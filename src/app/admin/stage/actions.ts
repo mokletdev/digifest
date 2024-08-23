@@ -10,13 +10,13 @@ import { getServerSession } from "@/lib/next-auth";
 import { ServerActionResponse } from "@/types/action";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import prisma from "@/lib/prisma";
 
 export async function upsertStage(
   id: string | undefined | null,
   data: {
     name: string;
     description: string;
-    stageNumber: number;
     startDate: Date;
     endDate: Date;
     competitionCategoryId: string;
@@ -31,18 +31,49 @@ export async function upsertStage(
 
     // Extract competitionId
     const { competitionCategoryId, ...payloadData } = data;
+
+    if (data.endDate < data.startDate)
+      return {
+        success: false,
+        message: "Tanggal selesai tidak bisa lebih kecil dari tanggal mulai",
+      };
+
+    const stageOnDate = await prisma.stage.findFirst({
+      where: {
+        AND: [
+          {
+            startDate: {
+              lte: data.endDate,
+            },
+          },
+          {
+            endDate: {
+              gte: data.startDate,
+            },
+          },
+          { competitionCategoryId },
+          id ? { NOT: { id } } : {},
+        ],
+      },
+    });
+
+    if (stageOnDate)
+      return {
+        success: false,
+        message: "Sudah ada stage pada tanggal tersebut!",
+      };
+
     const payload: Prisma.stageCreateInput = {
       ...payloadData,
       competitionCategory: { connect: { id: competitionCategoryId } },
     };
 
     if (!id) {
-      const { name, description, stageNumber, startDate, endDate } = data;
+      const { name, description, startDate, endDate } = data;
 
       await createStage({
         name,
         description,
-        stageNumber,
         startDate,
         endDate,
         competitionCategory: {
@@ -59,7 +90,8 @@ export async function upsertStage(
 
     await updateStage({ id }, payload);
 
-    revalidatePath("/admin/stage");
+    revalidatePath("/admin", "layout");
+    revalidatePath("/dashboard", "layout");
     return { success: true, message: "Sukses meng-update Stage!" };
   } catch (error) {
     console.log(error);
@@ -79,7 +111,8 @@ export async function deleteStage(id: string): Promise<ServerActionResponse> {
 
     await removeStage({ id });
 
-    revalidatePath("/admin/stage");
+    revalidatePath("/admin", "layout");
+    revalidatePath("/dashboard", "layout");
     return { success: true, message: "Berhasil menghapus Stage!" };
   } catch (error) {
     console.log(error);

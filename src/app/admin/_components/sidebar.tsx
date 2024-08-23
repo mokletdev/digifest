@@ -62,7 +62,7 @@ export default function Sidebar({ nav, session }: SidebarProps) {
                   <Link
                     href={item.path}
                     className={
-                      (pathname.includes(item.path) ? "bg-red-100 " : "") +
+                      (item.regex.test(pathname) ? "bg-red-100 " : "") +
                       "group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 transition-all hover:bg-red-200"
                     }
                   >

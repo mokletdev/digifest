@@ -34,7 +34,6 @@ export default function Modal({
       startDate:
         data?.startDate && convertToDateTimeLocalString(data?.startDate),
       endDate: data?.endDate && convertToDateTimeLocalString(data?.endDate),
-      stageNumber: data?.stageNumber.toString(),
       competitionCategoryId:
         data?.competitionCategoryId || searchParams.get("categoryId") || "",
     },
@@ -49,7 +48,6 @@ export default function Modal({
       ...values,
       startDate: new Date(values.startDate),
       endDate: new Date(values.endDate),
-      stageNumber: Number(values.stageNumber),
     });
 
     if (!result.success) {
@@ -99,13 +97,6 @@ export default function Modal({
             placeholder="Turnamen online bidang lomba robotik"
             errorMessage={form.formState.errors.description?.message}
             {...form.register("description")}
-          />
-          <TextField
-            type="number"
-            label="Nomor urut tahap"
-            placeholder="1"
-            errorMessage={form.formState.errors.stageNumber?.message}
-            {...form.register("stageNumber")}
           />
           <TextField
             type="datetime-local"

@@ -69,6 +69,7 @@ export default function Modal({
           <button
             className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-all hover:bg-gray-200 hover:text-gray-900"
             onClick={() => setIsOpenModal(false)}
+            type="button"
           >
             <FaX size={16} />
           </button>
