@@ -9,6 +9,7 @@ export const createCompetitionFormSchema = z.object({
   description: z.string(),
   logo: z
     .any()
+    .refine((files: FileList) => files.length !== 0, "Logo harus diisi!")
     .refine((files: FileList) => {
       const file = files[0];
       return file?.size <= MAX_FILE_SIZE;
