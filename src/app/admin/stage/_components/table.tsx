@@ -65,11 +65,6 @@ export default function StagesTable({
       sortable: false,
     },
     {
-      name: "Stage Number",
-      selector: (row) => row.stageNumber,
-      sortable: false,
-    },
-    {
       name: "Start Date",
       selector: (row) => row.startDate.getTime(),
       cell: (row) => stringifyCompleteDate(row.startDate),

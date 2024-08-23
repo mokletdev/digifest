@@ -69,6 +69,7 @@ function Hero({
                   alt={`Logo ${competition.name}`}
                   className="h-auto w-5"
                   unoptimized
+                  loading="eager"
                 />
                 <div className="block max-w-[240px]">
                   <H4>{competition.name}</H4>
@@ -89,6 +90,7 @@ function Hero({
         height={518}
         alt="Hero image"
         className="h-auto w-full max-w-[393.24px]"
+        loading="eager"
       />
     </header>
   );

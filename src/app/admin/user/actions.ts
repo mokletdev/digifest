@@ -49,7 +49,7 @@ export async function upsertUser(
 
     await updateUser({ id }, data);
 
-    revalidatePath("/admin/user");
+    revalidatePath("/admin", "layout");
     return { success: true, message: "Sukses meng-update user!" };
   } catch (error) {
     console.log(error);
@@ -69,6 +69,7 @@ export async function deleteUser(id: string): Promise<ServerActionResponse> {
 
     await removeUser({ id });
 
+    revalidatePath("/admin", "layout");
     return { success: true, message: "Berhasil menghapus user!" };
   } catch (error) {
     console.log(error);

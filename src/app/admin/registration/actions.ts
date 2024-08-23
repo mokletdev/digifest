@@ -1,12 +1,6 @@
 "use server";
 
 import {
-  createAnnouncement,
-  findAnnouncement,
-  removeAnnouncement,
-  updateAnnouncement,
-} from "@/database/announcement.query";
-import {
   findRegistration,
   removeRegistration,
   updateRegistration,
@@ -37,8 +31,7 @@ export async function updateRegistrationStatus(
 
     await updateRegistration({ id }, payload);
 
-    revalidatePath("/admin/registration");
-    revalidatePath("/admin/registration/[id]");
+    revalidatePath("/admin", "layout");
     return { success: true, message: "Sukses meng-update registration!" };
   } catch (error) {
     console.log(error);
@@ -60,7 +53,7 @@ export async function deleteRegistration(
 
     await removeRegistration({ id });
 
-    revalidatePath("/admin/registration");
+    revalidatePath("/admin", "layout");
     return { success: true, message: "Berhasil menghapus Registration!" };
   } catch (error) {
     console.log(error);

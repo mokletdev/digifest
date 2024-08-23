@@ -28,7 +28,7 @@ export default function Navbar({ session }: { session: Session | null }) {
         <Link href={"/"} className="block xl:mt-8">
           <Image
             src={"/logo.png"}
-            alt="Logo"
+            alt="Logo digifest"
             width={120}
             height={50}
             className="pointer-events-none h-[50px] w-[130px]"
@@ -66,7 +66,7 @@ export default function Navbar({ session }: { session: Session | null }) {
                   href={item.path}
                   onClick={() => setIsExpanded(false)}
                   className={
-                    (pathname.includes(item.path) ? "bg-red-100 " : "") +
+                    (item.regex.test(pathname) ? "bg-red-100 " : "") +
                     "group flex items-center rounded-lg p-2 text-base font-normal text-primary-400 transition-all hover:bg-red-200"
                   }
                 >

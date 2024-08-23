@@ -7,24 +7,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import clashDisplayFont from "./font";
 import cn from "@/lib/cn";
+import { metadata as metadataConfig } from "@/utils/seo.config";
 
-const robots =
-  process.env.APP_ENV != "production" ? "noindex, nofollow" : "index, follow";
-
-export const metadata: Metadata = {
-  title: {
-    default: "Digifest - SMK Telkom Malang",
-    template: "%s | Digifest",
-  },
-  description:
-    "Digifest merupakan salah satu rangkaian acara dari Dis Natalies SMK Telkom Malang",
-  keywords:
-    "moklet, Moklet, Digifest, Telkom, SMK, Malang, SMK Telkom Malang, Olimawisa, MIFest, MI, Fest",
-  authors: { name: "MokletDev", url: "https://dev.moklet.org" },
-  creator: "MokletDev Team",
-  publisher: "SMK Telkom Malang",
-  robots: robots,
-};
+export const metadata: Metadata = metadataConfig;
 
 export const viewport: Viewport = {
   width: "device-width",

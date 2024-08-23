@@ -102,7 +102,6 @@ model competition_category {
 model stage {
   id                    String   @id @default(uuid())
   competitionCategoryId String
-  stageNumber           Int
   name                  String
   description           String
   startDate             DateTime
@@ -122,7 +121,7 @@ model announcement {
   stageId   String
   userId    String
   title     String
-  content   String
+  content   String   @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
