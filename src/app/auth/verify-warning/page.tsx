@@ -11,7 +11,13 @@ export default async function AfterRegister() {
   if (!session?.user) return redirect("/");
 
   const user = await findUser({ id: session.user.id });
-  if (user?.verified) return redirect("/dashboard");
+  if (user?.verified) {
+    if (user.role === "ADMIN" || user.role === "SUPERADMIN") {
+      return redirect("/admin");
+    }
+
+    return redirect("/dashboard");
+  }
 
   return (
     <main className="flex h-screen w-screen items-center justify-center">

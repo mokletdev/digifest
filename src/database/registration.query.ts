@@ -13,9 +13,11 @@ export async function findRegistrations(
 
 export async function findRegistration(
   filter: Prisma.registered_teamWhereUniqueInput,
+  include?: Prisma.registered_teamInclude,
 ) {
   const registrationBatch = await prisma.registered_team.findUnique({
     where: filter,
+    include,
   });
   return registrationBatch;
 }
