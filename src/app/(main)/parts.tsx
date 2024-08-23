@@ -5,6 +5,7 @@ import {
   formatDateDMY,
   formatPrice,
   getCurrentDateByTimeZone,
+  urlefy,
   verbalizeDate,
 } from "@/utils/utils";
 import Image from "next/image";
@@ -175,17 +176,22 @@ function About({ competitionsCount }: { competitionsCount: number }) {
 
 function CategoryCard({
   title,
+  competitionName,
   description,
   registrationPrice,
   maxMemberCount,
 }: {
   title: string;
+  competitionName: string;
   description: string;
   registrationPrice: string;
   maxMemberCount: number;
 }) {
   return (
-    <NextLink href={`/dashboard`} className="group">
+    <NextLink
+      href={`/dashboard/${urlefy(competitionName)}/${urlefy(title)}/register`}
+      className="group"
+    >
       <figure className="flex w-full flex-col items-start justify-between gap-[54px] rounded-[14px] border border-neutral-100 p-[22px] transition-all duration-300 group-hover:bg-neutral-50 lg:flex-row lg:gap-0">
         <div className="w-full lg:max-w-[854px]">
           <H3 className="mb-[10px]">{title}</H3>
@@ -319,6 +325,7 @@ function Competition({
             <CategoryCard
               key={category.id}
               title={category.name}
+              competitionName={competitionObject.name}
               description={category.description}
               maxMemberCount={category.maxMemberCount}
               registrationPrice={

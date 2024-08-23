@@ -6,7 +6,12 @@ import { signOut } from "next-auth/react";
 import { default as NextLink } from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { FaBook } from "react-icons/fa";
-import { FaArrowRight, FaMoneyBillWave, FaPeopleGroup } from "react-icons/fa6";
+import {
+  FaArrowRight,
+  FaArrowUpRightFromSquare,
+  FaMoneyBillWave,
+  FaPeopleGroup,
+} from "react-icons/fa6";
 import Link, { Button } from "../_components/global/button";
 import { H1, H3, P, SectionTitle } from "../_components/global/text";
 import { DashboardContext } from "./contexts";
@@ -25,13 +30,13 @@ function RegistrationCard({
       href={`/dashboard/${urlefy(competitionName)}/${urlefy(categoryName)}`}
       className="group"
     >
-      <figure className="flex w-full items-center gap-5 rounded-[14px] border border-neutral-100 p-5 transition-all duration-300 group-hover:border-primary-400">
-        <div className="rounded-full bg-primary-50 p-4">
-          <FaPeopleGroup />
+      <figure className="flex w-full items-center gap-5 rounded-[14px] border bg-primary-400 p-5 transition-all duration-300 group-hover:bg-primary-200">
+        <div className="rounded-full bg-primary-50 p-4 text-primary-400">
+          <FaArrowUpRightFromSquare />
         </div>
         <div className="block">
-          <H3>Tim {registration.teamName}</H3>
-          <P>
+          <H3 className="text-white">Tim {registration.teamName}</H3>
+          <P className="text-white">
             {
               registration.registrationBatch.competitionCategory.competition
                 .name
@@ -79,7 +84,7 @@ function GreetingBoard() {
           Logout
         </Button>
       </div>
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 md:gap-[32px] xl:grid-cols-3 xl:gap-[64px]">
+      <div className="mt-10 grid grid-cols-1 gap-[8px] md:grid-cols-2 md:gap-[32px] xl:grid-cols-3 xl:gap-[42px]">
         {registrations.map((registration) => (
           <RegistrationCard key={registration.id} registration={registration} />
         ))}

@@ -60,6 +60,7 @@ export const TextField = forwardRef<HTMLInputElement, InputProps>(
             )}
             ref={ref}
             {...props}
+            min={props.type === "number" ? 0 : undefined}
             type={showPassword ? "text" : props.type}
           />
           {errorMessage && (
@@ -107,6 +108,8 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
   },
 );
+
+TextAreaField.displayName = "TextAreaField";
 
 interface SelectOption {
   value: string;
