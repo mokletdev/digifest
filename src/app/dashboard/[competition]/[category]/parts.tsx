@@ -56,20 +56,30 @@ function GreetingBoard({
   const context = useContext(CompetitionCategoryDetail);
   const { category, competition } = context!;
 
+  function StageAnnouncement() {
+    if (!activeStage) {
+      return (
+        <SectionTitle>
+          Menunggu Pengumuman Seleksi Tahap Selanjutnya
+        </SectionTitle>
+      );
+    }
+
+    return activeStage.teams.find((team) => team.id === currentTeam.id) ? (
+      <SectionTitle>{activeStage.name}</SectionTitle>
+    ) : (
+      <div className="flex w-full justify-center rounded-full border border-primary-400 bg-primary-50 p-4 text-primary-400">
+        Anda gagal melaju ke tahap {activeStage?.name}
+      </div>
+    );
+  }
+
   return (
     <section className="rounded-xl border border-neutral-100 bg-neutral-50 p-4">
-      {activeStage &&
-      activeStage.teams.find((team) => team.id === currentTeam.id) ? (
-        <SectionTitle>{activeStage.name}</SectionTitle>
-      ) : (
-        <div className="flex w-full justify-center rounded-full border border-primary-400 bg-primary-50 p-4 text-primary-400">
-          Anda gagal melaju ke tahap {activeStage?.name}
-        </div>
-      )}
+      <StageAnnouncement />
       <div
         className={cn(
-          "mb-[54px] flex w-full items-center gap-5 lg:gap-10",
-          activeStage ? "mt-6" : "",
+          "mb-[54px] mt-6 flex w-full items-center gap-5 lg:gap-10",
         )}
       >
         <Image
@@ -82,11 +92,20 @@ function GreetingBoard({
         />
         <H1>Bidang {category.name}</H1>
       </div>
-      <div className="mb-10 w-full">
+      <div className={cn("w-full", announcements.length !== 0 ? "mb-16" : "")}>
         <div className="block">
           <h4
             className={cn(
-              "inline-flex rounded-full border border-neutral-100 px-[14px] py-[6px] uppercase",
+              "inline-flex rounded-full border px-[14px] py-[6px] uppercase",
+              currentTeam.status === "ACCEPTED"
+                ? "border-green-500 bg-green-200 text-green-700"
+                : "",
+              currentTeam.status === "REJECTED"
+                ? "border-red-500 bg-red-200"
+                : "",
+              currentTeam.status === "PENDING"
+                ? "border-yellow-500 bg-yellow-200"
+                : "",
             )}
           >
             {
@@ -101,8 +120,8 @@ function GreetingBoard({
             Selamat Berkompetisi,{" "}
             <span className="text-primary-400">Tim {currentTeam.teamName}</span>
           </H1>
-          <P className="mb-5">{category.description}</P>
-          <div className="flex flex-col items-center gap-2 lg:flex-row">
+          <P className="mb-10">{category.description}</P>
+          <div className="flex flex-col items-center gap-4 lg:flex-row">
             <Link
               href={competition.guidebookUrl}
               variant={"primary"}
@@ -116,7 +135,7 @@ function GreetingBoard({
               variant={"primary"}
               className="w-full justify-center md:w-fit"
             >
-              Lihat data {currentTeam.teamName}
+              Lihat data tim
             </Link>
           </div>
         </div>
@@ -222,13 +241,19 @@ function Timeline({
   );
 }
 
-function TeamMemberCard({ member }: { member: team_member }) {
+function TeamMemberCard({
+  member,
+  teamId,
+}: {
+  member: team_member;
+  teamId: string;
+}) {
   const context = useContext(CompetitionCategoryDetail);
   const { competition, category } = context!;
 
   return (
     <NextLink
-      href={`/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member?id=${member.id}`}
+      href={`/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}/register-member?id=${member.id}&registrationId=${teamId}`}
       className="flex flex-col rounded-[14px] border border-neutral-100 p-4"
     >
       <div>{member.isLeader && <SectionTitle>Ketua Tim</SectionTitle>}</div>
@@ -274,7 +299,7 @@ function TeamMembers({ team }: { team: registrationWithMembers }) {
       )}
       <div className={cn(`grid w-full grid-cols-3`)}>
         {team.teamMembers.map((member) => (
-          <TeamMemberCard key={member.id} member={member} />
+          <TeamMemberCard key={member.id} teamId={team.id} member={member} />
         ))}
       </div>
     </section>

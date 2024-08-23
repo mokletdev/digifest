@@ -73,10 +73,10 @@ export default function MemberRegistrationForm() {
         Kembali ke dashboard kompetisi
       </Link>
       <H1 className="mb-3">
-        Tambahkan{" "}
-        {registration.teamMembers.length === 0
+        {member ? "Ubah" : "Tambahkan"} Data{" "}
+        {registration.teamMembers.length === 0 || member?.isLeader
           ? "Ketua Tim"
-          : `Anggota ke-(${registration.teamMembers.length} + 1)`}
+          : `Anggota ke-(${registration.teamMembers.length + 1})`}
       </H1>
       <P className="mb-[54px]">
         {member

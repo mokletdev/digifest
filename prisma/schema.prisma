@@ -44,8 +44,8 @@ model registered_team {
   registrationBatchId String
   userId              String
 
-  registeredBy      user               @relation(fields: [userId], references: [id])
-  registrationBatch registration_batch @relation(fields: [registrationBatchId], references: [id])
+  registeredBy      user               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  registrationBatch registration_batch @relation(fields: [registrationBatchId], references: [id], onDelete: Cascade)
   teamMembers       team_member[]
   stage             stage[]
 
@@ -60,7 +60,7 @@ model team_member {
   photo          String
   isLeader       Boolean
 
-  team registered_team @relation(fields: [registrationId], references: [id])
+  team registered_team @relation(fields: [registrationId], references: [id], onDelete: Cascade)
 
   @@map("TeamMember")
 }
@@ -75,7 +75,7 @@ model competition {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  createdBy             user                   @relation(fields: [userId], references: [id])
+  createdBy             user                   @relation(fields: [userId], references: [id], onDelete: Cascade)
   competitionCategories competition_category[]
 
   @@map("Competition")
@@ -92,7 +92,7 @@ model competition_category {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  competition         competition          @relation(fields: [competitionId], references: [id])
+  competition         competition          @relation(fields: [competitionId], references: [id], onDelete: Cascade)
   stages              stage[]
   registrationBatches registration_batch[]
 
@@ -109,7 +109,7 @@ model stage {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
-  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id])
+  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id], onDelete: Cascade)
   teams               registered_team[]
   announcements       announcement[]
 
@@ -125,8 +125,8 @@ model announcement {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  stage     stage @relation(fields: [stageId], references: [id])
-  createdBy user  @relation(fields: [userId], references: [id])
+  stage     stage @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  createdBy user  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("Announcement")
 }
@@ -141,7 +141,7 @@ model registration_batch {
   updatedAt             DateTime @updatedAt
   registrationPrice     BigInt
 
-  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id])
+  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id], onDelete: Cascade)
   registrations       registered_team[]
 
   @@map("RegistrationBatch")

@@ -8,15 +8,20 @@ import {
   ACCEPTED_IMAGE_TYPES,
   createRegisteredTeamFormSchema,
 } from "@/lib/validator";
-import { urlefy } from "@/utils/utils";
+import { formatPrice, urlefy } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "sonner";
 import { CompetitionCategoryDetail } from "../../contexts";
 import { registerTeam } from "../actions";
+import { registration_batch } from "@prisma/client";
 
-export default function TeamRegistrationForm() {
+export default function TeamRegistrationForm({
+  registrationBatch,
+}: {
+  registrationBatch: registration_batch;
+}) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -112,6 +117,7 @@ export default function TeamRegistrationForm() {
         <FileField
           name="paymentProof"
           label="Bukti Pembayaran"
+          description={`Biaya pendaftaran sebesar ${formatPrice(Number(registrationBatch.registrationPrice), "IDR", "id-ID")} dibayarkan ke 1440542591992 a.n Moklet Anniversary Panitia`}
           register={teamRegistrationForm.register}
           accept={ACCEPTED_IMAGE_TYPES.reduce(
             (prev, curr) => prev + ", " + curr,
