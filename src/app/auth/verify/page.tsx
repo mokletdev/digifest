@@ -10,9 +10,6 @@ export default async function VerifyEmail({
 }: {
   searchParams: { token?: string };
 }) {
-  const session = await getServerSession();
-  if (!session?.user) return redirect("/auth/login?redirect");
-
   if (!searchParams.token) return notFound();
 
   const user = await findUser({ verificationToken: searchParams.token });
@@ -34,11 +31,11 @@ export default async function VerifyEmail({
         </div>
         <H2 className="mb-3">Berhasil Memverifikasi Email</H2>
         <P className="mb-[34px]">
-          Akun dengan email {session?.user?.email} berhasil diverifikasi!
+          Akun dengan email {user.email} berhasil diverifikasi!
         </P>
-        <Link href="/dashboard" variant={"primary"}>
+        <Link href="/auth/login" variant={"primary"}>
           <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1" />{" "}
-          Masuk ke dashboard
+          Masuk ke akun
         </Link>
       </div>
     </main>

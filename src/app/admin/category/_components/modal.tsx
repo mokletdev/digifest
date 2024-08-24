@@ -28,7 +28,6 @@ export default function Modal({
     defaultValues: {
       name: data?.name,
       description: data?.description,
-      paymentCode: data?.paymentCode,
       minMemberCount: data?.minMemberCount.toString(),
       maxMemberCount: data?.maxMemberCount.toString(),
       competitionId: data?.competitionId,
@@ -44,7 +43,6 @@ export default function Modal({
       ...values,
       maxMemberCount: Number(values.maxMemberCount),
       minMemberCount: Number(values.minMemberCount),
-      paymentCode: values.paymentCode,
     });
 
     if (!result.success) {
@@ -94,13 +92,6 @@ export default function Modal({
             placeholder="Bidang robotic pada kompetisi olimawisa..."
             errorMessage={form.formState.errors.description?.message}
             {...form.register("description")}
-          />
-          <TextField
-            type="text"
-            label="Kode pembayaran"
-            placeholder="1"
-            errorMessage={form.formState.errors.paymentCode?.message}
-            {...form.register("paymentCode")}
           />
           <TextField
             type="number"

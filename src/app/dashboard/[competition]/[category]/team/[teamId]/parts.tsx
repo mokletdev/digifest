@@ -101,10 +101,10 @@ function GreetingBoard({
                 ? "border-green-500 bg-green-200 text-green-700"
                 : "",
               currentTeam.status === "REJECTED"
-                ? "border-red-500 bg-red-200"
+                ? "border-red-500 bg-red-200 text-red-500"
                 : "",
               currentTeam.status === "PENDING"
-                ? "border-yellow-500 bg-yellow-200"
+                ? "border-yellow-500 bg-yellow-50 text-yellow-500"
                 : "",
             )}
           >

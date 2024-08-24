@@ -1,13 +1,12 @@
 import Link from "@/app/_components/global/button";
-import {
-  findActiveStage,
-  provideCompetitionAndCategory,
-} from "@/database/utils";
+import { H1, H3, P } from "@/app/_components/global/text";
+import { provideCompetitionAndCategory } from "@/database/utils";
 import { getServerSession } from "@/lib/next-auth";
 import prisma from "@/lib/prisma";
-import { FaArrowLeft } from "react-icons/fa6";
-import Wrapper from "./_components/wrapper";
-import { GreetingBoard, TeamMembers, Timeline } from "./parts";
+import { urlefy } from "@/utils/utils";
+import { default as NextLink } from "next/link";
+import { FaPlusCircle } from "react-icons/fa";
+import { FaArrowLeft, FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 export default async function CompetitionCategoryDetail({
   params,
@@ -22,49 +21,64 @@ export default async function CompetitionCategoryDetail({
   );
 
   const session = await getServerSession();
-  const activeStage = await findActiveStage(category.id);
 
-  const [announcements, stages, team, batches] = await prisma.$transaction([
-    prisma.announcement.findMany({
-      where: { stage: { competitionCategoryId: category.id } },
-      include: { stage: true },
-    }),
-    prisma.stage.findMany({
-      where: { competitionCategory: { id: category.id } },
-    }),
-    prisma.registered_team.findFirst({
+  const [teams] = await prisma.$transaction([
+    prisma.registered_team.findMany({
       where: {
-        AND: {
-          registeredBy: { id: session?.user?.id },
-          registrationBatch: { competitionCategoryId: category.id },
-        },
+        userId: session?.user?.id,
+        registrationBatch: { competitionCategoryId: category.id },
       },
-      include: { teamMembers: true },
-    }),
-    prisma.registration_batch.findMany({
-      where: { competitionCategoryId: category.id },
+      include: {
+        teamMembers: true,
+      },
     }),
   ]);
 
   return (
-    <Wrapper value={{ category, competition }}>
-      <main className="mx-auto max-w-[1169px] px-5 py-10">
-        <Link href="/dashboard" variant={"secondary"} className="mb-10">
+    <main className="max-w-screen flex flex-col items-center justify-center px-5 py-20 md:px-8">
+      <div className="w-full">
+        <Link href="/dashboard" variant={"tertiary"} className="mb-2">
           <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1" />{" "}
           Kembali ke dashboard utama
         </Link>
-        <GreetingBoard
-          team={team!}
-          announcements={announcements}
-          activeStage={activeStage}
-        />
-        <Timeline
-          categoryName={category.name}
-          stages={stages}
-          batches={batches}
-        />
-        <TeamMembers team={team!} />
-      </main>
-    </Wrapper>
+        <H1 className="mb-12">
+          Tim Anda di {competition.name} bidang {category.name}
+        </H1>
+      </div>
+      <div className="grid w-full grid-cols-1 gap-5 self-start md:grid-cols-2 xl:grid-cols-3 xl:gap-10">
+        {teams.map((team) => (
+          <NextLink
+            key={team.id}
+            href={`/dashboard/${urlefy(competitionName)}/${urlefy(categoryName)}/team/${team.id}`}
+            className="group w-full"
+          >
+            <figure className="flex w-full items-center gap-5 rounded-[14px] border bg-primary-400 p-5 transition-all duration-300 group-hover:bg-primary-200">
+              <div className="rounded-full bg-primary-50 p-4 text-primary-400">
+                <FaArrowUpRightFromSquare />
+              </div>
+              <div className="block">
+                <H3 className="text-white">Tim {team.teamName}</H3>
+                <P className="text-white">
+                  {team.teamMembers.length} anggota terdaftar
+                </P>
+              </div>
+            </figure>
+          </NextLink>
+        ))}
+        <NextLink
+          href={`/dashboard/${urlefy(competitionName)}/${urlefy(categoryName)}/register`}
+          className="group w-full"
+        >
+          <figure className="flex w-full items-center gap-5 rounded-[14px] border border-primary-400 bg-white p-5 transition-all duration-300 group-hover:bg-primary-50">
+            <div className="rounded-full bg-primary-50 p-4 text-primary-400 transition-colors duration-300 group-hover:bg-white">
+              <FaPlusCircle className="text-lg" />
+            </div>
+            <div className="block">
+              <H3>Daftarkan Tim Baru</H3>
+            </div>
+          </figure>
+        </NextLink>
+      </div>
+    </main>
   );
 }

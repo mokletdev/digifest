@@ -43,6 +43,7 @@ model registered_team {
   updatedAt           DateTime           @updatedAt
   registrationBatchId String
   userId              String
+  paymentCode         Int
 
   registeredBy      user               @relation(fields: [userId], references: [id], onDelete: Cascade)
   registrationBatch registration_batch @relation(fields: [registrationBatchId], references: [id], onDelete: Cascade)
@@ -86,7 +87,6 @@ model competition_category {
   competitionId  String
   name           String
   description    String
-  paymentCode    String
   minMemberCount Int
   maxMemberCount Int
   createdAt      DateTime @default(now())
