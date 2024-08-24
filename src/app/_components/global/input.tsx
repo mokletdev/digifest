@@ -230,7 +230,11 @@ export function FileField({
 
   return (
     <div className="flex w-full flex-col items-center justify-center py-4">
-      <P className="mb-2 self-start text-black">{label}</P>
+      <P
+        className={`mb-2 self-start ${errorMessage ? "text-primary-400" : "text-black"}`}
+      >
+        {label}
+      </P>
       <P className="mb-4 self-start text-xs">{description}</P>
       <label
         htmlFor={name}

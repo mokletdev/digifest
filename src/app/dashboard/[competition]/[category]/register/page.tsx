@@ -15,34 +15,11 @@ export default async function RegisterTeam({
   params: { competition: string; category: string };
 }) {
   const { category: categoryName, competition: competitionName } = params;
-  const session = await getServerSession();
-
-  const user = await prisma.user.findUnique({
-    where: { id: session?.user?.id },
-    include: {
-      registrations: {
-        select: {
-          registrationBatch: {
-            include: { competitionCategory: { select: { id: true } } },
-          },
-        },
-      },
-    },
-  });
 
   const { category, competition } = await provideCompetitionAndCategory(
     competitionName,
     categoryName,
   );
-
-  const alreadyRegistered = user?.registrations.find(
-    (registration) =>
-      registration.registrationBatch.competitionCategory.id === category.id,
-  );
-  if (alreadyRegistered)
-    return redirect(
-      `/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}`,
-    );
 
   const activeBatch = await findActiveRegistrationBatch(category.id);
   if (!activeBatch) return notFound();

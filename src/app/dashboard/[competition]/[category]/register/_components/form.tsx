@@ -68,9 +68,13 @@ export default function TeamRegistrationForm({
 
   return (
     <form className="w-full max-w-full lg:max-w-[560px]" onSubmit={onSubmit}>
-      <Link href="/dashboard" variant={"tertiary"} className="mb-3">
+      <Link
+        href={`/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}`}
+        variant={"tertiary"}
+        className="mb-3"
+      >
         <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1" />{" "}
-        Kembali ke dashboard
+        Kembali ke daftar tim
       </Link>
       <H1 className="mb-3">Registrasi Lomba</H1>
       <P className="mb-5">
