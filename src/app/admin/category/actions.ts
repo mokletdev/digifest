@@ -16,7 +16,6 @@ export async function upsertCategory(
   data: {
     name: string;
     description: string;
-    paymentCode: string;
     minMemberCount: number;
     maxMemberCount: number;
     competitionId: string;
@@ -47,7 +46,6 @@ export async function upsertCategory(
       const {
         name,
         description,
-        paymentCode,
         minMemberCount,
         maxMemberCount,
         competitionId,
@@ -55,7 +53,6 @@ export async function upsertCategory(
       if (
         !name ||
         !description ||
-        !paymentCode ||
         !minMemberCount ||
         !maxMemberCount ||
         !competitionId
@@ -65,7 +62,6 @@ export async function upsertCategory(
       await createCategory({
         name,
         description,
-        paymentCode,
         minMemberCount,
         maxMemberCount,
         competition: {

@@ -7,7 +7,13 @@ export async function checkVerifiedStatus(
   email: string,
 ): Promise<ServerActionResponse> {
   try {
-    const user = await findUser({ email: email });
+    const user = await findUser({ email });
+
+    if (!user)
+      return {
+        success: false,
+        message: `Pengguna dengan email ${email} tidak ditemukan!`,
+      };
 
     if (!user?.verified)
       return {

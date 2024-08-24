@@ -19,8 +19,10 @@ import { registration_batch } from "@prisma/client";
 
 export default function TeamRegistrationForm({
   registrationBatch,
+  paymentCode,
 }: {
   registrationBatch: registration_batch;
+  paymentCode: number;
 }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -51,7 +53,7 @@ export default function TeamRegistrationForm({
       actionData.append("supervisingTeacher", supervisingTeacher);
       actionData.append("paymentProof", paymentProofFile);
 
-      const result = await registerTeam(category.id, actionData);
+      const result = await registerTeam(paymentCode, category.id, actionData);
 
       if (!result.success) {
         setLoading(false);
@@ -121,7 +123,7 @@ export default function TeamRegistrationForm({
         <FileField
           name="paymentProof"
           label="Bukti Pembayaran"
-          description={`Biaya pendaftaran sebesar ${formatPrice(Number(registrationBatch.registrationPrice), "IDR", "id-ID")} dibayarkan ke 1440542591992 a.n Moklet Anniversary Panitia`}
+          description={`Biaya pendaftaran sebesar ${formatPrice(Number(registrationBatch.registrationPrice) + paymentCode, "IDR", "id-ID")} dibayarkan ke 1440542591992 a.n Moklet Anniversary Panitia dengan kode pembayaran`}
           register={teamRegistrationForm.register}
           accept={ACCEPTED_IMAGE_TYPES.reduce(
             (prev, curr) => prev + ", " + curr,
