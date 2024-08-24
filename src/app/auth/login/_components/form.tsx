@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
+import { checkVerifiedStatus } from "../actions";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,11 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
+      const result = await checkVerifiedStatus(form.getValues("email"));
+      if (!result.success) {
+        return toast.error(result.message, { id: toastId });
+      }
+
       const res = await signIn("credentials", {
         redirect: false,
         email: values.email,
