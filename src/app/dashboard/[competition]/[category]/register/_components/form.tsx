@@ -8,15 +8,22 @@ import {
   ACCEPTED_IMAGE_TYPES,
   createRegisteredTeamFormSchema,
 } from "@/lib/validator";
-import { urlefy } from "@/utils/utils";
+import { formatPrice, urlefy } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "sonner";
 import { CompetitionCategoryDetail } from "../../contexts";
 import { registerTeam } from "../actions";
+import { registration_batch } from "@prisma/client";
 
-export default function TeamRegistrationForm() {
+export default function TeamRegistrationForm({
+  registrationBatch,
+  paymentCode,
+}: {
+  registrationBatch: registration_batch;
+  paymentCode: number;
+}) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -46,7 +53,7 @@ export default function TeamRegistrationForm() {
       actionData.append("supervisingTeacher", supervisingTeacher);
       actionData.append("paymentProof", paymentProofFile);
 
-      const result = await registerTeam(category.id, actionData);
+      const result = await registerTeam(paymentCode, category.id, actionData);
 
       if (!result.success) {
         setLoading(false);
@@ -63,9 +70,13 @@ export default function TeamRegistrationForm() {
 
   return (
     <form className="w-full max-w-full lg:max-w-[560px]" onSubmit={onSubmit}>
-      <Link href="/dashboard" variant={"tertiary"} className="mb-3">
+      <Link
+        href={`/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}`}
+        variant={"tertiary"}
+        className="mb-3"
+      >
         <FaArrowLeft className="transition-transform duration-300 group-hover:-translate-x-1" />{" "}
-        Kembali ke dashboard
+        Kembali ke daftar tim
       </Link>
       <H1 className="mb-3">Registrasi Lomba</H1>
       <P className="mb-5">
@@ -112,6 +123,7 @@ export default function TeamRegistrationForm() {
         <FileField
           name="paymentProof"
           label="Bukti Pembayaran"
+          description={`Biaya pendaftaran sebesar ${formatPrice(Number(registrationBatch.registrationPrice) + paymentCode, "IDR", "id-ID")} dibayarkan ke 1440542591992 a.n Moklet Anniversary Panitia dengan kode pembayaran`}
           register={teamRegistrationForm.register}
           accept={ACCEPTED_IMAGE_TYPES.reduce(
             (prev, curr) => prev + ", " + curr,

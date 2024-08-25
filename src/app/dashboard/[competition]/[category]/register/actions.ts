@@ -9,6 +9,7 @@ import { fileToBuffer } from "@/utils/utils";
 import { Prisma } from "@prisma/client";
 
 export async function registerTeam(
+  paymentCode: number,
   categoryId: string,
   actionData: FormData,
 ): Promise<ServerActionResponse> {
@@ -41,6 +42,7 @@ export async function registerTeam(
     const payload: Prisma.registered_teamCreateInput = {
       ...data,
       paymentProof: "",
+      paymentCode,
       registeredBy: {
         connect: { id: session.user.id },
       },

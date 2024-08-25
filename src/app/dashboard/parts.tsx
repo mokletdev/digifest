@@ -1,6 +1,5 @@
 "use client";
 import cn from "@/lib/cn";
-import { registrationWithBatch } from "@/types/relation";
 import { formatPrice, getCurrentDateByTimeZone, urlefy } from "@/utils/utils";
 import { signOut } from "next-auth/react";
 import { default as NextLink } from "next/link";
@@ -11,42 +10,8 @@ import Link, { Button } from "../_components/global/button";
 import { H1, H3, P, SectionTitle } from "../_components/global/text";
 import { DashboardContext } from "./contexts";
 
-function RegistrationCard({
-  registration,
-}: {
-  registration: registrationWithBatch;
-}) {
-  const batch = registration.registrationBatch;
-  const competitionName = batch.competitionCategory.competition.name;
-  const categoryName = batch.competitionCategory.name;
-
-  return (
-    <NextLink
-      href={`/dashboard/${urlefy(competitionName)}/${urlefy(categoryName)}`}
-      className="group"
-    >
-      <figure className="flex w-full items-center gap-5 rounded-[14px] border border-neutral-100 p-5 transition-all duration-300 group-hover:border-primary-400">
-        <div className="rounded-full bg-primary-50 p-4">
-          <FaPeopleGroup />
-        </div>
-        <div className="block">
-          <H3>Tim {registration.teamName}</H3>
-          <P>
-            {
-              registration.registrationBatch.competitionCategory.competition
-                .name
-            }{" "}
-            | {registration.registrationBatch.competitionCategory.name}
-          </P>
-        </div>
-      </figure>
-    </NextLink>
-  );
-}
-
 function GreetingBoard() {
   const context = useContext(DashboardContext);
-  const registrations = context?.registrations!;
   const user = context?.user!;
 
   return (
@@ -79,11 +44,6 @@ function GreetingBoard() {
           Logout
         </Button>
       </div>
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 md:gap-[32px] xl:grid-cols-3 xl:gap-[64px]">
-        {registrations.map((registration) => (
-          <RegistrationCard key={registration.id} registration={registration} />
-        ))}
-      </div>
     </section>
   );
 }
@@ -94,27 +54,27 @@ function CategoryCard({
   description,
   registrationPrice,
   maxMemberCount,
-  alreadyRegistered,
+  registrationsCount,
 }: {
   competition: string;
   title: string;
   description: string;
   registrationPrice: string;
   maxMemberCount: number;
-  alreadyRegistered: boolean;
+  registrationsCount: number;
 }) {
   return (
     <NextLink
-      href={
-        alreadyRegistered
-          ? `/dashboard/${urlefy(competition)}/${urlefy(title)}`
-          : `/dashboard/${urlefy(competition)}/${urlefy(title)}/register`
-      }
+      href={`/dashboard/${urlefy(competition)}/${urlefy(title)}`}
       className="group block text-left"
     >
       <figure className="flex w-full flex-col items-start justify-between gap-[54px] rounded-[14px] border border-neutral-100 p-[22px] transition-all duration-300 group-hover:bg-neutral-50 lg:flex-row lg:gap-0">
         <div className="w-full lg:max-w-[854px]">
-          {alreadyRegistered && <SectionTitle>Sudah Mendaftar</SectionTitle>}
+          {registrationsCount > 0 && (
+            <SectionTitle>
+              Sudah Mendaftarkan {registrationsCount} tim
+            </SectionTitle>
+          )}
           <H3 className="mb-[10px] mt-4">{title}</H3>
           <P className="mb-8">{description}</P>
           <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-[62px]">
@@ -147,7 +107,7 @@ function CategoryCard({
           </div>
         </div>
         <span className="flex items-center gap-2 transition-colors duration-300 group-hover:text-primary-400">
-          {alreadyRegistered ? "Lihat detail" : "Daftar sekarang"}{" "}
+          Lihat Detail
           <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
         </span>
       </figure>
@@ -229,7 +189,7 @@ function Competition() {
       <div className="flex flex-col gap-6">
         {categories.length > 0 ? (
           categories.map((category) => {
-            const matchedRegistration = registrations.find(
+            const matchedRegistrations = registrations.filter(
               (registration) =>
                 registration.registrationBatch.competitionCategory.name ===
                 category.name,
@@ -251,7 +211,7 @@ function Competition() {
                   "IDR",
                   "id-ID",
                 )}
-                alreadyRegistered={matchedRegistration !== undefined}
+                registrationsCount={matchedRegistrations.length}
               />
             );
           })

@@ -59,11 +59,6 @@ export default function CategoriesTable({
       sortable: false,
     },
     {
-      name: "Payment Code",
-      selector: (row) => row.paymentCode,
-      sortable: false,
-    },
-    {
       name: "Stages Count",
       selector: (row) => row._count.stages,
       sortable: false,
