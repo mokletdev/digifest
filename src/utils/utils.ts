@@ -1,4 +1,5 @@
 import { randomFillSync } from "crypto";
+import { extension } from "mime-types";
 
 export function stringifyCompleteDate(date: Date) {
   const year = date.getFullYear(),
@@ -92,4 +93,53 @@ export function getCurrentDateByTimeZone(timeZone: string = "Asia/Jakarta") {
 export function parseLinks(text: string): string {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   return text.replace(urlRegex, (link) => `<a href="${link}">${link}</a>`);
+}
+
+/**
+ * Downloads a file from the specified URL and triggers a download on the client side.
+ *
+ * This function uses the Fetch API to retrieve the file as a blob and then
+ * programmatically creates a download link for the file, allowing users to
+ * download the file to their local device. The file extension is inferred from
+ * the `Content-Type` header in the HTTP response.
+ *
+ * @param {string} url - The URL of the file to download.
+ * @param {string} [fileName="file"] - The desired name for the downloaded file, without extension.
+ *                                      If not provided, defaults to "file".
+ * @returns {Promise<void>} A promise that resolves when the file has been successfully downloaded,
+ *                          or rejects with an error if the download fails.
+ *
+ * @throws {Error} Throws an error if the file fetch operation fails (e.g., due to network issues or an invalid URL).
+ *
+ * @example
+ * // Download a file from the given URL with a custom file name.
+ * downloadFile('https://example.com/file.pdf', 'file')
+ *   .then(() => console.log('Download successful'))
+ *   .catch((error) => console.error('Download failed:', error));
+ */
+export async function downloadFile(
+  url: string,
+  fileName: string = "file",
+): Promise<void> {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch file from ${url}`);
+  }
+
+  const blob = await response.blob();
+  const link = document.createElement("a");
+  const fileExtenstion = extension(
+    response.headers.get("Content-Type") || "bin",
+  );
+
+  link.href = URL.createObjectURL(blob);
+  link.download = `${fileName}.${fileExtenstion}`;
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
+
+  return;
 }
