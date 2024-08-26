@@ -5,6 +5,14 @@ export type competitionCategoryWithCompetition =
     include: { competition: true; _count: { select: { stages: true } } };
   }>;
 
+export type competitionCategoryWithCompetitionAndCount =
+  Prisma.competition_categoryGetPayload<{
+    include: {
+      competition: true;
+      _count: { select: { stages: true; registrationBatches: true } };
+    };
+  }>;
+
 export type competitionWithCategoriesAndBatchesAndStages =
   Prisma.competitionGetPayload<{
     include: {

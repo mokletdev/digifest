@@ -6,7 +6,10 @@ export default async function Category() {
   const [competitionCategoriesWithCompetition, competitions] =
     await prisma.$transaction([
       prisma.competition_category.findMany({
-        include: { competition: true, _count: { select: { stages: true } } },
+        include: {
+          competition: true,
+          _count: { select: { stages: true, registrationBatches: true } },
+        },
       }),
       prisma.competition.findMany({ select: { name: true, id: true } }),
     ]);

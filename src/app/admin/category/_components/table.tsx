@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { deleteCategory } from "../actions";
 
 import { Button } from "@/app/_components/global/button";
-import { competitionCategoryWithCompetition } from "@/types/relation";
+import { competitionCategoryWithCompetitionAndCount } from "@/types/relation";
 import { useRouter } from "next/navigation";
 import Modal from "./modal";
 import { MdLeaderboard } from "react-icons/md";
@@ -16,17 +16,17 @@ export default function CategoriesTable({
   data,
   competitions,
 }: {
-  data: competitionCategoryWithCompetition[];
+  data: competitionCategoryWithCompetitionAndCount[];
   competitions: { name: string; id: string }[];
 }) {
   const [loader, setLoader] = useState(true);
   const [editModalData, setEditModalData] =
-    useState<competitionCategoryWithCompetition | null>(null);
+    useState<competitionCategoryWithCompetitionAndCount | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const router = useRouter();
 
-  function editCompetition(data: competitionCategoryWithCompetition) {
+  function editCompetition(data: competitionCategoryWithCompetitionAndCount) {
     setEditModalData(data);
     setIsCreateModalOpen(false);
     setIsEditModalOpen(true);
@@ -52,7 +52,7 @@ export default function CategoriesTable({
     router.refresh();
   }
 
-  const columns: TableColumn<competitionCategoryWithCompetition>[] = [
+  const columns: TableColumn<competitionCategoryWithCompetitionAndCount>[] = [
     {
       name: "Name",
       selector: (row) => row.name,
@@ -61,6 +61,11 @@ export default function CategoriesTable({
     {
       name: "Stages Count",
       selector: (row) => row._count.stages,
+      sortable: false,
+    },
+    {
+      name: "Regist Batch Count",
+      selector: (row) => row._count.registrationBatches,
       sortable: false,
     },
     {
