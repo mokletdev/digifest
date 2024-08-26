@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { About, Competition, FAQ, Hero, Timeline } from "./parts";
+import Wrapper from "./_components/wrapper";
 
 export default async function Home() {
   const [competitions] = await prisma.$transaction([
@@ -13,18 +14,12 @@ export default async function Home() {
   ]);
 
   return (
-    <>
-      <Hero
-        competitions={competitions.map(({ name, logo, description }) => ({
-          name,
-          logo,
-          description,
-        }))}
-      />
-      <About competitionsCount={competitions.length} />
-      <Competition competitions={competitions} />
-      <Timeline competitions={competitions} />
+    <Wrapper value={{ competitions }}>
+      <Hero />
+      <About />
+      <Competition />
+      <Timeline />
       <FAQ />
-    </>
+    </Wrapper>
   );
 }

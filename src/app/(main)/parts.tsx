@@ -1,6 +1,5 @@
 "use client";
 import cn from "@/lib/cn";
-import { competitionWithCategoriesAndBatchesAndStages } from "@/types/relation";
 import {
   formatDateDMY,
   formatPrice,
@@ -10,7 +9,13 @@ import {
 } from "@/utils/utils";
 import Image from "next/image";
 import { default as NextLink } from "next/link";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { FaMoneyBillWave } from "react-icons/fa";
 import {
   FaArrowDown,
@@ -30,12 +35,12 @@ import {
   P,
   SectionTitle,
 } from "../_components/global/text";
+import { LandingPageContext } from "./contexts";
 
-function Hero({
-  competitions,
-}: {
-  competitions: { logo: string; name: string; description: string }[];
-}) {
+function Hero() {
+  const context = useContext(LandingPageContext);
+  const { competitions } = context!;
+
   return (
     <header
       id="beranda"
@@ -121,7 +126,11 @@ function SubDescription({
   );
 }
 
-function About({ competitionsCount }: { competitionsCount: number }) {
+function About() {
+  const context = useContext(LandingPageContext);
+  const { competitions } = context!;
+  const competitionsCount = competitions.length;
+
   return (
     <section className="w-full py-[82px]" id="tentang">
       <div className="mb-[64px] flex w-full flex-col items-start justify-between gap-[72px] lg:flex-row lg:items-center lg:gap-2">
@@ -234,27 +243,28 @@ function CategoryCard({
   );
 }
 
-function Competition({
-  competitions,
-}: {
-  competitions: competitionWithCategoriesAndBatchesAndStages[];
-}) {
+function Competition() {
+  const context = useContext(LandingPageContext);
+  const { competitions } = context!;
+
   const [selectedCompetition, setSelectedCompetition] = useState<string>(
     competitions.length > 0 ? competitions[0].name : "",
   );
   const [competitionObject, setCompetitionObject] = useState(
     competitions.find(
       (competition) => competition.name === selectedCompetition,
-    )!,
+    ),
   );
   const [openCategories, setOpenCategories] = useState(
-    competitionObject.competitionCategories.filter((category) => {
-      const currentDate = getCurrentDateByTimeZone();
-      return category.registrationBatches.find(
-        ({ openedDate, closedDate }) =>
-          currentDate >= openedDate && currentDate <= closedDate,
-      );
-    }),
+    competitionObject
+      ? competitionObject.competitionCategories.filter((category) => {
+          const currentDate = getCurrentDateByTimeZone();
+          return category.registrationBatches.find(
+            ({ openedDate, closedDate }) =>
+              currentDate >= openedDate && currentDate <= closedDate,
+          );
+        })
+      : [],
   );
 
   useEffect(() => {
@@ -263,15 +273,18 @@ function Competition({
         (competition) => competition.name === selectedCompetition,
       )!,
     );
-    setOpenCategories(
-      competitionObject.competitionCategories.filter((category) => {
-        const currentDate = getCurrentDateByTimeZone();
-        return category.registrationBatches.find(
-          ({ openedDate, closedDate }) =>
-            currentDate >= openedDate && currentDate <= closedDate,
-        );
-      }),
-    );
+
+    if (competitionObject) {
+      setOpenCategories(
+        competitionObject.competitionCategories.filter((category) => {
+          const currentDate = getCurrentDateByTimeZone();
+          return category.registrationBatches.find(
+            ({ openedDate, closedDate }) =>
+              currentDate >= openedDate && currentDate <= closedDate,
+          );
+        }),
+      );
+    }
   }, [selectedCompetition, competitions, competitionObject]);
 
   return (
@@ -291,14 +304,16 @@ function Competition({
           </P>
         </div>
         <div className="flex w-full flex-col items-start justify-between gap-[72px] lg:flex-row lg:items-center lg:gap-0">
-          <Link
-            href={competitionObject?.guidebookUrl}
-            variant={"primary"}
-            className="w-full justify-center sm:w-fit"
-          >
-            <FaBook />
-            Lihat guidebook {competitionObject.name}
-          </Link>
+          {competitionObject && (
+            <Link
+              href={competitionObject.guidebookUrl}
+              variant={"primary"}
+              className="w-full justify-center sm:w-fit"
+            >
+              <FaBook />
+              Lihat guidebook {competitionObject.name}
+            </Link>
+          )}
           <div className="ites-center flex gap-[14px] rounded-full border border-neutral-100 p-3">
             {competitions.map((competition) => (
               <button
@@ -320,7 +335,7 @@ function Competition({
         </div>
       </div>
       <div className="flex flex-col gap-6">
-        {openCategories.length > 0 ? (
+        {competitionObject && openCategories.length > 0 ? (
           openCategories.map((category) => (
             <CategoryCard
               key={category.id}
@@ -382,11 +397,10 @@ function SubTimeline({
   );
 }
 
-function Timeline({
-  competitions,
-}: {
-  competitions: competitionWithCategoriesAndBatchesAndStages[];
-}) {
+function Timeline() {
+  const context = useContext(LandingPageContext);
+  const { competitions } = context!;
+
   const [selectedCompetition, setSelectedCompetition] = useState<string>(
     competitions.length > 0 ? competitions[0].name : "",
   );
@@ -442,50 +456,56 @@ function Timeline({
         </div>
       </div>
       <div className="flex flex-col gap-10">
-        {competitionObject.competitionCategories.map((category) => (
-          <div key={category.id} className="block">
-            <H2 className="mb-7">Bidang {category.name}</H2>
-            <div className="grid w-full grid-cols-1 gap-[18px] gap-y-[52px] md:grid-cols-2 lg:grid-cols-3">
-              {category.registrationBatches.length === 0 &&
-                category.stages.length === 0 &&
-                category.stages.length === 0 && (
-                  <P>Belum ada informasi, nih...</P>
-                )}
-              {category.registrationBatches
-                .sort((a, b) => a.openedDate.getTime() - b.openedDate.getTime())
-                .map((batch, i) => (
-                  <SubTimeline
-                    key={batch.id}
-                    startDate={batch.openedDate}
-                    endDate={batch.closedDate}
-                    title={`Pendaftaran Batch ${i + 1}`}
-                    description={`Pembukaan pendaftaran batch ${i === 0 ? "pertama" : `ke-${i}`}`}
-                    location={
-                      i === category.registrationBatches.length - 1
-                        ? "Online"
-                        : "SMK Telkom Malang"
-                    }
-                  />
-                ))}
-              {category.stages
-                .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
-                .map((stage, i) => (
-                  <SubTimeline
-                    key={stage.id}
-                    startDate={stage.startDate}
-                    endDate={stage.endDate}
-                    title={stage.name}
-                    description={stage.description}
-                    location={
-                      i === category.registrationBatches.length - 1
-                        ? "Online"
-                        : "SMK Telkom Malang"
-                    }
-                  />
-                ))}
+        {competitionObject ? (
+          competitionObject.competitionCategories.map((category) => (
+            <div key={category.id} className="block">
+              <H2 className="mb-7">Bidang {category.name}</H2>
+              <div className="grid w-full grid-cols-1 gap-[18px] gap-y-[52px] md:grid-cols-2 lg:grid-cols-3">
+                {category.registrationBatches.length === 0 &&
+                  category.stages.length === 0 &&
+                  category.stages.length === 0 && (
+                    <P>Belum ada informasi, nih...</P>
+                  )}
+                {category.registrationBatches
+                  .sort(
+                    (a, b) => a.openedDate.getTime() - b.openedDate.getTime(),
+                  )
+                  .map((batch, i) => (
+                    <SubTimeline
+                      key={batch.id}
+                      startDate={batch.openedDate}
+                      endDate={batch.closedDate}
+                      title={`Pendaftaran Batch ${i + 1}`}
+                      description={`Pembukaan pendaftaran batch ${i === 0 ? "pertama" : `ke-${i}`}`}
+                      location={
+                        i === category.registrationBatches.length - 1
+                          ? "Online"
+                          : "SMK Telkom Malang"
+                      }
+                    />
+                  ))}
+                {category.stages
+                  .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
+                  .map((stage, i) => (
+                    <SubTimeline
+                      key={stage.id}
+                      startDate={stage.startDate}
+                      endDate={stage.endDate}
+                      title={stage.name}
+                      description={stage.description}
+                      location={
+                        i === category.registrationBatches.length - 1
+                          ? "Online"
+                          : "SMK Telkom Malang"
+                      }
+                    />
+                  ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <P>Belum ada informasi apa-apa, nih...</P>
+        )}
       </div>
     </section>
   );
