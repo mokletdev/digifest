@@ -82,6 +82,7 @@ export async function upsertRegistrationBatch(
         },
       });
 
+      revalidatePath("/", "layout");
       return { success: true, message: "Sukses membuat Gelombang Registrasi!" };
     }
 
@@ -94,9 +95,7 @@ export async function upsertRegistrationBatch(
 
     await updateRegistrationBatch({ id }, payload);
 
-    revalidatePath("/admin", "layout");
-    revalidatePath("/dashboard", "layout");
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     return {
       success: true,
       message: "Sukses meng-update Gelombang Registrasi!",
@@ -121,9 +120,7 @@ export async function deleteRegistrationBatch(
 
     await removeRegistrationBatch({ id });
 
-    revalidatePath("/admin", "layout");
-    revalidatePath("/dashboard", "layout");
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil menghapus Stage!" };
   } catch (error) {
     console.log(error);

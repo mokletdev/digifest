@@ -19,8 +19,7 @@ export async function addTeamToStage(
       data: { teams: { connect: { id: teamId } } },
     });
 
-    revalidatePath("/admin/stage");
-    revalidatePath("/admin/stage/[id]");
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil menambahkan team!" };
   } catch (error) {
     console.log(error);
@@ -42,8 +41,7 @@ export async function deleteTeamFromStage(
       data: { teams: { disconnect: { id: teamId } } },
     });
 
-    revalidatePath("/admin/stage");
-    revalidatePath("/admin/stage/[id]");
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil menghapus Stage!" };
   } catch (error) {
     console.log(error);

@@ -25,6 +25,7 @@ export default function LoginForm() {
     try {
       const result = await checkVerifiedStatus(form.getValues("email"));
       if (!result.success) {
+        setLoading(false);
         return toast.error(result.message, { id: toastId });
       }
 
@@ -44,9 +45,11 @@ export default function LoginForm() {
           { id: toastId },
         );
       }
+      setLoading(false);
       toast.success("Berhasil login!", { id: toastId });
-      router.push("/auth/verify-warning");
+      return router.push("/");
     } catch (error) {
+      setLoading(false);
       toast.error("Terjadi kesalahan", { id: toastId });
     }
   });

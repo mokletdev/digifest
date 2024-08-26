@@ -69,6 +69,7 @@ export async function upsertCategory(
         },
       });
 
+      revalidatePath("/", "layout");
       return { success: true, message: "Sukses membuat Category!" };
     }
 
@@ -78,8 +79,7 @@ export async function upsertCategory(
 
     await updateCategory({ id }, payload);
 
-    revalidatePath("/admin", "layout");
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     return { success: true, message: "Sukses meng-update Category!" };
   } catch (error) {
     console.log(error);
@@ -101,8 +101,7 @@ export async function deleteCategory(
 
     await removeCategory({ id });
 
-    revalidatePath("/admin", "layout");
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil menghapus Category!" };
   } catch (error) {
     console.log(error);

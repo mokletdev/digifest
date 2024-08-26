@@ -40,6 +40,7 @@ export async function upsertUser(
         verificationToken: generateRandomString(14),
       });
 
+      revalidatePath("/", "layout");
       return { success: true, message: "Sukses membuat user!" };
     }
 
@@ -49,7 +50,7 @@ export async function upsertUser(
 
     await updateUser({ id }, data);
 
-    revalidatePath("/admin", "layout");
+    revalidatePath("/", "layout");
     return { success: true, message: "Sukses meng-update user!" };
   } catch (error) {
     console.log(error);
@@ -69,7 +70,7 @@ export async function deleteUser(id: string): Promise<ServerActionResponse> {
 
     await removeUser({ id });
 
-    revalidatePath("/admin", "layout");
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil menghapus user!" };
   } catch (error) {
     console.log(error);
