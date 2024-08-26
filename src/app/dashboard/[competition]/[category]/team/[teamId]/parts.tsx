@@ -59,17 +59,19 @@ function GreetingBoard({
   function StageAnnouncement() {
     if (!activeStage) {
       return (
-        <SectionTitle>
-          Menunggu Pengumuman Seleksi Tahap Selanjutnya
-        </SectionTitle>
+        <div className="flex w-full justify-center rounded-full border border-yellow-400 bg-yellow-50 p-4 text-yellow-400">
+          Menunggu pengumuman tahap selanjutnya
+        </div>
       );
     }
 
     return activeStage.teams.find((team) => team.id === currentTeam.id) ? (
-      <SectionTitle>{activeStage.name}</SectionTitle>
+      <div className="flex w-full justify-center rounded-full border border-green-400 bg-green-50 p-4 text-green-400">
+        Anda berhasil melaju ke {activeStage?.name}
+      </div>
     ) : (
       <div className="flex w-full justify-center rounded-full border border-primary-400 bg-primary-50 p-4 text-primary-400">
-        Anda gagal melaju ke tahap {activeStage?.name}
+        Anda gagal melaju ke {activeStage?.name}
       </div>
     );
   }
@@ -142,7 +144,9 @@ function GreetingBoard({
       </div>
       {activeStage && (
         <div className="p-4">
-          <H2 className="mb-6">Pengumuman di {activeStage.name}</H2>
+          {announcements.length !== 0 && (
+            <H2 className="mb-6">Pengumuman di {activeStage.name}</H2>
+          )}
           <div className="flex flex-col gap-4">
             {announcements.map((announcement) => (
               <AnnouncementCard

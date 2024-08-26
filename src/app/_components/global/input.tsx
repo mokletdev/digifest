@@ -235,7 +235,10 @@ export function FileField({
       >
         {label}
       </P>
-      <P className="mb-4 self-start text-xs">{description}</P>
+      <P
+        className="mb-4 self-start text-xs"
+        dangerouslySetInnerHTML={{ __html: description || "" }}
+      ></P>
       <label
         htmlFor={name}
         className={cn(

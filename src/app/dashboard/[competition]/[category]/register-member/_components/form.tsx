@@ -10,12 +10,12 @@ import {
   createTeamMemberFormSchema,
 } from "@/lib/validator";
 import { urlefy } from "@/utils/utils";
-import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "sonner";
 import { registerMember } from "../actions";
 import { RegistrationFormContext } from "../contexts";
+import { useRouter } from "next-nprogress-bar";
 
 export default function MemberRegistrationForm() {
   const [loading, setLoading] = useState(false);
