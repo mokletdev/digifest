@@ -142,7 +142,9 @@ function GreetingBoard({
       </div>
       {activeStage && (
         <div className="p-4">
-          <H2 className="mb-6">Pengumuman di {activeStage.name}</H2>
+          {announcements.length !== 0 && (
+            <H2 className="mb-6">Pengumuman di {activeStage.name}</H2>
+          )}
           <div className="flex flex-col gap-4">
             {announcements.map((announcement) => (
               <AnnouncementCard
