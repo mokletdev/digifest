@@ -9,13 +9,13 @@ import {
   createRegisteredTeamFormSchema,
 } from "@/lib/validator";
 import { formatPrice, urlefy } from "@/utils/utils";
-import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "sonner";
 import { CompetitionCategoryDetail } from "../../contexts";
 import { registerTeam } from "../actions";
 import { registration_batch } from "@prisma/client";
+import { useRouter } from "next-nprogress-bar";
 
 export default function TeamRegistrationForm({
   registrationBatch,

@@ -6,11 +6,11 @@ import { useZodForm } from "@/app/hooks/useZodForm";
 import { loginFormSchema } from "@/lib/validator";
 import { signIn } from "next-auth/react";
 import { default as NextLink } from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
 import { checkVerifiedStatus } from "../actions";
+import { useRouter } from "next-nprogress-bar";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);

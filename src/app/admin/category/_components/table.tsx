@@ -8,9 +8,9 @@ import { deleteCategory } from "../actions";
 
 import { Button } from "@/app/_components/global/button";
 import { competitionCategoryWithCompetitionAndCount } from "@/types/relation";
-import { useRouter } from "next/navigation";
 import Modal from "./modal";
 import { MdLeaderboard } from "react-icons/md";
+import { useRouter } from "next-nprogress-bar";
 
 export default function CategoriesTable({
   data,
