@@ -30,7 +30,7 @@ export default function RegisterForm() {
 
     toast.success(registerUserAction.message, { id: toastId });
     setLoading(false);
-    return router.push("/auth/verify-warning");
+    return router.push(`/auth/verify-warning?email=${values.email}`);
   });
 
   return (

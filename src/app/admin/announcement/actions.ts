@@ -47,6 +47,7 @@ export async function upsertAnnouncement(
         createdBy: { connect: { id: currentUserId } },
       });
 
+      revalidatePath("/", "layout");
       return { success: true, message: "Sukses membuat Announcement!" };
     }
 
@@ -56,7 +57,7 @@ export async function upsertAnnouncement(
 
     await updateAnnouncement({ id }, payload);
 
-    revalidatePath("/admin/announcement");
+    revalidatePath("/", "layout");
     return { success: true, message: "Sukses meng-update Announcement!" };
   } catch (error) {
     console.log(error);
@@ -78,7 +79,7 @@ export async function deleteAnnouncement(
 
     await removeAnnouncement({ id });
 
-    revalidatePath("/admin/announcement");
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil menghapus Announcement!" };
   } catch (error) {
     console.log(error);

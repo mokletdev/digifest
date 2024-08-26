@@ -47,7 +47,7 @@ export default function LoginForm() {
       }
       setLoading(false);
       toast.success("Berhasil login!", { id: toastId });
-      return router.push("/auth/verify-warning");
+      return router.push("/");
     } catch (error) {
       setLoading(false);
       toast.error("Terjadi kesalahan", { id: toastId });

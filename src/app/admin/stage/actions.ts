@@ -81,6 +81,7 @@ export async function upsertStage(
         },
       });
 
+      revalidatePath("/", "layout");
       return { success: true, message: "Sukses membuat Stage!" };
     }
 
@@ -90,8 +91,7 @@ export async function upsertStage(
 
     await updateStage({ id }, payload);
 
-    revalidatePath("/admin", "layout");
-    revalidatePath("/dashboard", "layout");
+    revalidatePath("/", "layout");
     return { success: true, message: "Sukses meng-update Stage!" };
   } catch (error) {
     console.log(error);
@@ -111,8 +111,7 @@ export async function deleteStage(id: string): Promise<ServerActionResponse> {
 
     await removeStage({ id });
 
-    revalidatePath("/admin", "layout");
-    revalidatePath("/dashboard", "layout");
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil menghapus Stage!" };
   } catch (error) {
     console.log(error);
