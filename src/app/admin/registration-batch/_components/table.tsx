@@ -59,7 +59,7 @@ export default function RegistrationBatchesTable({
     [
       {
         name: "Nama",
-        selector: (row) => row.competitionCategory.name,
+        selector: (row) => `${row.batchName} - ${row.competitionCategory.name}`,
         sortable: true,
       },
       {
