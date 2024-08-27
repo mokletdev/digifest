@@ -20,6 +20,7 @@ export default async function CompetitionCategoryDetail({
     competition: competitionName,
     teamId,
   } = params;
+  const session = await getServerSession();
 
   const { category, competition } = await provideCompetitionAndCategory(
     competitionName,
@@ -39,6 +40,7 @@ export default async function CompetitionCategoryDetail({
     prisma.registered_team.findFirst({
       where: {
         id: teamId,
+        userId: session?.user?.id,
       },
       include: { teamMembers: true },
     }),
