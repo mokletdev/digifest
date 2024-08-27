@@ -14,13 +14,15 @@ datasource db {
 }
 
 model user {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
-  password  String?
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                String   @id @default(uuid())
+  email             String   @unique
+  name              String
+  password          String?
+  verified          Boolean  @default(false)
+  verificationToken String?  @unique
+  role              Role     @default(USER)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   registrations registered_team[]
   competitions  competition[]
@@ -33,14 +35,18 @@ model registered_team {
   id                  String             @id @default(uuid())
   teamName            String
   paymentProof        String
-  status              RegistrationStatus
+  status              RegistrationStatus @default(PENDING)
+  schoolName          String
+  supervisingTeacher  String
+  phoneNumber         String
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
   registrationBatchId String
   userId              String
+  paymentCode         Int
 
-  registeredBy      user               @relation(fields: [userId], references: [id])
-  registrationBatch registration_batch @relation(fields: [registrationBatchId], references: [id])
+  registeredBy      user               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  registrationBatch registration_batch @relation(fields: [registrationBatchId], references: [id], onDelete: Cascade)
   teamMembers       team_member[]
   stage             stage[]
 
@@ -52,9 +58,10 @@ model team_member {
   name           String
   gradeLevel     String
   registrationId String
+  photo          String
   isLeader       Boolean
 
-  team registered_team @relation(fields: [registrationId], references: [id])
+  team registered_team @relation(fields: [registrationId], references: [id], onDelete: Cascade)
 
   @@map("TeamMember")
 }
@@ -69,26 +76,23 @@ model competition {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  createdBy             user                   @relation(fields: [userId], references: [id])
+  createdBy             user                   @relation(fields: [userId], references: [id], onDelete: Cascade)
   competitionCategories competition_category[]
 
   @@map("Competition")
 }
 
 model competition_category {
-  id                String   @id @default(uuid())
-  competitionId     String
-  name              String
-  description       String
-  paymentCode       String
-  registrationPrice String
-  numberOfStages    Int
-  minMemberCount    Int
-  maxMemberCount    Int
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id             String   @id @default(uuid())
+  competitionId  String
+  name           String
+  description    String
+  minMemberCount Int
+  maxMemberCount Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  competition         competition          @relation(fields: [competitionId], references: [id])
+  competition         competition          @relation(fields: [competitionId], references: [id], onDelete: Cascade)
   stages              stage[]
   registrationBatches registration_batch[]
 
@@ -98,7 +102,6 @@ model competition_category {
 model stage {
   id                    String   @id @default(uuid())
   competitionCategoryId String
-  stageNumber           Int
   name                  String
   description           String
   startDate             DateTime
@@ -106,7 +109,7 @@ model stage {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
-  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id])
+  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id], onDelete: Cascade)
   teams               registered_team[]
   announcements       announcement[]
 
@@ -118,12 +121,12 @@ model announcement {
   stageId   String
   userId    String
   title     String
-  content   String
+  content   String   @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  stage     stage @relation(fields: [stageId], references: [id])
-  createdBy user  @relation(fields: [userId], references: [id])
+  stage     stage @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  createdBy user  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("Announcement")
 }
@@ -136,8 +139,9 @@ model registration_batch {
   closedDate            DateTime
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
+  registrationPrice     BigInt
 
-  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id])
+  competitionCategory competition_category @relation(fields: [competitionCategoryId], references: [id], onDelete: Cascade)
   registrations       registered_team[]
 
   @@map("RegistrationBatch")

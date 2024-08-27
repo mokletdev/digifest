@@ -1,30 +1,15 @@
-import Toaster from "./_components/main/CustomToaster";
-import NextAuthProvider from "./_components/main/NextAuthProvider";
-import ProgressBarProvider from "./_components/main/ProgressBarProvider";
+import Toaster from "./_components/main/custom-toaster";
+import NextAuthProvider from "./_components/main/next-auth-provider";
+import ProgressBarProvider from "./_components/main/progress-bar-provider";
 
 import type { Metadata, Viewport } from "next";
 
-import "./globals.css";
-import clashDisplayFont from "./font";
 import cn from "@/lib/cn";
+import { metadata as metadataConfig } from "@/utils/seo.config";
+import clashDisplayFont from "./(utils)/font";
+import "./globals.css";
 
-const robots =
-  process.env.APP_ENV != "production" ? "noindex, nofollow" : "index, follow";
-
-export const metadata: Metadata = {
-  title: {
-    default: "Digifest - SMK Telkom Malang",
-    template: "%s | Digifest",
-  },
-  description:
-    "Digifest merupakan salah satu rangkaian acara dari Dis Natalies SMK Telkom Malang",
-  keywords:
-    "moklet, Moklet, Digifest, Telkom, SMK, Malang, SMK Telkom Malang, Olimawisa, MIFest, MI, Fest",
-  authors: { name: "MokletDev", url: "https://dev.moklet.org" },
-  creator: "MokletDev Team",
-  publisher: "SMK Telkom Malang",
-  robots: robots,
-};
+export const metadata: Metadata = metadataConfig;
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -47,5 +32,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-export const revalidate = 5400;

@@ -40,7 +40,7 @@ export const authOptions: AuthOptions = {
   theme: {
     colorScheme: "light",
     brandColor: "#E04E4E",
-    logo: "/horizontal.svg",
+    logo: "/logo.png",
   },
   session: {
     strategy: "jwt",
@@ -63,11 +63,11 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         try {
           const user = await findUser({ email: credentials?.email });
-          if (!user || !user.password) return null;
+          if (!user?.password) return null;
 
           const isPasswordCorrect = compareHash(
             credentials?.password as string,
-            user.password
+            user.password,
           );
 
           if (!isPasswordCorrect) return null;
@@ -100,18 +100,13 @@ export const authOptions: AuthOptions = {
       return redirectUrl;
     },
     async signIn({ user, profile, account }) {
-      if (
-        account?.provider == "google" &&
-        !profile?.email?.endsWith("smktelkom-mlg.sch.id")
-      )
-        return false;
-
       if (user.email) {
         const userdb = await findUser({ email: user.email });
         if (!userdb) {
           await createUser({
             email: user.email,
             name: user.name || "",
+            verified: true,
           });
         }
       }

@@ -18,13 +18,13 @@ export async function createUser(data: Prisma.userCreateInput) {
 
 export async function updateUser(
   filter: Prisma.userWhereUniqueInput,
-  data: Prisma.userUpdateInput
+  data: Prisma.userUpdateInput,
 ) {
   const updatedUser = await prisma.user.update({ where: filter, data });
   return updatedUser;
 }
 
-export async function deleteUser(filter: Prisma.userWhereUniqueInput) {
+export async function removeUser(filter: Prisma.userWhereUniqueInput) {
   const deletedUser = await prisma.user.delete({ where: filter });
   return deletedUser;
 }
