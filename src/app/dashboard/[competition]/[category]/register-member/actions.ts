@@ -1,6 +1,6 @@
 "use server";
 
-import { uploadImage } from "@/app/global-actions/fileUploader";
+import { uploadImage } from "@/app/(utils)/global-actions/fileUploader";
 import { createMember, updateMember } from "@/database/teamMember.query";
 import { getServerSession } from "@/lib/next-auth";
 import prisma from "@/lib/prisma";

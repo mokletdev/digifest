@@ -2,7 +2,7 @@
 import { Button } from "@/app/_components/global/button";
 import { TextField } from "@/app/_components/global/input";
 import { H2, P } from "@/app/_components/global/text";
-import { useZodForm } from "@/app/hooks/useZodForm";
+import { useZodForm } from "@/app/(utils)/hooks/useZodForm";
 import { loginFormSchema } from "@/lib/validator";
 import { signIn } from "next-auth/react";
 import { default as NextLink } from "next/link";

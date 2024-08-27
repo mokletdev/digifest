@@ -1,6 +1,6 @@
 "use server";
 
-import { uploadImage } from "@/app/global-actions/fileUploader";
+import { uploadImage } from "@/app/(utils)/global-actions/fileUploader";
 import { createRegistration } from "@/database/registration.query";
 import { findActiveRegistrationBatch } from "@/database/utils";
 import { getServerSession } from "@/lib/next-auth";
