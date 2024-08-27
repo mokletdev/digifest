@@ -89,7 +89,7 @@ function GreetingBoard({
           alt={competition.name}
           width={52}
           height={52}
-          className="h-14 w-14 grayscale"
+          className="h-14 w-14 object-cover grayscale"
           unoptimized
         />
         <H1>Bidang {category.name}</H1>
@@ -266,7 +266,7 @@ function TeamMemberCard({
         width={420}
         height={315}
         alt={member.name}
-        className="mb-5 mt-2 w-full max-w-[420px] rounded-lg"
+        className="mb-5 mt-2 w-full max-w-[420px] rounded-lg object-cover"
         unoptimized
       />
       <P className="mb-2 text-black">{member.gradeLevel}</P>

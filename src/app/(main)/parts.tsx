@@ -73,7 +73,7 @@ function Hero() {
                   width={20}
                   height={20}
                   alt={`Logo ${competition.name}`}
-                  className="h-auto w-5"
+                  className="h-auto w-5 object-cover"
                   unoptimized
                   loading="eager"
                 />
