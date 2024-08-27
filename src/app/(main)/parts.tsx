@@ -462,7 +462,6 @@ function Timeline() {
               <H2 className="mb-7">Bidang {category.name}</H2>
               <div className="grid w-full grid-cols-1 gap-[18px] gap-y-[52px] md:grid-cols-2 lg:grid-cols-3">
                 {category.registrationBatches.length === 0 &&
-                  category.stages.length === 0 &&
                   category.stages.length === 0 && (
                     <P>Belum ada informasi, nih...</P>
                   )}

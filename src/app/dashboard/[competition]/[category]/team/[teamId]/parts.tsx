@@ -89,7 +89,7 @@ function GreetingBoard({
           alt={competition.name}
           width={52}
           height={52}
-          className="h-14 w-14 object-cover grayscale"
+          className="h-auto w-14 object-cover grayscale"
           unoptimized
         />
         <H1>Bidang {category.name}</H1>
@@ -301,7 +301,7 @@ function TeamMembers({ team }: { team: registrationWithMembers }) {
       {team.teamMembers.length === 0 && (
         <P className="w-full text-center">Belum ada data anggota...</P>
       )}
-      <div className={cn(`grid w-full grid-cols-3`)}>
+      <div className={cn(`grid w-full grid-cols-1 lg:grid-cols-3`)}>
         {team.teamMembers.map((member) => (
           <TeamMemberCard key={member.id} teamId={team.id} member={member} />
         ))}
