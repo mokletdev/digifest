@@ -6,7 +6,7 @@ import { FaX } from "react-icons/fa6";
 import { Button } from "@/app/_components/global/button";
 import { FileField, TextField } from "@/app/_components/global/input";
 import { H3 } from "@/app/_components/global/text";
-import { useZodForm } from "@/app/hooks/useZodForm";
+import { useZodForm } from "@/app/(utils)/hooks/useZodForm";
 import {
   ACCEPTED_IMAGE_TYPES,
   createCompetitionFormSchema,
