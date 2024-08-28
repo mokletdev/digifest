@@ -2,15 +2,15 @@
 import { Button } from "@/app/_components/global/button";
 import { TextField } from "@/app/_components/global/input";
 import { H2, P } from "@/app/_components/global/text";
-import { useZodForm } from "@/app/hooks/useZodForm";
+import { useZodForm } from "@/app/(utils)/hooks/useZodForm";
 import { loginFormSchema } from "@/lib/validator";
 import { signIn } from "next-auth/react";
 import { default as NextLink } from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
 import { checkVerifiedStatus } from "../actions";
+import { useRouter } from "next-nprogress-bar";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -25,6 +25,7 @@ export default function LoginForm() {
     try {
       const result = await checkVerifiedStatus(form.getValues("email"));
       if (!result.success) {
+        setLoading(false);
         return toast.error(result.message, { id: toastId });
       }
 
@@ -44,9 +45,11 @@ export default function LoginForm() {
           { id: toastId },
         );
       }
+      setLoading(false);
       toast.success("Berhasil login!", { id: toastId });
-      router.push("/auth/verify-warning");
+      return router.push("/");
     } catch (error) {
+      setLoading(false);
       toast.error("Terjadi kesalahan", { id: toastId });
     }
   });

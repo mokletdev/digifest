@@ -59,17 +59,19 @@ function GreetingBoard({
   function StageAnnouncement() {
     if (!activeStage) {
       return (
-        <SectionTitle>
-          Menunggu Pengumuman Seleksi Tahap Selanjutnya
-        </SectionTitle>
+        <div className="flex w-full justify-center rounded-full border border-yellow-400 bg-yellow-50 p-4 text-yellow-400">
+          Menunggu pengumuman tahap selanjutnya
+        </div>
       );
     }
 
     return activeStage.teams.find((team) => team.id === currentTeam.id) ? (
-      <SectionTitle>{activeStage.name}</SectionTitle>
+      <div className="flex w-full justify-center rounded-full border border-green-400 bg-green-50 p-4 text-green-400">
+        Anda berhasil melaju ke {activeStage?.name}
+      </div>
     ) : (
       <div className="flex w-full justify-center rounded-full border border-primary-400 bg-primary-50 p-4 text-primary-400">
-        Anda gagal melaju ke tahap {activeStage?.name}
+        Anda gagal melaju ke {activeStage?.name}
       </div>
     );
   }
@@ -87,7 +89,7 @@ function GreetingBoard({
           alt={competition.name}
           width={52}
           height={52}
-          className="h-14 w-14 grayscale"
+          className="h-auto w-14 object-cover grayscale"
           unoptimized
         />
         <H1>Bidang {category.name}</H1>
@@ -142,7 +144,9 @@ function GreetingBoard({
       </div>
       {activeStage && (
         <div className="p-4">
-          <H2 className="mb-6">Pengumuman di {activeStage.name}</H2>
+          {announcements.length !== 0 && (
+            <H2 className="mb-6">Pengumuman di {activeStage.name}</H2>
+          )}
           <div className="flex flex-col gap-4">
             {announcements.map((announcement) => (
               <AnnouncementCard
@@ -262,7 +266,7 @@ function TeamMemberCard({
         width={420}
         height={315}
         alt={member.name}
-        className="mb-5 mt-2 w-full max-w-[420px] rounded-lg"
+        className="mb-5 mt-2 w-full max-w-[420px] rounded-lg object-cover"
         unoptimized
       />
       <P className="mb-2 text-black">{member.gradeLevel}</P>
@@ -297,7 +301,7 @@ function TeamMembers({ team }: { team: registrationWithMembers }) {
       {team.teamMembers.length === 0 && (
         <P className="w-full text-center">Belum ada data anggota...</P>
       )}
-      <div className={cn(`grid w-full grid-cols-3`)}>
+      <div className={cn(`grid w-full grid-cols-1 lg:grid-cols-3`)}>
         {team.teamMembers.map((member) => (
           <TeamMemberCard key={member.id} teamId={team.id} member={member} />
         ))}

@@ -1,6 +1,6 @@
 "use server";
 
-import { uploadImage } from "@/app/global-actions/fileUploader";
+import { uploadImage } from "@/app/(utils)/global-actions/fileUploader";
 import {
   createCompetition,
   findCompetition,
@@ -56,6 +56,7 @@ export async function upsertCompetition(
 
       await createCompetition(payload as Prisma.competitionCreateInput);
 
+      revalidatePath("/", "layout");
       return { success: true, message: "Sukses membuat competition!" };
     }
 
@@ -65,8 +66,7 @@ export async function upsertCompetition(
 
     await updateCompetition({ id }, payload);
 
-    revalidatePath("/admin", "layout");
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     return { success: true, message: "Sukses meng-update competition!" };
   } catch (error) {
     console.log(error);
@@ -88,8 +88,7 @@ export async function deleteCompetition(
 
     await removeCompetition({ id });
 
-    revalidatePath("/admin", "layout");
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil menghapus competition!" };
   } catch (error) {
     console.log(error);

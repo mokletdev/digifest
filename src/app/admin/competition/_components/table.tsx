@@ -64,6 +64,7 @@ export default function CompetitionTable({ data }: { data: competition[] }) {
           alt={`Logo ${row.name}`}
           width={52}
           height={52}
+          className="object-cover"
           unoptimized
         />
       ),

@@ -31,7 +31,7 @@ export async function updateRegistrationStatus(
 
     await updateRegistration({ id }, payload);
 
-    revalidatePath("/admin", "layout");
+    revalidatePath("/", "layout");
     return { success: true, message: "Sukses meng-update registration!" };
   } catch (error) {
     console.log(error);
@@ -53,7 +53,7 @@ export async function deleteRegistration(
 
     await removeRegistration({ id });
 
-    revalidatePath("/admin", "layout");
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil menghapus Registration!" };
   } catch (error) {
     console.log(error);

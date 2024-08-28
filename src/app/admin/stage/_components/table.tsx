@@ -8,10 +8,10 @@ import { deleteStage } from "../actions";
 
 import { Button } from "@/app/_components/global/button";
 import { stageWithCompetitionCategory } from "@/types/relation";
-import { useRouter } from "next/navigation";
 import Modal from "./modal";
 import { stringifyCompleteDate } from "@/utils/utils";
 import { HiOutlineSpeakerphone, HiUserGroup } from "react-icons/hi";
+import { useRouter } from "next-nprogress-bar";
 
 export default function StagesTable({
   data,

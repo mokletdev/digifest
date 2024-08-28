@@ -4,18 +4,18 @@ import Link, { Button } from "@/app/_components/global/button";
 import { FileField, TextField } from "@/app/_components/global/input";
 import { SelectFieldController } from "@/app/_components/global/input-controller";
 import { H1, P } from "@/app/_components/global/text";
-import { useZodForm } from "@/app/hooks/useZodForm";
+import { useZodForm } from "@/app/(utils)/hooks/useZodForm";
 import {
   ACCEPTED_IMAGE_TYPES,
   createTeamMemberFormSchema,
 } from "@/lib/validator";
 import { urlefy } from "@/utils/utils";
-import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "sonner";
 import { registerMember } from "../actions";
 import { RegistrationFormContext } from "../contexts";
+import { useRouter } from "next-nprogress-bar";
 
 export default function MemberRegistrationForm() {
   const [loading, setLoading] = useState(false);

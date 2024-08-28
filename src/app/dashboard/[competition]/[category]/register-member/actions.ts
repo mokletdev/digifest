@@ -1,14 +1,13 @@
 "use server";
 
-import { uploadImage } from "@/app/global-actions/fileUploader";
-import { createRegistration } from "@/database/registration.query";
+import { uploadImage } from "@/app/(utils)/global-actions/fileUploader";
 import { createMember, updateMember } from "@/database/teamMember.query";
-import { findActiveRegistrationBatch } from "@/database/utils";
 import { getServerSession } from "@/lib/next-auth";
 import prisma from "@/lib/prisma";
 import { ServerActionResponse } from "@/types/action";
 import { fileToBuffer } from "@/utils/utils";
 import { Prisma } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function registerMember({
   actionData,
@@ -74,10 +73,14 @@ export async function registerMember({
 
     if (memberId) {
       await updateMember({ id: memberId }, payload);
+
+      revalidatePath("/", "layout");
       return { success: true, message: "Berhasil memperbarui data anggota!" };
     }
 
     await createMember(payload as Prisma.team_memberCreateInput);
+
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil mendaftarkan anggota!" };
   } catch (error) {
     console.log(error);

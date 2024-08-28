@@ -2,15 +2,15 @@
 import { Button } from "@/app/_components/global/button";
 import { TextField } from "@/app/_components/global/input";
 import { H2, P } from "@/app/_components/global/text";
-import { useZodForm } from "@/app/hooks/useZodForm";
+import { useZodForm } from "@/app/(utils)/hooks/useZodForm";
 import { registerFormSchema } from "@/lib/validator";
 import { signIn } from "next-auth/react";
 import { default as NextLink } from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
 import { registerUser } from "../actions";
+import { useRouter } from "next-nprogress-bar";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ export default function RegisterForm() {
 
     toast.success(registerUserAction.message, { id: toastId });
     setLoading(false);
-    return router.push("/auth/login");
+    return router.push(`/auth/verify-warning?email=${values.email}`);
   });
 
   return (

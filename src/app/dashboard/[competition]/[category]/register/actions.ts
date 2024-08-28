@@ -1,12 +1,13 @@
 "use server";
 
-import { uploadImage } from "@/app/global-actions/fileUploader";
+import { uploadImage } from "@/app/(utils)/global-actions/fileUploader";
 import { createRegistration } from "@/database/registration.query";
 import { findActiveRegistrationBatch } from "@/database/utils";
 import { getServerSession } from "@/lib/next-auth";
 import { ServerActionResponse } from "@/types/action";
 import { fileToBuffer } from "@/utils/utils";
 import { Prisma } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function registerTeam(
   paymentCode: number,
@@ -61,6 +62,8 @@ export async function registerTeam(
     }
 
     await createRegistration(payload);
+
+    revalidatePath("/", "layout");
     return { success: true, message: "Berhasil melakukan registrasi!" };
   } catch (error) {
     console.log(error);

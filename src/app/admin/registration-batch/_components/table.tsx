@@ -6,10 +6,10 @@ import { toast } from "sonner";
 
 import { Button } from "@/app/_components/global/button";
 import { registrationBatchWithCompetitionCategoryAndRegistrants } from "@/types/relation";
-import { useRouter } from "next/navigation";
 import Modal from "./modal";
 import { stringifyCompleteDate } from "@/utils/utils";
 import { deleteRegistrationBatch } from "../actions";
+import { useRouter } from "next-nprogress-bar";
 
 export default function RegistrationBatchesTable({
   data,
@@ -59,7 +59,7 @@ export default function RegistrationBatchesTable({
     [
       {
         name: "Nama",
-        selector: (row) => row.competitionCategory.name,
+        selector: (row) => `${row.batchName} - ${row.competitionCategory.name}`,
         sortable: true,
       },
       {

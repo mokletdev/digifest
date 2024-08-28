@@ -4,12 +4,11 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "sonner";
 
-import { Button } from "@/app/_components/global/button";
-import { announcementWithStage, registrationWithBatch } from "@/types/relation";
-import { useRouter } from "next/navigation";
 import cn from "@/lib/cn";
+import { registrationWithBatch } from "@/types/relation";
 import { GrNotes } from "react-icons/gr";
 import { deleteRegistration } from "../actions";
+import { useRouter } from "next-nprogress-bar";
 
 export default function RegistrationsTable({
   data,

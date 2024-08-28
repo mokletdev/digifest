@@ -4,10 +4,10 @@ import ProgressBarProvider from "./_components/main/progress-bar-provider";
 
 import type { Metadata, Viewport } from "next";
 
-import "./globals.css";
-import clashDisplayFont from "./font";
 import cn from "@/lib/cn";
 import { metadata as metadataConfig } from "@/utils/seo.config";
+import clashDisplayFont from "./(utils)/font";
+import "./globals.css";
 
 export const metadata: Metadata = metadataConfig;
 
@@ -32,5 +32,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-export const revalidate = 5400;

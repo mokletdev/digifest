@@ -3,19 +3,19 @@
 import Link, { Button } from "@/app/_components/global/button";
 import { FileField, TextField } from "@/app/_components/global/input";
 import { H1, H3, P } from "@/app/_components/global/text";
-import { useZodForm } from "@/app/hooks/useZodForm";
+import { useZodForm } from "@/app/(utils)/hooks/useZodForm";
 import {
   ACCEPTED_IMAGE_TYPES,
   createRegisteredTeamFormSchema,
 } from "@/lib/validator";
 import { formatPrice, urlefy } from "@/utils/utils";
-import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "sonner";
 import { CompetitionCategoryDetail } from "../../contexts";
 import { registerTeam } from "../actions";
 import { registration_batch } from "@prisma/client";
+import { useRouter } from "next-nprogress-bar";
 
 export default function TeamRegistrationForm({
   registrationBatch,
@@ -123,7 +123,7 @@ export default function TeamRegistrationForm({
         <FileField
           name="paymentProof"
           label="Bukti Pembayaran"
-          description={`Biaya pendaftaran sebesar ${formatPrice(Number(registrationBatch.registrationPrice) + paymentCode, "IDR", "id-ID")} dibayarkan ke 1440542591992 a.n Moklet Anniversary Panitia dengan kode pembayaran`}
+          description={`Biaya pendaftaran sebesar <b>${formatPrice(Number(registrationBatch.registrationPrice) + paymentCode, "IDR", "id-ID")}</b> dibayarkan ke <b className="font-bold">1440542591992</b> a.n Moklet Anniversary Panitia.`}
           register={teamRegistrationForm.register}
           accept={ACCEPTED_IMAGE_TYPES.reduce(
             (prev, curr) => prev + ", " + curr,
