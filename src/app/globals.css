@@ -42,6 +42,10 @@
   .checkbox-sidebar:checked + .sidebar-btn .icon-hamburger::after {
     @apply top-0 -rotate-[135deg];
   }
+
+  .link {
+    @apply underline transition-all hover:text-primary-300;
+  }
 }
 
 nav:has(.checkbox-sidebar:checked) ~ aside {
