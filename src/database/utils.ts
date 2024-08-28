@@ -6,9 +6,9 @@ import { notFound } from "next/navigation";
 export async function findCompetitionByDynamicParam(param: string) {
   const extractedCompetitionName = param.replaceAll("_", " ");
   // Try finding the competitions
-  const competitions = (await prisma.$queryRaw`
-    SELECT * FROM competition WHERE LOWER(name) LIKE LOWER(${extractedCompetitionName});
-    `) as competition[];
+  const competitions = await prisma.$queryRaw<competition[]>`
+    SELECT * FROM Competition WHERE LOWER(name) LIKE LOWER(${extractedCompetitionName});
+    `;
   // We only want the first index
   const competition = competitions[0] as competition | undefined;
 
@@ -21,9 +21,9 @@ export async function findCategoryByDynamicParam(
 ) {
   const extractedCategoryName = param.replaceAll("_", " ");
   // Try finding the competitions
-  const categories = (await prisma.$queryRaw`
-    SELECT * FROM competitioncategory WHERE LOWER(name) LIKE LOWER(${extractedCategoryName}) AND competitionId=${competitionId};
-    `) as competition_category[];
+  const categories = await prisma.$queryRaw<competition_category[]>`
+    SELECT * FROM CompetitionCategory WHERE LOWER(name) LIKE LOWER(${extractedCategoryName}) AND competitionId=${competitionId};
+    `;
   // We only want the first index
   const category = categories[0] as competition_category | undefined;
 
