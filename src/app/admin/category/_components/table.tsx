@@ -85,7 +85,9 @@ export default function CategoriesTable({
       cell: (row) => (
         <div className="flex gap-2">
           <button
-            onClick={() => router.push(`/admin/registration?batchId=${row.id}`)}
+            onClick={() =>
+              router.push(`/admin/registration?categoryId=${row.id}`)
+            }
             title="Registrants Data"
             className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
           >
