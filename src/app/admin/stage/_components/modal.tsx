@@ -46,6 +46,7 @@ export default function Modal({
     const toastId = toast.loading("Loading...");
     const result = await upsertStage(data?.id, {
       ...values,
+      isCompetitionStage: values.isCompetitionStage === "YES",
       startDate: new Date(values.startDate),
       endDate: new Date(values.endDate),
     });
@@ -89,6 +90,15 @@ export default function Modal({
             options={competitionCategories.map((competition) => ({
               label: competition.name,
               value: competition.id,
+            }))}
+          />
+          <SelectFieldController
+            control={form.control}
+            label="Merupakan Tahap Kompetisi"
+            name="isCompetitionStage"
+            options={["YES", "NO"].map((option) => ({
+              label: option,
+              value: option,
             }))}
           />
           <TextField

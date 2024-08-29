@@ -56,6 +56,7 @@ export async function findActiveStage(categoryId: string) {
         where: {
           startDate: { lte: getCurrentDateByTimeZone() },
           endDate: { gte: getCurrentDateByTimeZone() },
+          isCompetitionStage: true,
         },
         include: { teams: true },
       },
