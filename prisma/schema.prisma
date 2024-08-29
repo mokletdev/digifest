@@ -69,7 +69,7 @@ model team_member {
 model competition {
   id           String   @id @default(uuid())
   name         String
-  description  String
+  description  String   @db.LongText
   logo         String
   userId       String
   guidebookUrl String
@@ -86,7 +86,7 @@ model competition_category {
   id             String   @id @default(uuid())
   competitionId  String
   name           String
-  description    String
+  description    String   @db.LongText
   minMemberCount Int
   maxMemberCount Int
   createdAt      DateTime @default(now())
@@ -103,7 +103,7 @@ model stage {
   id                    String   @id @default(uuid())
   competitionCategoryId String
   name                  String
-  description           String
+  description           String   @db.LongText
   startDate             DateTime
   endDate               DateTime
   createdAt             DateTime @default(now())
