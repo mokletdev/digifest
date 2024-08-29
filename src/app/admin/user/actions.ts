@@ -36,8 +36,8 @@ export async function upsertUser(
         email,
         name,
         role,
+        verified: true,
         password: generateHash(password),
-        verificationToken: generateRandomString(14),
       });
 
       revalidatePath("/", "layout");
@@ -48,7 +48,10 @@ export async function upsertUser(
     if (!userToUpdate)
       return { success: false, message: "User tidak ditemukan!" };
 
-    await updateUser({ id }, data);
+    await updateUser(
+      { id },
+      { ...data, password: generateHash(data.password!) },
+    );
 
     revalidatePath("/", "layout");
     return { success: true, message: "Sukses meng-update user!" };
