@@ -98,4 +98,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Authors
 - Kusindra Aji Rabbany (Developer)
 - Ahsan Awadullah Azizan (Developer)
+- Baskara Putra (Developer)
 - Moch. Gilang Ramadhan (UI/UX Designer)
