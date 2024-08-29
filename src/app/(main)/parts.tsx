@@ -140,6 +140,7 @@ function About() {
           height={384}
           alt="About image"
           className="h-auto w-full max-w-[468px]"
+          loading="eager"
         />
         <div className="block w-full lg:max-w-[586px]">
           <SectionTitle>TENTANG</SectionTitle>

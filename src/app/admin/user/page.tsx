@@ -1,13 +1,9 @@
 import { H2, P } from "@/app/_components/global/text";
 import { findUsers } from "@/database/user.query";
-import { getServerSession } from "@/lib/next-auth";
 import UserTable from "./_components/table";
 
 export default async function Users() {
-  const session = await getServerSession();
-  const users = await findUsers({
-    NOT: { role: "USER" },
-  });
+  const users = await findUsers();
 
   return (
     <div>
