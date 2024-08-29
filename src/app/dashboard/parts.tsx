@@ -194,6 +194,11 @@ function Competition() {
                 registration.registrationBatch.competitionCategory.name ===
                 category.name,
             );
+            const currentDate = getCurrentDateByTimeZone();
+            const activeBatch = category.registrationBatches.find(
+              ({ openedDate, closedDate }) =>
+                currentDate >= openedDate && currentDate <= closedDate,
+            );
 
             return (
               <CategoryCard
@@ -203,11 +208,7 @@ function Competition() {
                 description={category.description}
                 maxMemberCount={category.maxMemberCount}
                 registrationPrice={formatPrice(
-                  Number(
-                    category.registrationBatches[
-                      category.registrationBatches.length - 1
-                    ].registrationPrice,
-                  ),
+                  Number(activeBatch?.registrationPrice),
                   "IDR",
                   "id-ID",
                 )}
