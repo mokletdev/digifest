@@ -106,6 +106,7 @@ model stage {
   description           String   @db.LongText
   startDate             DateTime
   endDate               DateTime
+  isCompetitionStage    Boolean  @default(false)
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
