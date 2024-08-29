@@ -10,7 +10,7 @@ Welcome to **Digifest 2024**! This web application is designed to manage and dis
 ## Tech Stack
 
 - **Frontend**: Next.js 14, React
-- **Backend**: Next.js API Routes, Prisma ORM
+- **Backend**: Next.js Server Actions, Prisma ORM
 - **Database**: MySQL
 - **Authentication**: NextAuth.js
 
@@ -94,3 +94,8 @@ Feel free to open issues and submit pull requests. Make sure to follow the contr
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Authors
+- Kusindra Aji Rabbany (Developer)
+- Ahsan Awadullah Azizan (Developer)
+- Moch. Gilang Ramadhan (UI/UX Designer)
