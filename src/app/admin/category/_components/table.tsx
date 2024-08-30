@@ -11,13 +11,16 @@ import { competitionCategoryWithCompetitionAndCount } from "@/types/relation";
 import Modal from "./modal";
 import { MdLeaderboard } from "react-icons/md";
 import { useRouter } from "next-nprogress-bar";
+import { Role } from "@prisma/client";
 
 export default function CategoriesTable({
   data,
   competitions,
+  role,
 }: {
   data: competitionCategoryWithCompetitionAndCount[];
   competitions: { name: string; id: string }[];
+  role: Role;
 }) {
   const [loader, setLoader] = useState(true);
   const [editModalData, setEditModalData] =
@@ -109,20 +112,24 @@ export default function CategoriesTable({
           >
             <MdLeaderboard />
           </button>
-          <button
-            onClick={() => editCompetition(row)}
-            title="Edit Competition"
-            className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
-          >
-            <FaPencilAlt />
-          </button>
-          <button
-            onClick={() => deleteAction(row.id)}
-            title="Delete Competition"
-            className="me-2 rounded bg-red-100 p-2.5 text-xs font-medium text-red-800 transition-all hover:bg-red-700 hover:text-white"
-          >
-            <FaRegTrashAlt />
-          </button>
+          {role !== "ADMIN" && (
+            <>
+              <button
+                onClick={() => editCompetition(row)}
+                title="Edit Competition"
+                className="me-2 rounded bg-blue-100 p-2.5 text-xs font-medium text-blue-800 transition-all hover:bg-blue-700 hover:text-white"
+              >
+                <FaPencilAlt />
+              </button>
+              <button
+                onClick={() => deleteAction(row.id)}
+                title="Delete Competition"
+                className="me-2 rounded bg-red-100 p-2.5 text-xs font-medium text-red-800 transition-all hover:bg-red-700 hover:text-white"
+              >
+                <FaRegTrashAlt />
+              </button>
+            </>
+          )}
         </div>
       ),
     },
@@ -141,6 +148,7 @@ export default function CategoriesTable({
         onClick={() => {
           createCompetition();
         }}
+        disabled={role === "ADMIN"}
       >
         Add category
       </Button>

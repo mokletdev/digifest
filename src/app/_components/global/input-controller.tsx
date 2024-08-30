@@ -26,7 +26,10 @@ export function SelectFieldController({
             field.onChange(selectedOption?.value);
           }}
           required
-          value={options.find((option) => option.value === field.value)}
+          value={options.find((option) => {
+            console.log(field.value);
+            return option.value === String(field.value);
+          })}
           options={options}
           errorMessage={fieldState.error?.message}
         />

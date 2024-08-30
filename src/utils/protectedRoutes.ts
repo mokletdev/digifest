@@ -63,7 +63,7 @@ export const protectedRoutes: ProtectedRoutes[] = [
         stroke-linejoin="round"
       />
     </svg>`,
-    roles: ["ADMIN", "SUPERADMIN"],
+    roles: ["SUPERADMIN"],
   },
   {
     title: "Users",

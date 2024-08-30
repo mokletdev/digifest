@@ -1,8 +1,10 @@
 import { H2, P } from "@/app/_components/global/text";
 import prisma from "@/lib/prisma";
 import CategoriesTable from "./_components/table";
+import { getServerSession } from "@/lib/next-auth";
 
 export default async function Category() {
+  const session = await getServerSession();
   const [competitionCategoriesWithCompetition, competitions] =
     await prisma.$transaction([
       prisma.competition_category.findMany({
@@ -25,6 +27,7 @@ export default async function Category() {
       <CategoriesTable
         competitions={competitions}
         data={competitionCategoriesWithCompetition}
+        role={session?.user?.role!}
       />
     </div>
   );
