@@ -34,6 +34,7 @@ export default function Modal({
       startDate:
         data?.startDate && convertToDateTimeLocalString(data?.startDate),
       endDate: data?.endDate && convertToDateTimeLocalString(data?.endDate),
+      isCompetitionStage: String(data?.isCompetitionStage) as "true" | "false",
       competitionCategoryId:
         data?.competitionCategoryId || searchParams.get("categoryId") || "",
     },
@@ -46,7 +47,7 @@ export default function Modal({
     const toastId = toast.loading("Loading...");
     const result = await upsertStage(data?.id, {
       ...values,
-      isCompetitionStage: values.isCompetitionStage === "YES",
+      isCompetitionStage: values.isCompetitionStage === "true",
       startDate: new Date(values.startDate),
       endDate: new Date(values.endDate),
     });
@@ -96,9 +97,12 @@ export default function Modal({
             control={form.control}
             label="Merupakan Tahap Kompetisi"
             name="isCompetitionStage"
-            options={["YES", "NO"].map((option) => ({
-              label: option,
-              value: option,
+            options={[
+              { label: "YES", value: "true" },
+              { label: "NO", value: "false" },
+            ].map(({ label, value }) => ({
+              label,
+              value,
             }))}
           />
           <TextField

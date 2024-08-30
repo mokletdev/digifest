@@ -30,7 +30,7 @@ export const createStageFormSchema = z.object({
         message: "Tanggal selesai tidak sesuai format",
       },
     ),
-  isCompetitionStage: z.enum(["YES", "NO"]),
+  isCompetitionStage: z.enum(["true", "false"], { message: "Harus diisi!" }),
   competitionCategoryId: z
     .string({ message: "Kategori Kompetisi harus diisi!" })
     .uuid("Competition ID harus berupa UUID"),
