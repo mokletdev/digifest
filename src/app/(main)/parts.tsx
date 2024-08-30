@@ -140,6 +140,7 @@ function About() {
           height={384}
           alt="About image"
           className="h-auto w-full max-w-[468px]"
+          loading="eager"
         />
         <div className="block w-full lg:max-w-[586px]">
           <SectionTitle>TENTANG</SectionTitle>
@@ -259,10 +260,11 @@ function Competition() {
     competitionObject
       ? competitionObject.competitionCategories.filter((category) => {
           const currentDate = getCurrentDateByTimeZone();
-          return category.registrationBatches.find(
+          const activeBatch = category.registrationBatches.find(
             ({ openedDate, closedDate }) =>
-              currentDate >= openedDate && currentDate <= closedDate,
+              currentDate >= openedDate && currentDate < closedDate,
           );
+          return activeBatch;
         })
       : [],
   );
@@ -336,28 +338,28 @@ function Competition() {
       </div>
       <div className="flex flex-col gap-6">
         {competitionObject && openCategories.length > 0 ? (
-          openCategories.map((category) => (
-            <CategoryCard
-              key={category.id}
-              title={category.name}
-              competitionName={competitionObject.name}
-              description={category.description}
-              maxMemberCount={category.maxMemberCount}
-              registrationPrice={
-                category.registrationBatches.length > 0
-                  ? formatPrice(
-                      Number(
-                        category.registrationBatches[
-                          category.registrationBatches.length - 1
-                        ].registrationPrice,
-                      ),
-                      "IDR",
-                      "id-ID",
-                    )
-                  : "Belum ada ketentuan"
-              }
-            />
-          ))
+          openCategories.map((category) => {
+            const currentDate = getCurrentDateByTimeZone();
+            const activeBatch = category.registrationBatches.find(
+              ({ openedDate, closedDate }) =>
+                currentDate >= openedDate && currentDate <= closedDate,
+            );
+
+            return (
+              <CategoryCard
+                key={category.id}
+                title={category.name}
+                competitionName={competitionObject.name}
+                description={category.description}
+                maxMemberCount={category.maxMemberCount}
+                registrationPrice={formatPrice(
+                  Number(activeBatch?.registrationPrice),
+                  "IDR",
+                  "id-ID",
+                )}
+              />
+            );
+          })
         ) : (
           <P>Belum ada informasi apa-apa, nih...</P>
         )}
