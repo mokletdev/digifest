@@ -1,8 +1,8 @@
 -- AlterTable
-ALTER TABLE `competition` MODIFY `description` LONGTEXT NOT NULL;
+ALTER TABLE `Competition` MODIFY `description` LONGTEXT NOT NULL;
 
 -- AlterTable
-ALTER TABLE `competitioncategory` MODIFY `description` LONGTEXT NOT NULL;
+ALTER TABLE `CompetitionCategory` MODIFY `description` LONGTEXT NOT NULL;
 
 -- AlterTable
-ALTER TABLE `stage` MODIFY `description` LONGTEXT NOT NULL;
+ALTER TABLE `Stage` MODIFY `description` LONGTEXT NOT NULL;

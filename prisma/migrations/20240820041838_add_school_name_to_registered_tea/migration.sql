@@ -5,5 +5,5 @@
 
 */
 -- AlterTable
-ALTER TABLE `registration` ADD COLUMN `schoolName` VARCHAR(191) NOT NULL,
+ALTER TABLE `Registration` ADD COLUMN `schoolName` VARCHAR(191) NOT NULL,
     MODIFY `status` ENUM('PENDING', 'REJECTED', 'ACCEPTED') NOT NULL DEFAULT 'PENDING';

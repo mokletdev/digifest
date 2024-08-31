@@ -18,6 +18,11 @@ export const createCategoryFormSchema = z.object({
     .refine((val) => Number.isInteger(Number(val)), {
       message: "Jumlah tahap harus berupa bilangan bulat!",
     }),
+  whatsappGroupLink: z
+    .string()
+    .url("Whatsapp Group harus berupa Link!")
+    .optional()
+    .or(z.literal("")),
   competitionId: z
     .string({ message: "Kompetisi harus diisi!" })
     .uuid("Competition ID harus berupa UUID"),
