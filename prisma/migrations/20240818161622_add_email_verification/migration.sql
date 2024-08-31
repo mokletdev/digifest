@@ -5,5 +5,5 @@
 
 */
 -- AlterTable
-ALTER TABLE `user` ADD COLUMN `verificationToken` VARCHAR(191) NOT NULL,
+ALTER TABLE `User` ADD COLUMN `verificationToken` VARCHAR(191) NOT NULL,
     ADD COLUMN `verified` BOOLEAN NOT NULL DEFAULT false;

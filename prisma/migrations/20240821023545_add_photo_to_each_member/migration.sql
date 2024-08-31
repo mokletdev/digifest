@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE `teammember` ADD COLUMN `photo` VARCHAR(191) NOT NULL;
+ALTER TABLE `TeamMember` ADD COLUMN `photo` VARCHAR(191) NOT NULL;

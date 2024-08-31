@@ -48,7 +48,7 @@
   }
 }
 
-nav:has(.checkbox-sidebar:checked) ~ aside {
+nav:has(.checkbox-sidebar:checked) ~ .mobile-sidebar {
   @apply right-0;
 }
 
