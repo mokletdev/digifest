@@ -4,6 +4,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import Link from "../_components/global/button";
 import Wrapper from "./_components/wrapper";
 import { Competition, GreetingBoard } from "./parts";
+import { H3 } from "../_components/global/text";
 
 export default async function Dashboard() {
   const session = await getServerSession();
@@ -41,7 +42,13 @@ export default async function Dashboard() {
           Kembali ke halaman utama
         </Link>
         <GreetingBoard />
-        <Competition />
+        {competitions.length === 0 ? (
+          <div className="flex h-full w-full items-center justify-center py-[82px]">
+            <H3>Sedang tidak ada kompetisi saat ini.</H3>
+          </div>
+        ) : (
+          <Competition />
+        )}
       </main>
     </Wrapper>
   );

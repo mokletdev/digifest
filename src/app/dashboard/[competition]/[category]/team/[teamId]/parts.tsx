@@ -25,6 +25,7 @@ import { default as NextLink } from "next/link";
 import { useContext } from "react";
 import { FaBook, FaLocationDot } from "react-icons/fa6";
 import { CompetitionCategoryDetail } from "./contexts";
+import { FaWhatsapp } from "react-icons/fa";
 
 function AnnouncementCard({
   announcement,
@@ -67,11 +68,11 @@ function GreetingBoard({
 
     return activeStage.teams.find((team) => team.id === currentTeam.id) ? (
       <div className="flex w-full justify-center rounded-full border border-green-400 bg-green-50 p-4 text-green-400">
-        Anda berhasil melaju ke {activeStage?.name}
+        Tim Anda berhasil lolos ke {activeStage?.name}
       </div>
     ) : (
       <div className="flex w-full justify-center rounded-full border border-primary-400 bg-primary-50 p-4 text-primary-400">
-        Anda gagal melaju ke {activeStage?.name}
+        Tim Anda belum lolos pada tahap {activeStage?.name}
       </div>
     );
   }
@@ -132,6 +133,17 @@ function GreetingBoard({
               <FaBook />
               Lihat guidebook {competition.name}
             </Link>
+            {category.whatsappGroupLink && (
+              <Link
+                href={category.whatsappGroupLink}
+                variant={"primary"}
+                className="w-full justify-center md:w-fit"
+                target="_blank"
+              >
+                <FaWhatsapp />
+                Grup WhatsApp {category.name}
+              </Link>
+            )}
             <Link
               href="#team"
               variant={"primary"}
