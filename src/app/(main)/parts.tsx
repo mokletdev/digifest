@@ -515,27 +515,27 @@ function Timeline() {
 const faqs = [
   {
     question:
-      "Apakah bisa membayar juri untuk mengapresiasi (dan memenagkan lomba)?",
+      "Lorem Ipsum Dolor Sit Amet",
     answer:
-      "Tentu boleh, kami sangat mendukung sistem penilaian ekonomis yang menilai peserta dari kemampuan ekonominya.",
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
   },
   {
     question:
-      "Apakah bisa membayar juri untuk mengapresiasi (dan memenagkan lomba)?",
+      "Lorem Ipsum Dolor Sit Amet",
     answer:
-      "Tentu boleh, kami sangat mendukung sistem penilaian ekonomis yang menilai peserta dari kemampuan ekonominya.",
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
   },
   {
     question:
-      "Apakah bisa membayar juri untuk mengapresiasi (dan memenagkan lomba)?",
+      "Lorem Ipsum Dolor Sit Amet",
     answer:
-      "Tentu boleh, kami sangat mendukung sistem penilaian ekonomis yang menilai peserta dari kemampuan ekonominya.",
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
   },
   {
     question:
-      "Apakah bisa membayar juri untuk mengapresiasi (dan memenagkan lomba)?",
+      "Lorem Ipsum Dolor Sit Amet",
     answer:
-      "Tentu boleh, kami sangat mendukung sistem penilaian ekonomis yang menilai peserta dari kemampuan ekonominya.",
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
   },
 ];
 
