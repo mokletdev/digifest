@@ -17,6 +17,7 @@ export async function upsertStage(
   data: {
     name: string;
     description: string;
+    isCompetitionStage: boolean;
     startDate: Date;
     endDate: Date;
     competitionCategoryId: string;
