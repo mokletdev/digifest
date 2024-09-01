@@ -6,7 +6,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `competitioncategory` DROP COLUMN `registrationPrice`;
+ALTER TABLE `CompetitionCategory` DROP COLUMN `registrationPrice`;
 
 -- AlterTable
-ALTER TABLE `registrationbatch` ADD COLUMN `registrationPrice` BIGINT NOT NULL;
+ALTER TABLE `RegistrationBatch` ADD COLUMN `registrationPrice` BIGINT NOT NULL;

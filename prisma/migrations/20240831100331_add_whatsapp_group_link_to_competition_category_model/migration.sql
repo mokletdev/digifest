@@ -1,0 +1,1 @@
+ALTER TABLE `CompetitionCategory` ADD COLUMN `whatsappGroupLink` VARCHAR(191) NULL;

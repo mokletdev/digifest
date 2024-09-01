@@ -11,8 +11,8 @@ export default function Footer() {
   return (
     <footer className="ites-start flex w-full flex-col justify-between pb-[42px] pt-[82px] lg:flex-row lg:items-center">
       <P className="lg:max-w-1/2 mb-[32px] max-w-full sm:mb-[52px] sm:max-w-[575px] lg:mb-0">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ligula
-        ipsum, pellentesque ut felis in, porta ultricies massa.
+        Website Digifest menyajikan info lomba, cara daftar, jadwal acara,
+        berita terbaru, dan kontak panitia.
       </P>
       <div className="flex w-full flex-col items-start justify-between gap-[32px] sm:gap-[52px] lg:w-[40%] lg:flex-row lg:items-center lg:gap-0">
         <div className="flex w-fit items-center gap-[38px]">
