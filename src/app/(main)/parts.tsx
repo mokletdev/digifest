@@ -44,17 +44,17 @@ function Hero() {
   return (
     <header
       id="beranda"
-      className="flex w-full flex-col items-start justify-between gap-[72px] pb-[82px] pt-[41px] sm:gap-[92px] lg:flex-row lg:items-center lg:gap-[110px]"
+      className="flex w-full flex-col items-start justify-between gap-[72px] pb-[82px] pt-[41px] sm:gap-[92px] lg:flex-row lg:items-center lg:gap-0"
     >
-      <div className="block w-full lg:w-[661px]">
+      <div className="block w-full lg:max-w-[660px]">
         <Display className="mb-[18px]">
           <span className="text-primary-400">Rasakan Semangat</span> Tahunan di
           Digifest SMK Telkom Malang
         </Display>
         <P className="mb-[54px]">
-          Berkompetisi dengan semangat tahunan Moklet melalui Digifest, rayakan
-          pencapaian dan inovasi dalam ajang untuk menampilkan kreativitas dan
-          bakat-bakat luar biasa.
+          Ayo bersaing dengan semangat tahunan Moklet lewat Digifest, sambil
+          merayakan berbagai pencapaian dan inovasi keren dalam acara yang
+          menampilkan kreativitas dan bakat luar biasa.
         </P>
         <div className="flex flex-col divide-y divide-neutral-200">
           {competitions.map((competition, i) => (
@@ -146,15 +146,13 @@ function About() {
           <SectionTitle>TENTANG</SectionTitle>
           <H1 className="mb-[18px] mt-[22px]">
             Penasaran? Yuk,{" "}
-            <span className="text-primary-400">
-              Jelajahi Tentang Acara Digifest
-            </span>{" "}
-            Lebih Lanjut Lagi!
+            <span className="text-primary-400">Jelajahi Lebih Lanjut</span>{" "}
+            Tentang Acara Digifest!
           </H1>
           <P className="mb-[52px]">
             Digifest merupakan acara tahunan yang diadakan menjelang hari ulang
             tahun SMK Telkom Malang pada bulan September. Kali ini, Digifest
-            mengadakan {competitionsCount} kompetisi.
+            mengadakan {competitionsCount} buah kompetisi.
           </P>
           <div className="flex w-full flex-col items-center justify-between gap-4 md:flex-row md:gap-0">
             <Card record={`${competitionsCount}`} text="Total kompetisi" />
@@ -165,19 +163,16 @@ function About() {
       </div>
       <div className="flex w-full flex-col items-start justify-between gap-10 md:flex-row md:gap-0">
         <SubDescription
-          title="Lorem Ipsum"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ligula
-            ipsum, pellentesque ut felis in, porta ultricies massa."
+          title="Beragam Lomba Seru"
+          description="Digifest punya banyak lomba yang keren-keren. Mulai dari kuis hingga lomba islami, ada banyak kesempatan buat unjuk bakat."
         />
         <SubDescription
-          title="Lorem Ipsum"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ligula
-            ipsum, pellentesque ut felis in, porta ultricies massa."
+          title="Hadiah Menarik"
+          description="Digifest menawarkan hadiah menarik untuk para pemenang, jadi selain pengalaman, ada juga peluang untuk memenangkan hadiah lho!"
         />
         <SubDescription
-          title="Lorem Ipsum"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ligula
-            ipsum, pellentesque ut felis in, porta ultricies massa."
+          title="Pengalaman Belajar"
+          description="Di Digifest, kamu bisa mengasah keterampilan, mendapatkan wawasan baru, dan belajar dari juri serta peserta lainnya."
         />
       </div>
     </section>
@@ -295,14 +290,13 @@ function Competition() {
         <div className="w-full lg:max-w-[800px]">
           <SectionTitle>KOMPETISI</SectionTitle>
           <H1 className="mb-[18px] mt-[22px]">
-            Mau tau Lebih Lanjut Soal{" "}
-            <span className="text-primary-400">Kompetisi yang ada</span> di
-            Digifest?
+            Mau Tahu Lebih Lanjut Soal{" "}
+            <span className="text-primary-400">Kompetisi di Digifest?</span>
           </H1>
           <P className="mb-[54px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
-            dolores repudiandae laudantium at fuga eius, voluptatem sequi
-            fugiat? Unde, fugiat.
+            Di Digifest, kamu bisa ikut dua lomba seru. Olimawisa buat yang suka
+            tantangan akademis, dan MIFest untuk yang ingin berkompetisi di
+            bidang Islami. Jadi, jangan sampai ketinggalan!
           </P>
         </div>
         <div className="flex w-full flex-col items-start justify-between gap-[72px] lg:flex-row lg:items-center lg:gap-0">
@@ -313,7 +307,7 @@ function Competition() {
               className="w-full justify-center sm:w-fit"
             >
               <FaBook />
-              Lihat guidebook {competitionObject.name}
+              Guidebook {competitionObject.name}
             </Link>
           )}
           <div className="ites-center flex gap-[14px] rounded-full border border-neutral-100 p-3">
@@ -431,9 +425,8 @@ function Timeline() {
             Digifest?
           </H1>
           <P className="mb-[54px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
-            dolores repudiandae laudantium at fuga eius, voluptatem sequi
-            fugiat? Unde, fugiat.
+            Cek jadwal lengkap acara Digifest di sini, termasuk tanggal penting
+            untuk setiap lomba dan kegiatan.
           </P>
         </div>
         <div className="flex w-full flex-col items-start justify-between gap-[72px] lg:flex-row lg:items-center lg:gap-0">
@@ -514,28 +507,24 @@ function Timeline() {
 
 const faqs = [
   {
-    question:
-      "Lorem Ipsum Dolor Sit Amet",
+    question: "Apa itu Olimawisa?",
+    answer: `(Olimpiade Wikusama) adalah kompetisi nasional untuk siswa SMP/MTS dengan tema "Innovate Your Mind, Unlock Your Potential!" yang mencakup empat kategori lomba: Moklet Quiz Championship, Creative Robot Competition, Moklet Debate Championship, dan Moklet Design Competition.`,
+  },
+  {
+    question: "Kapan periode pendaftaran untuk Olimawisa?",
     answer:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+      "Pendaftaran dibuka dari 20 Agustus hingga 20 September 2024. Jika terdapat perubahan maka akan ditampilkan di bagian timeline perlombaan.",
+  },
+  {
+    question: "Apa persyaratan untuk mengikuti lomba?",
+    answer:
+      "Peserta harus siswa SMP atau sederajat dan menunjukkan kartu pelajar sebagai bukti status pelajar aktif.",
   },
   {
     question:
-      "Lorem Ipsum Dolor Sit Amet",
+      "Di mana saya dapat menemukan update terbaru mengenai kompetisi-kompetisi Digifest?",
     answer:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  },
-  {
-    question:
-      "Lorem Ipsum Dolor Sit Amet",
-    answer:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  },
-  {
-    question:
-      "Lorem Ipsum Dolor Sit Amet",
-    answer:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+      "Selain di halaman web Digifest, update terbaru Olimawisa dapat ditemukan di s.id/mokletolimawisa, sementara MIFest dapat dicek di instagram @mifest._",
   },
 ];
 
@@ -592,7 +581,8 @@ function FAQ() {
           ada Disini, ya!
         </H1>
         <P className="mb-[54px]">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum, amet.
+          Kalau masih ada yang belum jelas, pastikan sudah lihat semua info di
+          sini sebelum bertanya.
         </P>
         <div className="flex flex-col gap-4">
           <Link
