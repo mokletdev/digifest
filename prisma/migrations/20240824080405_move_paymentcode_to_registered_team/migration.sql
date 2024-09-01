@@ -7,7 +7,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `competitioncategory` DROP COLUMN `paymentCode`;
+ALTER TABLE `CompetitionCategory` DROP COLUMN `paymentCode`;
 
 -- AlterTable
-ALTER TABLE `registration` ADD COLUMN `paymentCode` INTEGER NOT NULL;
+ALTER TABLE `Registration` ADD COLUMN `paymentCode` INTEGER NOT NULL;

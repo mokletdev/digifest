@@ -30,6 +30,7 @@ export default function Modal({
       description: data?.description,
       minMemberCount: data?.minMemberCount.toString(),
       maxMemberCount: data?.maxMemberCount.toString(),
+      whatsappGroupLink: data?.whatsappGroupLink || undefined,
       competitionId: data?.competitionId,
     },
     schema: createCategoryFormSchema,
@@ -106,6 +107,13 @@ export default function Modal({
             placeholder="4"
             errorMessage={form.formState.errors.maxMemberCount?.message}
             {...form.register("maxMemberCount")}
+          />
+          <TextField
+            type="url"
+            label="Whatsapp Group"
+            placeholder="https://chat.whatsapp.com/xxxxxxx"
+            errorMessage={form.formState.errors.whatsappGroupLink?.message}
+            {...form.register("whatsappGroupLink")}
           />
         </div>
         <div className="flex items-center justify-end rounded-b border-t border-gray-200 p-4 md:p-5">

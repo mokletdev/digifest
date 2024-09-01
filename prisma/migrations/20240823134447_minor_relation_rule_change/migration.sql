@@ -1,29 +1,29 @@
 -- DropForeignKey
-ALTER TABLE `announcement` DROP FOREIGN KEY `Announcement_stageId_fkey`;
+ALTER TABLE `Announcement` DROP FOREIGN KEY `Announcement_stageId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `announcement` DROP FOREIGN KEY `Announcement_userId_fkey`;
+ALTER TABLE `Announcement` DROP FOREIGN KEY `Announcement_userId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `competition` DROP FOREIGN KEY `Competition_userId_fkey`;
+ALTER TABLE `Competition` DROP FOREIGN KEY `Competition_userId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `competitioncategory` DROP FOREIGN KEY `CompetitionCategory_competitionId_fkey`;
+ALTER TABLE `CompetitionCategory` DROP FOREIGN KEY `CompetitionCategory_competitionId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `registration` DROP FOREIGN KEY `Registration_registrationBatchId_fkey`;
+ALTER TABLE `Registration` DROP FOREIGN KEY `Registration_registrationBatchId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `registration` DROP FOREIGN KEY `Registration_userId_fkey`;
+ALTER TABLE `Registration` DROP FOREIGN KEY `Registration_userId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `registrationbatch` DROP FOREIGN KEY `RegistrationBatch_competitionCategoryId_fkey`;
+ALTER TABLE `RegistrationBatch` DROP FOREIGN KEY `RegistrationBatch_competitionCategoryId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `stage` DROP FOREIGN KEY `Stage_competitionCategoryId_fkey`;
+ALTER TABLE `Stage` DROP FOREIGN KEY `Stage_competitionCategoryId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `teammember` DROP FOREIGN KEY `TeamMember_registrationId_fkey`;
+ALTER TABLE `TeamMember` DROP FOREIGN KEY `TeamMember_registrationId_fkey`;
 
 -- AddForeignKey
 ALTER TABLE `Registration` ADD CONSTRAINT `Registration_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

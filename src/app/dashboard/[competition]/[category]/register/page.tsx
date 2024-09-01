@@ -2,10 +2,7 @@ import {
   findActiveRegistrationBatch,
   provideCompetitionAndCategory,
 } from "@/database/utils";
-import { getServerSession } from "@/lib/next-auth";
-import prisma from "@/lib/prisma";
-import { urlefy } from "@/utils/utils";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import TeamRegistrationForm from "./_components/form";
 import Wrapper from "./_components/wrapper";
 import { findRegistrations } from "@/database/registration.query";

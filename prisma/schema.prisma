@@ -83,14 +83,15 @@ model competition {
 }
 
 model competition_category {
-  id             String   @id @default(uuid())
-  competitionId  String
-  name           String
-  description    String   @db.LongText
-  minMemberCount Int
-  maxMemberCount Int
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id                String   @id @default(uuid())
+  competitionId     String
+  name              String
+  description       String   @db.LongText
+  minMemberCount    Int
+  maxMemberCount    Int
+  whatsappGroupLink String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   competition         competition          @relation(fields: [competitionId], references: [id], onDelete: Cascade)
   stages              stage[]

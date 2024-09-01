@@ -8,14 +8,14 @@
 
 */
 -- AlterTable
-ALTER TABLE `announcement` ADD COLUMN `userId` VARCHAR(191) NOT NULL;
+ALTER TABLE `Announcement` ADD COLUMN `userId` VARCHAR(191) NOT NULL;
 
 -- AlterTable
-ALTER TABLE `competitioncategory` ADD COLUMN `maxMemberCount` INTEGER NOT NULL,
+ALTER TABLE `CompetitionCategory` ADD COLUMN `maxMemberCount` INTEGER NOT NULL,
     ADD COLUMN `minMemberCount` INTEGER NOT NULL;
 
 -- AlterTable
-ALTER TABLE `stage` ADD COLUMN `endDate` DATETIME(3) NOT NULL;
+ALTER TABLE `Stage` ADD COLUMN `endDate` DATETIME(3) NOT NULL;
 
 -- AddForeignKey
 ALTER TABLE `Announcement` ADD CONSTRAINT `Announcement_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

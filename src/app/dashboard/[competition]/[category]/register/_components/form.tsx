@@ -61,6 +61,9 @@ export default function TeamRegistrationForm({
       }
 
       toast.success(result.message, { id: toastId });
+      if (category.whatsappGroupLink) {
+        window.open(category.whatsappGroupLink, "_blank");
+      }
       setLoading(false);
       router.push(
         `/dashboard/${urlefy(competition.name)}/${urlefy(category.name)}`,
