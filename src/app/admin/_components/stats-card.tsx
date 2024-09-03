@@ -11,7 +11,7 @@ export default function StatsCard({ title, count, Icon }: StatsCardProps) {
     <div className="flex w-[240px] items-center justify-between rounded-lg bg-primary-300 p-6 shadow-md">
       <div>
         <h2 className="text-lg font-semibold text-white">{title}</h2>
-        <p className="text-2xl font-bold text-white">{count}</p>
+        <p className="text-2xl font-semibold text-white">{count}</p>
       </div>
       <div className="rounded-full bg-secondary-50 p-4 text-primary-400">
         <Icon size={24} />
