@@ -58,7 +58,7 @@ export function H2({ children, className }: Readonly<TextProps>) {
   return (
     <h2
       className={cn(
-        "text-[24px] font-bold leading-[39px] text-black 2xl:text-[32px]",
+        "text-[24px] font-semibold leading-[39px] text-black 2xl:text-[32px]",
         className,
       )}
     >
@@ -71,7 +71,7 @@ export function H3({ children, className }: Readonly<TextProps>) {
   return (
     <h3
       className={cn(
-        "text-[22px] font-bold leading-[27px] text-black",
+        "text-[22px] font-semibold leading-[27px] text-black",
         className,
       )}
     >
@@ -83,7 +83,10 @@ export function H3({ children, className }: Readonly<TextProps>) {
 export function H4({ children, className }: Readonly<TextProps>) {
   return (
     <h4
-      className={cn("text-xl font-bold leading-[25px] text-black", className)}
+      className={cn(
+        "text-xl font-semibold leading-[25px] text-black",
+        className,
+      )}
     >
       {children}
     </h4>

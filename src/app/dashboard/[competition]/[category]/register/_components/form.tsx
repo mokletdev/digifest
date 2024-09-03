@@ -126,7 +126,7 @@ export default function TeamRegistrationForm({
         <FileField
           name="paymentProof"
           label="Bukti Pembayaran"
-          description={`Biaya pendaftaran sebesar <b>${formatPrice(Number(registrationBatch.registrationPrice) + paymentCode, "IDR", "id-ID")}</b> (pastikan nominal sesuai dengan yang tertera) dibayarkan ke <b className="font-bold">1440542591992</b> (Bank Mandiri) a.n Moklet Anniversary Panitia.`}
+          description={`Biaya pendaftaran sebesar <b>${formatPrice(Number(registrationBatch.registrationPrice) + paymentCode, "IDR", "id-ID")}</b> (pastikan nominal sesuai dengan yang tertera) dibayarkan ke <b className="font-semibold">1440542591992</b> (Bank Mandiri) a.n Moklet Anniversary Panitia.`}
           register={teamRegistrationForm.register}
           accept={ACCEPTED_IMAGE_TYPES.reduce(
             (prev, curr) => prev + ", " + curr,
