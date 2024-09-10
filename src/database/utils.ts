@@ -1,6 +1,11 @@
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "@/utils/revalidate";
 import { getCurrentDateByTimeZone } from "@/utils/utils";
-import { competition, competition_category } from "@prisma/client";
+import {
+  competition,
+  competition_category,
+  payment_code,
+} from "@prisma/client";
 import { notFound } from "next/navigation";
 
 export async function findCompetitionByDynamicParam(param: string) {
@@ -82,4 +87,49 @@ export async function provideCompetitionAndCategory(
   if (!category) return notFound();
 
   return { competition, category };
+}
+
+export async function getPaymentCode() {
+  let paymentCode: payment_code;
+
+  const reusablePaymentCode = await prisma.payment_code.findFirst({
+    where: { expiredAt: { lte: new Date() }, teamId: null },
+    orderBy: { expiredAt: "asc" },
+  });
+
+  if (reusablePaymentCode) {
+    const expiredAt = new Date(Date.now() + 5 * 60_000);
+
+    paymentCode = await prisma.payment_code.update({
+      where: { paymentCode: reusablePaymentCode.paymentCode },
+      data: { expiredAt },
+    });
+  } else {
+    const latestPaymentCodeResult = await prisma.$queryRaw<
+      { paymentCode: number | null }[]
+    >`
+      SELECT MAX(paymentCode) as paymentCode FROM PaymentCode;
+    `;
+
+    let latestPaymentCode = latestPaymentCodeResult[0]?.paymentCode;
+
+    if (latestPaymentCode === null) {
+      const registrationPaymentCode = await prisma.$queryRaw<
+        { paymentCode: number | null }[]
+      >`
+        SELECT MAX(paymentCode) as paymentCode FROM Registration;
+      `;
+      latestPaymentCode = registrationPaymentCode[0]?.paymentCode ?? 0;
+    }
+
+    const expiredAt = new Date(Date.now() + 5 * 60_000);
+
+    paymentCode = await prisma.payment_code.create({
+      data: { paymentCode: latestPaymentCode + 1, expiredAt },
+    });
+  }
+
+  revalidatePath("/dashboard/[competition]/[category]/register");
+
+  return paymentCode;
 }

@@ -9,12 +9,12 @@ import {
   createRegisteredTeamFormSchema,
 } from "@/lib/validator";
 import { formatPrice, urlefy } from "@/utils/utils";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "sonner";
 import { CompetitionCategoryDetail } from "../../contexts";
 import { registerTeam } from "../actions";
-import { registration_batch } from "@prisma/client";
+import { payment_code, registration_batch } from "@prisma/client";
 import { useRouter } from "next-nprogress-bar";
 
 export default function TeamRegistrationForm({
@@ -22,7 +22,7 @@ export default function TeamRegistrationForm({
   paymentCode,
 }: {
   registrationBatch: registration_batch;
-  paymentCode: number;
+  paymentCode: payment_code;
 }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -53,7 +53,11 @@ export default function TeamRegistrationForm({
       actionData.append("supervisingTeacher", supervisingTeacher);
       actionData.append("paymentProof", paymentProofFile);
 
-      const result = await registerTeam(paymentCode, category.id, actionData);
+      const result = await registerTeam(
+        paymentCode.paymentCode,
+        category.id,
+        actionData,
+      );
 
       if (!result.success) {
         setLoading(false);
@@ -70,6 +74,15 @@ export default function TeamRegistrationForm({
       );
     },
   );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now();
+      if (now > paymentCode.expiredAt?.getDate()!) router.refresh();
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <form className="w-full max-w-full lg:max-w-[560px]" onSubmit={onSubmit}>
@@ -126,7 +139,7 @@ export default function TeamRegistrationForm({
         <FileField
           name="paymentProof"
           label="Bukti Pembayaran"
-          description={`Biaya pendaftaran sebesar <b>${formatPrice(Number(registrationBatch.registrationPrice) + paymentCode, "IDR", "id-ID")}</b> (pastikan nominal sesuai dengan yang tertera) dibayarkan ke <b className="font-semibold">1440542591992</b> (Bank Mandiri) a.n Moklet Anniversary Panitia.`}
+          description={`Biaya pendaftaran sebesar <b>${formatPrice(Number(registrationBatch.registrationPrice) + paymentCode.paymentCode, "IDR", "id-ID")}</b> (pastikan nominal sesuai dengan yang tertera) dibayarkan ke <b className="font-semibold">1440542591992</b> (Bank Mandiri) a.n Moklet Anniversary Panitia.`}
           register={teamRegistrationForm.register}
           accept={ACCEPTED_IMAGE_TYPES.reduce(
             (prev, curr) => prev + ", " + curr,

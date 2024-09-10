@@ -43,7 +43,9 @@ export async function registerTeam(
     const payload: Prisma.registered_teamCreateInput = {
       ...data,
       paymentProof: "",
-      paymentCode,
+      newPaymentCode: {
+        connect: { paymentCode },
+      },
       registeredBy: {
         connect: { id: session.user.id },
       },
