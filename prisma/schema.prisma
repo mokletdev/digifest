@@ -43,14 +43,25 @@ model registered_team {
   updatedAt           DateTime           @updatedAt
   registrationBatchId String
   userId              String
-  paymentCode         Int
+  paymentCode         Int?
 
   registeredBy      user               @relation(fields: [userId], references: [id], onDelete: Cascade)
   registrationBatch registration_batch @relation(fields: [registrationBatchId], references: [id], onDelete: Cascade)
   teamMembers       team_member[]
   stage             stage[]
+  newPaymentCode    payment_code?
 
   @@map("Registration")
+}
+
+model payment_code {
+  paymentCode Int       @id @default(autoincrement())
+  teamId      String?   @unique
+  expiredAt   DateTime?
+
+  team registered_team? @relation(fields: [teamId], references: [id])
+
+  @@map("PaymentCode")
 }
 
 model team_member {

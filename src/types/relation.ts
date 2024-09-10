@@ -72,6 +72,7 @@ export type registrationCompleteData = Prisma.registered_teamGetPayload<{
     registrationBatch: {
       include: { competitionCategory: true };
     };
+    newPaymentCode: true;
     teamMembers: true;
   };
 }>;
