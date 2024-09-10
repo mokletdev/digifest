@@ -78,7 +78,7 @@ export default function TeamRegistrationForm({
   useEffect(() => {
     const interval = setInterval(() => {
       const now = Date.now();
-      if (now > paymentCode.expiredAt?.getDate()!) router.refresh();
+      if (now > paymentCode.expiredAt?.getTime()!) router.refresh();
     }, 60000);
 
     return () => clearInterval(interval);
