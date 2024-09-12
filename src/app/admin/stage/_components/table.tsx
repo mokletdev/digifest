@@ -55,6 +55,11 @@ export default function StagesTable({
 
   const columns: TableColumn<stageWithCompetitionCategory>[] = [
     {
+      name: "#",
+      selector: (_, i) => i! + 1,
+      sortable: false,
+    },
+    {
       name: "Competition Category",
       selector: (row) => row.competitionCategory.name,
       sortable: true,

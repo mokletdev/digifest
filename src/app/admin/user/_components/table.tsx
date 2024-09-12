@@ -20,6 +20,11 @@ export default function UserTable({ data }: { data: user[] }) {
 
   const columns: TableColumn<user>[] = [
     {
+      name: "#",
+      selector: (_, i) => i! + 1,
+      sortable: false,
+    },
+    {
       name: "Name",
       selector: (row) => row.name,
       sortable: false,

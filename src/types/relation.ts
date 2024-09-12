@@ -10,6 +10,11 @@ export type competitionCategoryWithCompetitionAndCount =
     include: {
       competition: true;
       _count: { select: { stages: true; registrationBatches: true } };
+      registrationBatches: {
+        include: {
+          _count: { select: { registrations: true } };
+        };
+      };
     };
   }>;
 
@@ -79,4 +84,16 @@ export type registrationCompleteData = Prisma.registered_teamGetPayload<{
 
 export type registrationWithMembers = Prisma.registered_teamGetPayload<{
   include: { teamMembers: true };
+}>;
+
+export type competitionWithRegistrants = Prisma.competitionGetPayload<{
+  include: {
+    competitionCategories: {
+      include: {
+        registrationBatches: {
+          include: { registrations: { select: { _count: true } } };
+        };
+      };
+    };
+  };
 }>;

@@ -7,12 +7,17 @@ import { toast } from "sonner";
 import { deleteCompetition } from "../actions";
 
 import { Button } from "@/app/_components/global/button";
+import { competitionWithRegistrants } from "@/types/relation";
 import { competition } from "@prisma/client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Modal from "./modal";
-import Image from "next/image";
 
-export default function CompetitionTable({ data }: { data: competition[] }) {
+export default function CompetitionTable({
+  data,
+}: {
+  data: competitionWithRegistrants[];
+}) {
   const [loader, setLoader] = useState(true);
   const [editModalData, setEditModalData] = useState<competition | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -43,7 +48,12 @@ export default function CompetitionTable({ data }: { data: competition[] }) {
     } else toast.error(deleteResponse.message, { id: toastId });
   }
 
-  const columns: TableColumn<competition>[] = [
+  const columns: TableColumn<competitionWithRegistrants>[] = [
+    {
+      name: "#",
+      selector: (_, i) => i! + 1,
+      sortable: false,
+    },
     {
       name: "Name",
       selector: (row) => row.name,
@@ -73,6 +83,18 @@ export default function CompetitionTable({ data }: { data: competition[] }) {
       name: "Guide Book",
       selector: (row) => row.guidebookUrl,
       sortable: false,
+    },
+    {
+      name: "Registrants",
+      selector: (row) =>
+        row.competitionCategories
+          .map((category) =>
+            category.registrationBatches.map(
+              (batch) => batch.registrations.length,
+            ),
+          )
+          .flat()
+          .reduce((prev, curr) => prev + curr, 0),
     },
     {
       name: "Action",
