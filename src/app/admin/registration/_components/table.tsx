@@ -34,6 +34,11 @@ export default function RegistrationsTable({
 
   const columns: TableColumn<registrationWithBatch>[] = [
     {
+      name: "#",
+      selector: (_, i) => i! + 1,
+      sortable: false,
+    },
+    {
       name: "Competition",
       selector: (row) =>
         `${row.registrationBatch.batchName} - ${row.registrationBatch.competitionCategory.competition.name}`,
