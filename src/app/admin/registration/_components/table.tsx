@@ -1,19 +1,24 @@
 "use client";
 import { useEffect, useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaFileDownload, FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "sonner";
-
+import * as XLSX from "xlsx";
 import cn from "@/lib/cn";
-import { registrationWithBatch } from "@/types/relation";
+import {
+  registrationWithBatch,
+  registrationWithMembers,
+} from "@/types/relation";
 import { GrNotes } from "react-icons/gr";
 import { deleteRegistration } from "../actions";
 import { useRouter } from "next-nprogress-bar";
 
 export default function RegistrationsTable({
   data,
+  memberData,
 }: {
   data: registrationWithBatch[];
+  memberData: registrationWithMembers[];
 }) {
   const [loader, setLoader] = useState(true);
   const router = useRouter();
@@ -31,6 +36,60 @@ export default function RegistrationsTable({
     toast.success(deleteResponse.message, { id: toastId });
     router.refresh();
   }
+
+  const exportToExcel = ({ data }: { data: registrationWithMembers[] }) => {
+    const dataToExport: Array<{ [key: string]: string | number }> = [];
+    data.forEach((row, index) => {
+      row.teamMembers.forEach((member, memberIndex) => {
+        dataToExport.push({
+          "No.": memberIndex === 0 ? index + 1 : "",
+          "Team Members": member.name,
+          "Asal Sekolah": memberIndex === 0 ? row.schoolName : "",
+          "Grade Level": member.gradeLevel,
+          "Team Name": memberIndex === 0 ? row.teamName : "",
+        });
+      });
+    });
+
+    // Create worksheet from data
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport, {
+      header: [
+        "No.",
+        "Team Members",
+        "Asal Sekolah",
+        "Team Name",
+        "Grade Level",
+      ],
+    });
+
+    // Create workbook and append the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Registrations");
+
+    // Set column widths
+    worksheet["!cols"] = [
+      { wch: 3 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+    ];
+
+    const excelData = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([excelData], { type: "application/octet-stream" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "Registration Data.xlsx";
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportToExcel = () => {
+    exportToExcel({ data: memberData });
+  };
 
   const columns: TableColumn<registrationWithBatch>[] = [
     {
@@ -103,8 +162,20 @@ export default function RegistrationsTable({
   if (loader) return <div>Loading</div>;
 
   return (
-    <div className="rounded-md bg-white p-2">
-      <DataTable columns={columns} data={data} pagination highlightOnHover />
+    <div>
+      <div className="flex">
+        <button
+          title="Download Data"
+          onClick={handleExportToExcel}
+          className="me-2 flex items-center gap-2 rounded bg-green-100 p-2.5 text-xs font-medium text-green-800 transition-all hover:bg-green-700 hover:text-white"
+        >
+          <FaFileDownload />
+          <span>Download Data</span>
+        </button>
+      </div>
+      <div className="rounded-md bg-white p-2">
+        <DataTable columns={columns} data={data} pagination highlightOnHover />
+      </div>
     </div>
   );
 }

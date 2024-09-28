@@ -29,6 +29,13 @@ export default async function Registrations({
       : batchId && { registrationBatchId: batchId }),
   };
 
+  const registrationWithTeams = await prisma.registered_team.findMany({
+    include: {
+      teamMembers: true,
+    },
+    where: registrationFilter,
+  });
+
   const registrationsWithBatch = await prisma.registered_team.findMany({
     include: {
       registrationBatch: {
@@ -49,7 +56,11 @@ export default async function Registrations({
           <P>Manage Registration Data</P>
         </div>
       </div>
-      <AnnouncmentsTable data={registrationsWithBatch} />
+      <div className="flex"></div>
+      <AnnouncmentsTable
+        data={registrationsWithBatch}
+        memberData={registrationWithTeams}
+      />
     </div>
   );
 }
