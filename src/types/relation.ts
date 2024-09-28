@@ -61,7 +61,7 @@ export type announcementWithStage = Prisma.announcementGetPayload<{
   include: { stage: true };
 }>;
 
-export type registrationWithBatch = Prisma.registered_teamGetPayload<{
+export type registrationWithBatchAndTeams = Prisma.registered_teamGetPayload<{
   include: {
     registrationBatch: {
       select: {
@@ -69,6 +69,7 @@ export type registrationWithBatch = Prisma.registered_teamGetPayload<{
         competitionCategory: { select: { name: true; competition: true } };
       };
     };
+    teamMembers: { select: { name: true; gradeLevel: true } };
   };
 }>;
 

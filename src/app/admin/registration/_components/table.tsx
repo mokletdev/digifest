@@ -5,20 +5,15 @@ import { FaFileDownload, FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 import cn from "@/lib/cn";
-import {
-  registrationWithBatch,
-  registrationWithMembers,
-} from "@/types/relation";
+import { registrationWithBatchAndTeams } from "@/types/relation";
 import { GrNotes } from "react-icons/gr";
 import { deleteRegistration } from "../actions";
 import { useRouter } from "next-nprogress-bar";
 
 export default function RegistrationsTable({
   data,
-  memberData,
 }: {
-  data: registrationWithBatch[];
-  memberData: registrationWithMembers[];
+  data: registrationWithBatchAndTeams[];
 }) {
   const [loader, setLoader] = useState(true);
   const router = useRouter();
@@ -37,7 +32,11 @@ export default function RegistrationsTable({
     router.refresh();
   }
 
-  const exportToExcel = ({ data }: { data: registrationWithMembers[] }) => {
+  const exportToExcel = ({
+    data,
+  }: {
+    data: registrationWithBatchAndTeams[];
+  }) => {
     const dataToExport: Array<{ [key: string]: string | number }> = [];
     data.forEach((row, index) => {
       row.teamMembers.forEach((member, memberIndex) => {
@@ -88,10 +87,10 @@ export default function RegistrationsTable({
   };
 
   const handleExportToExcel = () => {
-    exportToExcel({ data: memberData });
+    exportToExcel({ data: data });
   };
 
-  const columns: TableColumn<registrationWithBatch>[] = [
+  const columns: TableColumn<registrationWithBatchAndTeams>[] = [
     {
       name: "#",
       selector: (_, i) => i! + 1,
