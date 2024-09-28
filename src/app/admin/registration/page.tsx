@@ -29,6 +29,13 @@ export default async function Registrations({
       : batchId && { registrationBatchId: batchId }),
   };
 
+  // const registrationWithTeams = await prisma.registered_team.findMany({
+  //   include: {
+  //     teamMembers: true,
+  //   },
+  //   where: registrationFilter,
+  // });
+
   const registrationsWithBatch = await prisma.registered_team.findMany({
     include: {
       registrationBatch: {
@@ -37,6 +44,7 @@ export default async function Registrations({
           competitionCategory: { select: { name: true, competition: true } },
         },
       },
+      teamMembers: { select: { name: true, gradeLevel: true } },
     },
     where: registrationFilter,
   });

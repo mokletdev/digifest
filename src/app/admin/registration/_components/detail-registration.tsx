@@ -8,7 +8,7 @@ import { updateRegistrationStatus } from "../actions";
 import { H4, P } from "@/app/_components/global/text";
 import { convertToDateTimeLocalString } from "@/utils/utils";
 import Link from "@/app/_components/global/button";
-import { FaArrowRight, FaDownload } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import { ImageDownloadable } from "@/app/_components/global/image";
 
 export default function DetailRegistration({
