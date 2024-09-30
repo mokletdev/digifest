@@ -14,6 +14,7 @@ export default async function Registration({
       registrationBatch: {
         include: { competitionCategory: true },
       },
+      newPaymentCode: true,
       teamMembers: true,
     },
   });

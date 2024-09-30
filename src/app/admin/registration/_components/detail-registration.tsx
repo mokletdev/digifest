@@ -6,11 +6,9 @@ import { RegistrationStatus } from "@prisma/client";
 import { toast } from "sonner";
 import { updateRegistrationStatus } from "../actions";
 import { H4, P } from "@/app/_components/global/text";
-import { convertToDateTimeLocalString, downloadFile } from "@/utils/utils";
+import { convertToDateTimeLocalString } from "@/utils/utils";
 import Link from "@/app/_components/global/button";
-import { FaArrowRight, FaDownload } from "react-icons/fa";
-import Image from "next/image";
-import Button from "@/app/_components/global/button";
+import { FaArrowRight } from "react-icons/fa";
 import { ImageDownloadable } from "@/app/_components/global/image";
 
 export default function DetailRegistration({
@@ -97,7 +95,7 @@ export default function DetailRegistration({
         <TextField
           type="text"
           label="Kode Pembayaran Tim"
-          value={data.paymentCode}
+          value={data.paymentCode ?? data.newPaymentCode?.paymentCode}
           disabled
         />
         <Link

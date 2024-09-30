@@ -11,6 +11,11 @@ export default async function Category() {
         include: {
           competition: true,
           _count: { select: { stages: true, registrationBatches: true } },
+          registrationBatches: {
+            include: {
+              _count: { select: { registrations: true } },
+            },
+          },
         },
       }),
       prisma.competition.findMany({ select: { name: true, id: true } }),

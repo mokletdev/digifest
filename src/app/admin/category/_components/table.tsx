@@ -57,6 +57,11 @@ export default function CategoriesTable({
 
   const columns: TableColumn<competitionCategoryWithCompetitionAndCount>[] = [
     {
+      name: "#",
+      selector: (_, i) => i! + 1,
+      sortable: false,
+    },
+    {
       name: "Name",
       selector: (row) => row.name,
       sortable: false,
@@ -70,6 +75,14 @@ export default function CategoriesTable({
       name: "Regist Batch Count",
       selector: (row) => row._count.registrationBatches,
       sortable: false,
+    },
+    {
+      name: "Registrants",
+      selector: (row) =>
+        row.registrationBatches
+          .map((batch) => batch._count.registrations)
+          .reduce((prev, curr) => prev + curr, 0),
+      sortable: true,
     },
     {
       name: "Members Count",

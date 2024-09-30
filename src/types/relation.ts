@@ -10,6 +10,11 @@ export type competitionCategoryWithCompetitionAndCount =
     include: {
       competition: true;
       _count: { select: { stages: true; registrationBatches: true } };
+      registrationBatches: {
+        include: {
+          _count: { select: { registrations: true } };
+        };
+      };
     };
   }>;
 
@@ -67,15 +72,40 @@ export type registrationWithBatch = Prisma.registered_teamGetPayload<{
   };
 }>;
 
+export type registrationWithBatchAndTeams = Prisma.registered_teamGetPayload<{
+  include: {
+    registrationBatch: {
+      select: {
+        batchName: true;
+        competitionCategory: { select: { name: true; competition: true } };
+      };
+    };
+    teamMembers: { select: { name: true; gradeLevel: true } };
+  };
+}>;
+
 export type registrationCompleteData = Prisma.registered_teamGetPayload<{
   include: {
     registrationBatch: {
       include: { competitionCategory: true };
     };
+    newPaymentCode: true;
     teamMembers: true;
   };
 }>;
 
 export type registrationWithMembers = Prisma.registered_teamGetPayload<{
   include: { teamMembers: true };
+}>;
+
+export type competitionWithRegistrants = Prisma.competitionGetPayload<{
+  include: {
+    competitionCategories: {
+      include: {
+        registrationBatches: {
+          include: { registrations: { select: { _count: true } } };
+        };
+      };
+    };
+  };
 }>;

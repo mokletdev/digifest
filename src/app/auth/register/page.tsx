@@ -12,7 +12,7 @@ export default async function Register() {
 
   return (
     <main className="flex min-h-screen w-screen items-center justify-center">
-      <section className="flex w-full max-w-[1440px] items-center justify-between p-12">
+      <section className="flex w-full max-w-[1440px] items-center justify-between p-5 md:p-12">
         <div className="block w-full max-w-full xl:max-w-[460px]">
           <Link href="/" variant={"tertiary"}>
             <FaArrowLeft /> Kembali

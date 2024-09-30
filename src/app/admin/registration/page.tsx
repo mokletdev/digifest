@@ -37,6 +37,7 @@ export default async function Registrations({
           competitionCategory: { select: { name: true, competition: true } },
         },
       },
+      teamMembers: { select: { name: true, gradeLevel: true } },
     },
     where: registrationFilter,
   });

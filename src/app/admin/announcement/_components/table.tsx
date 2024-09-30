@@ -53,6 +53,11 @@ export default function AnnouncementsTable({
 
   const columns: TableColumn<announcementWithStage>[] = [
     {
+      name: "#",
+      selector: (_, i) => i! + 1,
+      sortable: false,
+    },
+    {
       name: "Stage",
       selector: (row) => row.stage.name,
       sortable: true,
