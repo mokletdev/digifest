@@ -1,14 +1,14 @@
 "use client";
+import cn from "@/lib/cn";
+import { registrationWithBatchAndTeams } from "@/types/relation";
+import { useRouter } from "next-nprogress-bar";
 import { useEffect, useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { FaFileDownload, FaRegTrashAlt } from "react-icons/fa";
+import { GrNotes } from "react-icons/gr";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
-import cn from "@/lib/cn";
-import { registrationWithBatchAndTeams } from "@/types/relation";
-import { GrNotes } from "react-icons/gr";
 import { deleteRegistration } from "../actions";
-import { useRouter } from "next-nprogress-bar";
 
 export default function RegistrationsTable({
   data,
@@ -46,13 +46,23 @@ export default function RegistrationsTable({
           "Asal Sekolah": row.schoolName,
           Tingkat: member.gradeLevel,
           "Nama Tim": memberIndex === 0 ? row.teamName : "",
+          Kompetisi: row.registrationBatch.competitionCategory.competition.name,
+          Kategori: row.registrationBatch.competitionCategory.name,
         });
       });
     });
 
     // Create worksheet from data
     const worksheet = XLSX.utils.json_to_sheet(dataToExport, {
-      header: ["No.", "Nama", "Asal Sekolah", "Tingkat", "Nama Tim"],
+      header: [
+        "No.",
+        "Nama",
+        "Asal Sekolah",
+        "Tingkat",
+        "Nama Tim",
+        "Kompetisi",
+        "Kategori",
+      ],
     });
 
     // Create workbook and append the worksheet
@@ -62,6 +72,8 @@ export default function RegistrationsTable({
     // Set column widths
     worksheet["!cols"] = [
       { wch: 3 },
+      { wch: 20 },
+      { wch: 20 },
       { wch: 20 },
       { wch: 20 },
       { wch: 20 },
