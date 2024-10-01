@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma db push && next build",
+    "build:manual": "next build",
     "start": "next start",
     "lint": "next lint",
     "prisma:migrate": "dotenv -e .env.local prisma migrate dev",
