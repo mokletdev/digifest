@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 import { default as NextLink } from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { FaBook } from "react-icons/fa";
-import { FaArrowRight, FaMoneyBillWave, FaPeopleGroup } from "react-icons/fa6";
+import { FaArrowRight, FaPeopleGroup } from "react-icons/fa6";
 import Link, { Button } from "../_components/global/button";
 import { H1, H3, P, SectionTitle } from "../_components/global/text";
 import { DashboardContext } from "./contexts";
@@ -52,14 +52,12 @@ function CategoryCard({
   competition,
   title,
   description,
-  registrationPrice,
   maxMemberCount,
   registrationsCount,
 }: {
   competition: string;
   title: string;
   description: string;
-  registrationPrice: string;
   maxMemberCount: number;
   registrationsCount: number;
 }) {
@@ -76,21 +74,8 @@ function CategoryCard({
             </SectionTitle>
           )}
           <H3 className="mb-[10px] mt-4">{title}</H3>
-          <P className="mb-8">{description}</P>
+          <P className="mb-8 line-clamp-3">{description}</P>
           <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-[62px]">
-            <div className="flex items-center gap-[14px]">
-              <div className="rounded-full bg-primary-50 p-4">
-                <FaMoneyBillWave
-                  className="text-primary-400"
-                  width={32}
-                  height={32}
-                />
-              </div>
-              <div className="block">
-                <P className="text-base text-black">Biaya Pendaftaran</P>
-                <P className="text-base">{registrationPrice}</P>
-              </div>
-            </div>
             <div className="flex items-center gap-[14px]">
               <div className="rounded-full bg-primary-50 p-4">
                 <FaPeopleGroup
@@ -129,10 +114,10 @@ function Competition() {
   );
   const [categories, setCategories] = useState(
     competitionObject.competitionCategories.filter((category) => {
-      const currentDate = getCurrentDateByTimeZone();
-      return category.registrationBatches.find(
-        ({ openedDate, closedDate }) =>
-          currentDate >= openedDate && currentDate <= closedDate,
+      return registrations.find(
+        (registration) =>
+          registration.registrationBatch.competitionCategory.name ===
+          category.name,
       );
     }),
   );
@@ -145,14 +130,14 @@ function Competition() {
     );
     setCategories(
       competitionObject.competitionCategories.filter((category) => {
-        const currentDate = getCurrentDateByTimeZone();
-        return category.registrationBatches.find(
-          ({ openedDate, closedDate }) =>
-            currentDate >= openedDate && currentDate <= closedDate,
+        return registrations.find(
+          (registration) =>
+            registration.registrationBatch.competitionCategory.name ===
+            category.name,
         );
       }),
     );
-  }, [selectedCompetition, competitions, competitionObject]);
+  }, [selectedCompetition, competitions, competitionObject, registrations]);
 
   return (
     <section className="w-full py-[82px]" id="kompetisi">
@@ -194,11 +179,6 @@ function Competition() {
                 registration.registrationBatch.competitionCategory.name ===
                 category.name,
             );
-            const currentDate = getCurrentDateByTimeZone();
-            const activeBatch = category.registrationBatches.find(
-              ({ openedDate, closedDate }) =>
-                currentDate >= openedDate && currentDate <= closedDate,
-            );
 
             return (
               <CategoryCard
@@ -207,17 +187,12 @@ function Competition() {
                 title={category.name}
                 description={category.description}
                 maxMemberCount={category.maxMemberCount}
-                registrationPrice={formatPrice(
-                  Number(activeBatch?.registrationPrice),
-                  "IDR",
-                  "id-ID",
-                )}
                 registrationsCount={matchedRegistrations.length}
               />
             );
           })
         ) : (
-          <P>Belum ada kategori apa-apa, nih...</P>
+          <P>Anda belum mendaftarkan tim...</P>
         )}
       </div>
     </section>
