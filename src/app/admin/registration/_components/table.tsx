@@ -45,7 +45,7 @@ export default function RegistrationsTable({
           Nama: member.name,
           "Asal Sekolah": row.schoolName,
           Tingkat: member.gradeLevel,
-          "Nama Tim": memberIndex === 0 ? row.teamName : "",
+          "Nama Tim": row.teamName,
           Kompetisi: row.registrationBatch.competitionCategory.competition.name,
           Kategori: row.registrationBatch.competitionCategory.name,
         });
