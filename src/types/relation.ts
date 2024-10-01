@@ -109,3 +109,15 @@ export type competitionWithRegistrants = Prisma.competitionGetPayload<{
     };
   };
 }>;
+
+export type registrationsWithBatchAndCategory =
+  Prisma.registered_teamGetPayload<{
+    include: {
+      registrationBatch: {
+        select: {
+          batchName: true;
+          competitionCategory: { include: { competition: true } };
+        };
+      };
+    };
+  }>;
