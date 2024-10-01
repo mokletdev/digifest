@@ -1,14 +1,14 @@
 import { H2, P } from "@/app/_components/global/text";
 import prisma from "@/lib/prisma";
-import DetailRegistration from "../_components/detail-registration";
 import { notFound } from "next/navigation";
+import DetailRegistration from "../_components/detail-registration";
 
 export default async function Registration({
   params,
 }: Readonly<{
   params: { id: string };
 }>) {
-  const registration = await prisma.registered_team.findFirst({
+  const registration = await prisma.registered_team.findUnique({
     where: { id: params.id },
     include: {
       registrationBatch: {

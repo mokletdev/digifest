@@ -38,27 +38,21 @@ export default function RegistrationsTable({
     data: registrationWithBatchAndTeams[];
   }) => {
     const dataToExport: Array<{ [key: string]: string | number }> = [];
-    data.forEach((row, index) => {
+    data.forEach((row) => {
       row.teamMembers.forEach((member, memberIndex) => {
         dataToExport.push({
-          "No.": memberIndex === 0 ? index + 1 : "",
-          "Team Members": member.name,
-          "Asal Sekolah": memberIndex === 0 ? row.schoolName : "",
-          "Grade Level": member.gradeLevel,
-          "Team Name": memberIndex === 0 ? row.teamName : "",
+          "No.": dataToExport.length + 1,
+          Nama: member.name,
+          "Asal Sekolah": row.schoolName,
+          Tingkat: member.gradeLevel,
+          "Nama Tim": memberIndex === 0 ? row.teamName : "",
         });
       });
     });
 
     // Create worksheet from data
     const worksheet = XLSX.utils.json_to_sheet(dataToExport, {
-      header: [
-        "No.",
-        "Team Members",
-        "Asal Sekolah",
-        "Team Name",
-        "Grade Level",
-      ],
+      header: ["No.", "Nama", "Asal Sekolah", "Tingkat", "Nama Tim"],
     });
 
     // Create workbook and append the worksheet
