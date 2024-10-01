@@ -29,9 +29,6 @@ export default async function RegisterTeam({
     categoryName,
   );
 
-  const activeBatch = await findActiveRegistrationBatch(category.id);
-  if (!activeBatch) return notFound();
-
   const { id: memberId, registrationId } = searchParams;
 
   if (!registrationId) return notFound();

@@ -25,9 +25,8 @@ export default async function Dashboard() {
       where: { userId: session?.user?.id },
       include: {
         registrationBatch: {
-          select: {
-            batchName: true,
-            competitionCategory: { select: { name: true, competition: true } },
+          include: {
+            competitionCategory: { include: { competition: true } },
           },
         },
       },
@@ -42,9 +41,9 @@ export default async function Dashboard() {
           Kembali ke halaman utama
         </Link>
         <GreetingBoard />
-        {competitions.length === 0 ? (
+        {registrations.length === 0 ? (
           <div className="flex h-full w-full items-center justify-center py-[82px]">
-            <H3>Sedang tidak ada kompetisi saat ini.</H3>
+            <H3>Anda tidak mendaftarkan tim di kompetisi apapun.</H3>
           </div>
         ) : (
           <Competition />

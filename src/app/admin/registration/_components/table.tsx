@@ -87,7 +87,7 @@ export default function RegistrationsTable({
   };
 
   const handleExportToExcel = () => {
-    exportToExcel({ data: data });
+    exportToExcel({ data });
   };
 
   const columns: TableColumn<registrationWithBatchAndTeams>[] = [
