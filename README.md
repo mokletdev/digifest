@@ -19,7 +19,7 @@ Welcome to **Digifest 2024**! This web application is designed to manage and dis
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/digifest-2024.git
+   git clone https://github.com/mokletdev/digifest-2024.git
    cd digifest-2024
    ```
 
